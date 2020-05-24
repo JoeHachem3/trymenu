@@ -1,0 +1,42 @@
+.BackgroundSmall {
+    height: auto;
+    max-width: 410px;
+    width: 100%;
+    filter: drop-shadow(0 15px 15px rgba(146, 154, 161, 0.2));
+}
+
+.BackgroundDiv {
+    height: 100%;
+    width: 100%;
+    background-image: url('../../../../assets/images/card_small.svg');
+    background-repeat: no-repeat;
+    -webkit-mask-image: url('../../../../assets/images/card_small.svg');
+    mask-image: url('../../../../assets/images/card_small.svg');
+    position: relative;
+    box-sizing: border-box;
+    padding: 60px 45px;
+}
+
+.BackgroundDiv::before {
+    content: '';
+    position: absolute;
+    top: 21px;
+    left: 24px;
+    height: 86px;
+    width: 85px;
+    background-image: url('../../../../assets/images/corner_tr.svg');
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.BackgroundDiv::after {
+    content: '';
+    position: absolute;
+    bottom: 22px;
+    right: 15px;
+    height: 37px;
+    width: 69px;
+    background-image: url('../../../../assets/images/corner_bl.svg');
+    background-repeat: no-repeat;
+    background-size: contain;
+}

@@ -1,10 +1,12 @@
 import React from 'react';
+import { Switch, Route } from 'react-router-dom';
+import Landing from './routes/Landing/Landing';
 
 function App() {
   return (
-    <div className="App">
-      hello world
-    </div>
+    <Switch>
+      <Route path='/' exact component={Landing}/>
+    </Switch>
   );
 }
 
