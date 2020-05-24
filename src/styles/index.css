@@ -9,8 +9,8 @@ body, html {
   padding: 0;
   background-color: var(--color-bg-grey) !important;
 }
-/* 
-@media (prefers-color-scheme: dark) {
+
+/* @media (prefers-color-scheme: dark) {
   body, html {
     background-color: var(--color-gray) !important;
   }  

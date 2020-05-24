@@ -2,7 +2,7 @@
     height: auto;
     max-width: 410px;
     width: 100%;
-    /* filter: drop-shadow(0 5px 5px rgba(146, 154, 161, 0.2)); */
+    filter: drop-shadow(0 5px 5px rgba(146, 154, 161, 0.2));
 }
 
 .BackgroundDiv {
@@ -34,7 +34,7 @@
     content: '';
     position: absolute;
     bottom: 22px;
-    right: 15px;
+    right: 16px;
     height: 37px;
     width: 69px;
     background-image: url('../../../../assets/images/corner_bl.svg');
