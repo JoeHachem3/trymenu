@@ -169,7 +169,7 @@ class Landing extends Component {
             form[formElementID] = this.state[type].form[formElementID].value
         }
 
-        console.log(JSON. stringify(form))
+        console.log(JSON.stringify(form))
         console.log(form)
         // axios.post('/users/content-creator/', application)
         // .then(res => {

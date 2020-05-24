@@ -1,6 +1,6 @@
 import React from 'react';
 import classes from './BackgroundSmall.module.css';
-import back from '../../../../assets/images/card_small.svg';
+// import back from '../../../../assets/images/card_small.svg';
 
 const BackgroundSmall = (props) => (
     <div className={classes.BackgroundSmall}>
