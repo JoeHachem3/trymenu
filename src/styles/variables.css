@@ -1,0 +1,47 @@
+:root {
+
+    /* COLOR PALETTE */
+    --color-black           : #190500;
+    --color-white           : #ffffff;
+    --color-bg-grey         : #f3f3f3;
+    --color-lighter-gray    : #d5d4d1;
+    --color-light-gray      : #929aa1;
+    --color-gray            : #1b191a;
+
+    --color-yellow          : #ffc11f;
+    --color-green           : #1BD760;
+    --color-red             : #e91414;
+
+
+    /* Shadows */
+    --shadow: 0 10px 20px -10px rgba(0, 0, 0, 0.15), 0 20px 30px -10px rgba(0, 0, 0, 0.15);
+
+    /* Border Radiuses */
+    --border-radius-lg: 25px;
+    --border-radius-md: 20px;
+    --border-radius-sm: 15px;
+    --border-radius-xs: 3px;
+
+    /* transitions */
+    --transition-02: all 0.2s ease-out;
+    --transition-03: all 0.3s ease-out;
+
+    /* scale */
+    --scale-hover: scale(1.025);
+    --scale-active: scale(1);
+}
+
+/* DARK MODE */
+@media (prefers-color-scheme: dark) {
+    /* :root {
+        --color-bg: #121212;
+    } */
+}
+
+/* FONTS */
+@font-face {
+    font-family: 'forque';
+    src: 
+        url('../assets/fonts/Forque.ttf')  format('truetype');
+    font-display: swap;
+}
