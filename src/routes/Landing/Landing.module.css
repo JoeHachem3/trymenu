@@ -1,6 +1,6 @@
 .Landing{
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -12,6 +12,96 @@
     align-items: center;
 }
 
-.Spinner {
-    margin-top: 40px !important;
+.Logo {
+    margin-bottom: 60px !important;
+}
+
+.LoginToggler{
+    width: 100%;
+    text-align: left !important;
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--color-light-gray);
+    margin-top: 30px;
+}
+
+
+.LoginToggler span{ 
+    color: var(--color-red);
+    cursor: pointer;
+}
+
+.BackgroundSmall form {
+}
+
+.BackgroundSmall form input {
+    height: 56px;
+    margin-bottom: 10px;
+    width: 320px;
+    max-width: 100%;
+}
+
+
+.BackgroundSmall form input:not([type="submit"]):not([type="checkbox"]){ 
+    background-color: var(--color-bg-grey);
+    color: var(--color-gray);
+    font-weight: bold;
+    font-size: 14px;
+    padding: 0 20px;
+}
+
+.BackgroundSmall form input[type='checkbox'] {
+    margin: 0;
+    margin-right: 10px;
+    margin-bottom: 20px;
+}
+
+.BackgroundSmall form select{ 
+    background-color: transparent;
+    color: var(--color-dark-gray);
+    font-weight: 800;
+    font-size: 1.8em;
+    line-height: 1;
+
+    display: block;
+    padding: 10px 0;
+    width: 100%;
+    max-width: 100%; /* useful when width is set to anything other than 100% */
+    box-sizing: border-box;
+    margin: 0;
+    border: 0;
+
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.BackgroundSmall form input:focus,
+.BackgroundSmall form select:focus,
+.BackgroundSmall form textarea:focus {
+    background-color: var(--color-light-grey);
+}
+/* .BackgroundSmall form select option {
+    padding: 0 !important;
+} */
+.errorMsg {
+    color: red;
+    opacity: 0.66;
+    text-align: center;
+}
+
+.BackgroundSmall form input::-webkit-input-placeholder,
+.BackgroundSmall form textarea::-webkit-input-placeholder { /* Edge */
+    opacity: 0.39;
+    color: var(--color-dark-gray);
+}
+.BackgroundSmall form input:-ms-input-placeholder,
+.BackgroundSmall form textarea:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    opacity: 0.39;
+    color: var(--color-dark-gray);
+}
+.BackgroundSmall form input::placeholder,
+.BackgroundSmall form textarea::placeholder {
+    opacity: 0.39;
+    color: var(--color-dark-gray);
 }
