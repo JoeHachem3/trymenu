@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import classes from './Landing.module.css';
 import IconFull from '../../components/UI/IconFull/IconFull';
 import BackgroundSmall from '../../components/UI/backgrounds/BackgroundSmall/BackgroundSmall';
 import Input from '../../components/UI/Input/Input';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import Button from '../../components/UI/Button/Button';
-import { checkInputValidity } from '../../utils/common';
+import { apiEndPoint, checkInputValidity } from '../../utils/common';
 
 class Landing extends Component {
   state = {
@@ -172,26 +173,27 @@ class Landing extends Component {
       form[formElementID] = this.state[type].form[formElementID].value;
     }
 
-    console.log(JSON.stringify(form));
-    console.log(form);
-    // axios.post('/users/content-creator/', application)
-    // .then(res => {
-    //     this.setState({
-    //         loading: false,
-    //         finished: true,
-    //         error: false,
-    //         finishText: 'Thank you for applying, we will be in contact as soon as possible. You are very important to us, all information received will always remain confidential.'
-    //     });
-    //     Mixpanel.track(Events.content_creator_submitted(application))
-    // })
-    // .catch(err => {
-    //     this.setState({
-    //         loading: false,
-    //         finished: true,
-    //         error: true,
-    //         finishText: 'Something went wrong please try again later'
-    //     })
-    // });
+    axios
+      .post(`${apiEndPoint}/users/${type}`, form)
+      .then((res) => {
+        console.log(res);
+        this.setState({
+          loading: false,
+          finished: true,
+          error: false,
+          finishText:
+            'Thank you for applying, we will be in contact as soon as possible. You are very important to us, all information received will always remain confidential.',
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        this.setState({
+          loading: false,
+          finished: true,
+          error: true,
+          finishText: 'Something went wrong please try again later',
+        });
+      });
   };
 
   render() {
