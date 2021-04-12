@@ -7,6 +7,7 @@ import Input from '../../components/UI/Input/Input';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import Button from '../../components/UI/Button/Button';
 import { apiEndPoint, checkInputValidity } from '../../utils/common';
+import { Redirect } from 'react-router';
 
 class Landing extends Component {
   state = {
@@ -132,6 +133,7 @@ class Landing extends Component {
     isLogin: true,
     loading: false,
     finished: false,
+    token: null,
   };
 
   inputChangedHandler = (event, inputIdentifier, form) => {
@@ -181,6 +183,8 @@ class Landing extends Component {
           loading: false,
           finished: true,
           error: false,
+          token: res.data.token,
+          //can add messages directly from the backend
           finishText:
             'Thank you for applying, we will be in contact as soon as possible. You are very important to us, all information received will always remain confidential.',
         });
@@ -199,6 +203,7 @@ class Landing extends Component {
   render() {
     const loginElementsArray = [];
     let form = null;
+    if (this.state.token) return <Redirect to='/main' />;
     if (this.state.isLogin) {
       for (let key in this.state.login.form) {
         loginElementsArray.push({
