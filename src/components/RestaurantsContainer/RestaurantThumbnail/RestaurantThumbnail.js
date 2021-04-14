@@ -1,6 +1,6 @@
 import React from 'react';
 import classes from './RestaurantThumbnail.module.css';
-import { apiEndPoint } from '../../utils/common';
+import { apiEndPoint } from '../../../utils/common';
 
 const RestaurantThumbnail = (props) => {
   return (
