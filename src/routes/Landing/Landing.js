@@ -134,7 +134,7 @@ const Landing = () => {
   });
   const [isLogin, setIsLogin] = useState(true);
 
-  const [{ isLoading, error, token }, dispatch] = useStore();
+  const [{ isLoading, error, token, wasOpen }, dispatch] = useStore();
 
   let errorMessage = null;
 
@@ -180,7 +180,6 @@ const Landing = () => {
         localStorage.setItem('expiresIn', res.data.expiresIn);
         localStorage.setItem('userId', res.data.user._id);
         console.log(localStorage.getItem('tokenId'));
-        // dispatch('TOKEN_COUNTDOWN', res.data.expiresIn);
         dispatch('JOINED_SUCCESSFULLY', res.data.user);
       })
 
@@ -189,10 +188,12 @@ const Landing = () => {
         dispatch('NOT_JOINED_SUCCESSFULLY', err);
       });
   };
-  localStorage.removeItem('token');
+
   const loginElementsArray = [];
   let form = null;
-  if (token) return <Redirect to='/main' />;
+  if (token) {
+    return <Redirect to='/main' />;
+  }
   if (isLogin) {
     for (let key in state.login.form) {
       loginElementsArray.push({

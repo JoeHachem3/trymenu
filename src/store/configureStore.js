@@ -51,11 +51,16 @@ const configureStore = () => {
         return { token: false };
       }, expiresIn - new Date().getTime());
     },
+    USER_LOGGED_IN: (curState, user) => {
+      return { user: user };
+    },
   };
+
   initStore(actions, {
     error: false,
     isLoading: false,
     token: localStorage.getItem('tokenId') !== null,
+    wasOpen: false,
   });
 };
 

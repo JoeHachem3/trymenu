@@ -167,9 +167,8 @@ const RestaurantForm = () => {
         console.log(formElementID);
         form.append(formElementID, formState[formElementID].file);
       } else form.append(formElementID, formState[formElementID].value);
-      // form[formElementID] = formState[formElementID].value;
     }
-
+    form.append('owner', localStorage.getItem('userId'));
     axios
       .post(`${apiEndPoint}/restaurants`, form, {
         headers: {

@@ -6,7 +6,6 @@ import { useStore } from '../../store/store';
 
 const Main = (props) => {
   const { token } = useStore()[0];
-
   useEffect(() => {
     if (!token) props.history.replace('/');
   }, [token, props.history]);
