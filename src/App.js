@@ -5,11 +5,31 @@ import Main from './routes/Main/Main';
 import axios from 'axios';
 import { apiEndPoint } from './utils/common';
 import { useStore } from './store/store';
+import { actions } from './store/configureStore';
 
 const App = () => {
-  const dispatch = useStore()[1];
+  const [{ token }, dispatch] = useStore();
+
+  if (token) {
+    const time = localStorage.getItem('expiresIn') - new Date().getTime();
+    if (time < 0) {
+      dispatch(actions.REMOVE_TOKEN);
+      localStorage.removeItem('tokenId');
+      localStorage.removeItem('userId');
+      localStorage.removeItem('expiresIn');
+    } else {
+      const timeout = setTimeout(() => {
+        dispatch(actions.REMOVE_TOKEN);
+        localStorage.removeItem('tokenId');
+        localStorage.removeItem('userId');
+        localStorage.removeItem('expiresIn');
+      }, time);
+    }
+  }
+
   useEffect(() => {
     const userId = localStorage.getItem('userId');
+
     if (userId)
       axios
         .get(`${apiEndPoint}/users/${userId}`, {
@@ -18,7 +38,7 @@ const App = () => {
           },
         })
         .then((res) => {
-          dispatch('USER_LOGGED_IN', res.data);
+          dispatch(actions.USER_LOGGED_IN, res.data);
         })
         .catch((err) => console.log(err));
   }, [dispatch]);

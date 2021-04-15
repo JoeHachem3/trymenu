@@ -4,6 +4,7 @@ import { apiEndPoint } from '../../utils/common';
 import RestaurantThumbnail from './RestaurantThumbnail/RestaurantThumbnail';
 import { useStore } from '../../store/store';
 import classes from './RestaurantsContainer.module.css';
+import { actions } from '../../store/configureStore';
 
 const RestaurantsContainer = () => {
   const [{ restaurants }, dispatch] = useStore();
@@ -14,7 +15,7 @@ const RestaurantsContainer = () => {
       .then((res) => {
         console.log(res);
         const restaurants = res.data.response.restaurants;
-        dispatch('UPDATE_RESTAURANTS', restaurants);
+        dispatch(actions.UPDATE_RESTAURANTS, restaurants);
       })
       .catch((err) => console.log(err));
   }, [dispatch]);
@@ -23,7 +24,7 @@ const RestaurantsContainer = () => {
     localStorage.removeItem('expiresIn');
     localStorage.removeItem('tokenId');
     localStorage.removeItem('userId');
-    dispatch('LOGOUT');
+    dispatch(actions.LOGOUT);
   };
 
   let restaus = null;

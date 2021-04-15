@@ -5,6 +5,7 @@ import { checkInputValidity } from '../../utils/common';
 import Input from '../UI/Input/Input';
 import Button from '../UI/Button/Button';
 import { useStore } from '../../store/store';
+import { actions } from '../../store/configureStore';
 
 const RestaurantForm = () => {
   const [{ restaurants }, dispatch] = useStore();
@@ -178,7 +179,7 @@ const RestaurantForm = () => {
       })
       .then((res) => {
         restaurants.push(res.data.restaurant);
-        dispatch('UPDATE_RESTAURANTS', restaurants);
+        dispatch(actions.UPDATE_RESTAURANTS, restaurants);
         const updatedForm = { ...formState };
         for (let formElementId in formState) {
           const updatedFormElement = { ...updatedForm[formElementId] };

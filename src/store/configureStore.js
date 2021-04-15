@@ -43,13 +43,8 @@ const configureStore = () => {
       return { token: false, user: null };
     },
     // token
-    TOKEN_COUNTDOWN: (curState, expiresIn) => {
-      setTimeout(() => {
-        localStorage.removeItem('tokenId');
-        localStorage.removeItem('userId');
-        localStorage.removeItem('expiration');
-        return { token: false };
-      }, expiresIn - new Date().getTime());
+    REMOVE_TOKEN: (curState) => {
+      return { token: false };
     },
     USER_LOGGED_IN: (curState, user) => {
       return { user: user };
@@ -62,6 +57,18 @@ const configureStore = () => {
     token: localStorage.getItem('tokenId') !== null,
     wasOpen: false,
   });
+};
+
+export const actions = {
+  TOGGLE_USUAL_ITEM: 'TOGGLE_USUAL_ITEM',
+  UPDATE_RESTAURANTS: 'UPDATE_RESTAURANTS',
+  IS_LOADING: 'IS_LOADING',
+  IS_NOT_LOADING: 'IS_NOT_LOADING',
+  JOINED_SUCCESSFULLY: 'JOINED_SUCCESSFULLY',
+  NOT_JOINED_SUCCESSFULLY: 'NOT_JOINED_SUCCESSFULLY',
+  LOGOUT: 'LOGOUT',
+  REMOVE_TOKEN: 'REMOVE_TOKEN',
+  USER_LOGGED_IN: 'USER_LOGGED_IN',
 };
 
 export default configureStore;

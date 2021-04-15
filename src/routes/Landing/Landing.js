@@ -9,6 +9,7 @@ import Spinner from '../../components/UI/Spinner/Spinner';
 import Button from '../../components/UI/Button/Button';
 import { apiEndPoint, checkInputValidity } from '../../utils/common';
 import { Redirect } from 'react-router';
+import { actions } from '../../store/configureStore';
 
 const Landing = () => {
   const [state, setState] = useState({
@@ -134,7 +135,7 @@ const Landing = () => {
   });
   const [isLogin, setIsLogin] = useState(true);
 
-  const [{ isLoading, error, token, wasOpen }, dispatch] = useStore();
+  const [{ isLoading, error, token }, dispatch] = useStore();
 
   let errorMessage = null;
 
@@ -166,7 +167,7 @@ const Landing = () => {
   const submitHandler = (event) => {
     event.preventDefault();
     const type = isLogin ? 'login' : 'register';
-    dispatch('IS_LOADING');
+    dispatch(actions.IS_LOADING);
     const form = {};
     for (let formElementID in state[type].form) {
       form[formElementID] = state[type].form[formElementID].value;
@@ -179,13 +180,11 @@ const Landing = () => {
         localStorage.setItem('tokenId', res.data.token);
         localStorage.setItem('expiresIn', res.data.expiresIn);
         localStorage.setItem('userId', res.data.user._id);
-        console.log(localStorage.getItem('tokenId'));
-        dispatch('JOINED_SUCCESSFULLY', res.data.user);
+        dispatch(actions.JOINED_SUCCESSFULLY, res.data.user);
       })
-
       .catch((err) => {
         console.log(err);
-        dispatch('NOT_JOINED_SUCCESSFULLY', err);
+        dispatch(actions.NOT_JOINED_SUCCESSFULLY, err);
       });
   };
 
