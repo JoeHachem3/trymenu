@@ -7,7 +7,7 @@ import Button from '../UI/Button/Button';
 import { useStore } from '../../store/store';
 
 const RestaurantForm = () => {
-  const [state, dispatch] = useStore();
+  const [{ restaurants }, dispatch] = useStore();
 
   const [formState, setFormState] = useState({
     name: {
@@ -33,6 +33,7 @@ const RestaurantForm = () => {
         placeholder: 'Logo',
       },
       value: '',
+      file: null,
       validation: {
         required: true,
         type: 'image',
@@ -138,7 +139,10 @@ const RestaurantForm = () => {
   const inputChangedHandler = (event, inputIdentifier) => {
     const updatedForm = { ...formState };
     const updatedFormElement = { ...updatedForm[inputIdentifier] };
+    if (updatedFormElement.elementConfig.type === 'file')
+      updatedFormElement.file = event.target.files[0];
     updatedFormElement.value = event.target.value;
+
     updatedFormElement.valid = checkInputValidity(
       updatedFormElement.value,
       updatedFormElement.validation,
@@ -157,25 +161,44 @@ const RestaurantForm = () => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    const form = {};
+    const form = new FormData();
     for (let formElementID in formState) {
-      form[formElementID] = formState[formElementID].value;
+      if (formState[formElementID].elementConfig.type === 'file') {
+        console.log(formElementID);
+        form.append(formElementID, formState[formElementID].file);
+      } else form.append(formElementID, formState[formElementID].value);
+      // form[formElementID] = formState[formElementID].value;
     }
 
-    form.owner = localStorage.getItem('userId');
-    console.log(form);
-
     axios
-      .post(`${apiEndPoint}/restaurants`, form)
+      .post(`${apiEndPoint}/restaurants`, form, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: 'bearer ' + localStorage.getItem('tokenId'),
+        },
+      })
       .then((res) => {
-        state.restaurants.push(form);
-        dispatch('UPDATE_RESTAURANTS', state.restaurants);
+        restaurants.push(res.data.restaurant);
+        dispatch('UPDATE_RESTAURANTS', restaurants);
+        const updatedForm = { ...formState };
+        for (let formElementId in formState) {
+          const updatedFormElement = { ...updatedForm[formElementId] };
+          if (updatedFormElement.elementConfig.type === 'file')
+            updatedFormElement.file = null;
+          updatedFormElement.value = '';
+          updatedFormElement.touched = false;
+          updatedForm[formElementId] = updatedFormElement;
+        }
+        setFormState(updatedForm);
+        setIsFormValid(false);
         console.log(res);
       })
       .catch((err) => {
         console.log(err);
       });
   };
+
+  console.log(formState.logo);
 
   const elementsArray = [];
   let form = null;

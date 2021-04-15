@@ -6,7 +6,7 @@ import { useStore } from '../../store/store';
 import classes from './RestaurantsContainer.module.css';
 
 const RestaurantsContainer = () => {
-  const [state, dispatch] = useStore();
+  const [{ restaurants }, dispatch] = useStore();
 
   useEffect(() => {
     axios
@@ -19,20 +19,32 @@ const RestaurantsContainer = () => {
       .catch((err) => console.log(err));
   }, [dispatch]);
 
+  const logout = () => {
+    localStorage.removeItem('expiresIn');
+    localStorage.removeItem('tokenId');
+    localStorage.removeItem('userId');
+    dispatch('LOGOUT');
+  };
+
   let restaus = null;
 
-  if (state.restaurants) {
-    restaus = state.restaurants.map((restaurant) => {
+  if (restaurants) {
+    restaus = restaurants.map((restaurant) => {
       return (
         <RestaurantThumbnail
-          key={restaurant.restaurant._id}
-          img={restaurant.restaurant.logo}
-          name={restaurant.restaurant.name}
+          key={restaurant._id}
+          img={restaurant.logo}
+          name={restaurant.name}
         />
       );
     });
   }
-  return <section className={classes.Restaurants}>{restaus}</section>;
+  return (
+    <section className={classes.Restaurants}>
+      {restaus}
+      <button onClick={logout}>logout</button>
+    </section>
+  );
 };
 
 export default RestaurantsContainer;

@@ -176,12 +176,12 @@ const Landing = () => {
       .post(`${apiEndPoint}/users/${type}`, form)
       .then((res) => {
         console.log(res);
-        localStorage.setItem('token', res.data.token);
-        localStorage.setItem('userId', res.data.userId);
+        localStorage.setItem('tokenId', res.data.token);
         localStorage.setItem('expiresIn', res.data.expiresIn);
-        console.log(localStorage.getItem('token'));
+        localStorage.setItem('userId', res.data.user._id);
+        console.log(localStorage.getItem('tokenId'));
         // dispatch('TOKEN_COUNTDOWN', res.data.expiresIn);
-        dispatch('JOINED_SUCCESSFULLY');
+        dispatch('JOINED_SUCCESSFULLY', res.data.user);
       })
 
       .catch((err) => {

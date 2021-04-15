@@ -32,16 +32,20 @@ const configureStore = () => {
       return { isLoading: false };
     },
     // joined
-    JOINED_SUCCESSFULLY: (curState) => {
-      return { isLoading: false, error: false, token: true };
+    JOINED_SUCCESSFULLY: (curState, user) => {
+      return { isLoading: false, error: false, token: true, user: user };
     },
     NOT_JOINED_SUCCESSFULLY: (curState, error) => {
       return { isLoading: false, error: error };
     },
+    // logout
+    LOGOUT: (curState) => {
+      return { token: false, user: null };
+    },
     // token
     TOKEN_COUNTDOWN: (curState, expiresIn) => {
       setTimeout(() => {
-        localStorage.removeItem('token');
+        localStorage.removeItem('tokenId');
         localStorage.removeItem('userId');
         localStorage.removeItem('expiration');
         return { token: false };
@@ -51,7 +55,7 @@ const configureStore = () => {
   initStore(actions, {
     error: false,
     isLoading: false,
-    token: localStorage.getItem('token') !== null,
+    token: localStorage.getItem('tokenId') !== null,
   });
 };
 
