@@ -14,19 +14,8 @@
 .RestaurantBar {
   width: 100%;
   height: 1.5rem;
-  background-color: rgb(241, 217, 148);
-  position: relative;
+  background-color: var(--color-red);
   grid-column: 1;
   grid-row: 1;
   align-self: end;
-}
-
-.RestaurantBar::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  background-color: var(--color-red);
 }

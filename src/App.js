@@ -6,6 +6,7 @@ import axios from 'axios';
 import { apiEndPoint } from './utils/common';
 import { useStore } from './store/store';
 import { actions } from './store/configureStore';
+import Restaurant from './routes/Restaurant/Restaurant';
 
 const App = () => {
   const [{ token }, dispatch] = useStore();
@@ -18,7 +19,7 @@ const App = () => {
       localStorage.removeItem('userId');
       localStorage.removeItem('expiresIn');
     } else {
-      const timeout = setTimeout(() => {
+      setTimeout(() => {
         dispatch(actions.REMOVE_TOKEN);
         localStorage.removeItem('tokenId');
         localStorage.removeItem('userId');
@@ -28,6 +29,15 @@ const App = () => {
   }
 
   useEffect(() => {
+    axios
+      .get(apiEndPoint + '/restaurants')
+      .then((res) => {
+        console.log(res);
+        const restaurants = res.data.response.restaurants;
+        dispatch(actions.UPDATE_RESTAURANTS, restaurants);
+      })
+      .catch((err) => console.log(err));
+
     const userId = localStorage.getItem('userId');
 
     if (userId)
@@ -47,6 +57,7 @@ const App = () => {
     <Switch>
       <Route path='/' exact component={Landing} />
       <Route path='/main' exact component={Main} />
+      <Route path='/restaurants/:restaurantId' exact component={Restaurant} />
     </Switch>
   );
 };

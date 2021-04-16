@@ -7,7 +7,7 @@ import Button from '../UI/Button/Button';
 import { useStore } from '../../store/store';
 import { actions } from '../../store/configureStore';
 
-const RestaurantForm = () => {
+const RestaurantForm = React.memo(() => {
   const [{ restaurants }, dispatch] = useStore();
 
   const [formState, setFormState] = useState({
@@ -19,6 +19,7 @@ const RestaurantForm = () => {
         placeholder: 'Name',
       },
       value: '',
+      defaultValue: '',
       validation: {
         required: true,
       },
@@ -34,6 +35,7 @@ const RestaurantForm = () => {
         placeholder: 'Logo',
       },
       value: '',
+      defaultValue: '',
       file: null,
       validation: {
         required: true,
@@ -51,6 +53,7 @@ const RestaurantForm = () => {
         placeholder: 'Phone',
       },
       value: '',
+      defaultValue: '',
       validation: {
         required: true,
         isPhone: true,
@@ -67,6 +70,7 @@ const RestaurantForm = () => {
         placeholder: 'Email',
       },
       value: '',
+      defaultValue: '',
       validation: {
         required: true,
         isEmail: true,
@@ -79,6 +83,7 @@ const RestaurantForm = () => {
       label: 'Category',
       elementType: 'select',
       elementConfig: {
+        multipe: true,
         options: [
           {
             value: 'fast_food/drive_thru',
@@ -93,6 +98,7 @@ const RestaurantForm = () => {
         ],
       },
       value: 'fast_food/drive_thru',
+      defaultValue: 'fast_food/drive_thru',
       validation: {},
       valid: true,
     },
@@ -165,7 +171,6 @@ const RestaurantForm = () => {
     const form = new FormData();
     for (let formElementID in formState) {
       if (formState[formElementID].elementConfig.type === 'file') {
-        console.log(formElementID);
         form.append(formElementID, formState[formElementID].file);
       } else form.append(formElementID, formState[formElementID].value);
     }
@@ -185,8 +190,9 @@ const RestaurantForm = () => {
           const updatedFormElement = { ...updatedForm[formElementId] };
           if (updatedFormElement.elementConfig.type === 'file')
             updatedFormElement.file = null;
-          updatedFormElement.value = '';
-          updatedFormElement.touched = false;
+          updatedFormElement.value = updatedFormElement.defaultValue;
+          if (updatedFormElement.elementType === '')
+            updatedFormElement.touched = false;
           updatedForm[formElementId] = updatedFormElement;
         }
         setFormState(updatedForm);
@@ -198,7 +204,7 @@ const RestaurantForm = () => {
       });
   };
 
-  console.log(formState.logo);
+  console.count('restaurantForm');
 
   const elementsArray = [];
   let form = null;
@@ -234,6 +240,6 @@ const RestaurantForm = () => {
     </form>
   );
   return <div>{form}</div>;
-};
+});
 
 export default RestaurantForm;

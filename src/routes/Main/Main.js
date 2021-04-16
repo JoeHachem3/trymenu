@@ -12,7 +12,7 @@ const Main = (props) => {
   return (
     <main className={classes.Main}>
       <RestaurantForm />
-      <RestaurantsContainer />
+      <RestaurantsContainer onThumbnailClick={props.history.push} />
     </main>
   );
 };

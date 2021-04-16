@@ -55,7 +55,6 @@ const configureStore = () => {
     error: false,
     isLoading: false,
     token: localStorage.getItem('tokenId') !== null,
-    wasOpen: false,
   });
 };
 
