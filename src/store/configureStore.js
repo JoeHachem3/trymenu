@@ -2,6 +2,10 @@ import { initStore } from './store';
 
 const configureStore = () => {
   const actions = {
+    //shouldRender
+    SHOULD_RENDER: (curState) => {
+      return { shouldRender: curState.shouldRender + 1 };
+    },
     // items
     TOGGLE_USUAL_ITEM: (curState, clickedItem) => {
       let selectedItem = clickedItem;
@@ -31,6 +35,13 @@ const configureStore = () => {
     IS_NOT_LOADING: (curState) => {
       return { isLoading: false };
     },
+    // error
+    IS_ERROR: (curState, error) => {
+      return { error: error, isLoading: false };
+    },
+    IS_NOT_ERROR: (curState, error) => {
+      return { error: null };
+    },
     // joined
     JOINED_SUCCESSFULLY: (curState, user) => {
       return { isLoading: false, error: false, token: true, user: user };
@@ -52,17 +63,21 @@ const configureStore = () => {
   };
 
   initStore(actions, {
-    error: false,
+    shouldRender: 0,
+    error: null,
     isLoading: false,
     token: localStorage.getItem('tokenId') !== null,
   });
 };
 
 export const actions = {
+  SHOULD_RENDER: 'SHOULD_RENDER',
   TOGGLE_USUAL_ITEM: 'TOGGLE_USUAL_ITEM',
   UPDATE_RESTAURANTS: 'UPDATE_RESTAURANTS',
   IS_LOADING: 'IS_LOADING',
   IS_NOT_LOADING: 'IS_NOT_LOADING',
+  IS_ERROR: 'IS_ERROR',
+  IS_NOT_ERROR: 'IS_NOT_ERROR',
   JOINED_SUCCESSFULLY: 'JOINED_SUCCESSFULLY',
   NOT_JOINED_SUCCESSFULLY: 'NOT_JOINED_SUCCESSFULLY',
   LOGOUT: 'LOGOUT',

@@ -1,0 +1,21 @@
+.ItemThumbnail {
+  width: calc(25% - 40px);
+  border-radius: 5px;
+  display: grid;
+  margin: 20px;
+}
+
+.ItemThumbnail img {
+  width: 100%;
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.ItemBar {
+  width: 100%;
+  height: 1.5rem;
+  background-color: var(--color-red);
+  grid-column: 1;
+  grid-row: 1;
+  align-self: end;
+}
