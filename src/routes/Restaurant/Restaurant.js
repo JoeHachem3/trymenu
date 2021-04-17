@@ -78,18 +78,19 @@ const Restaurant = (props) => {
             }
           </h1>
         );
+      } else {
+        output = restaurant.current.menu.map((item) => {
+          return (
+            <ItemThumbnail
+              key={item._id}
+              name={item.name}
+              img={item.image}
+              // onClick={}
+              deleteItem={() => deleteItem(item._id)}
+            />
+          );
+        });
       }
-      output = restaurant.current.menu.map((item) => {
-        return (
-          <ItemThumbnail
-            key={item._id}
-            name={item.name}
-            img={item.image}
-            // onClick={}
-            deleteItem={() => deleteItem(item._id)}
-          />
-        );
-      });
     } else {
       output = <h1>{'ERROR'}</h1>;
     }
