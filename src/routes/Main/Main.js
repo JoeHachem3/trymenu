@@ -11,7 +11,7 @@ const Main = (props) => {
   }, [token, props.history]);
   return (
     <main className={classes.Main}>
-      <RestaurantForm />
+      <RestaurantForm goTo={props.history.push} />
       <RestaurantsContainer onThumbnailClick={props.history.push} />
     </main>
   );

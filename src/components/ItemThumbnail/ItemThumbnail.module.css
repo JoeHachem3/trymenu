@@ -1,21 +1,51 @@
-.ItemThumbnail {
-  width: calc(25% - 40px);
-  border-radius: 5px;
+.grid {
   display: grid;
+  width: calc(25% - 40px);
   margin: 20px;
+  gap: 0.5rem;
+}
+
+.ItemThumbnail {
+  border-radius: 5px;
+
+  grid-row: 1;
+  grid-column: 1/3;
 }
 
 .ItemThumbnail img {
   width: 100%;
-  grid-column: 1;
-  grid-row: 1;
 }
 
 .ItemBar {
   width: 100%;
-  height: 1.5rem;
   background-color: var(--color-red);
-  grid-column: 1;
-  grid-row: 1;
-  align-self: end;
+  display: flex;
+}
+
+.usual .ItemBar {
+  background-color: darkgoldenrod;
+}
+
+.UIRating {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+  padding-right: 0.5rem;
+  gap: 2px;
+}
+
+.circle {
+  height: 1rem;
+  width: 1rem;
+  border-radius: 50%;
+}
+
+h3 {
+  margin: 0;
+  padding: 0;
+}
+
+button {
+  grid-column: 1/3;
 }

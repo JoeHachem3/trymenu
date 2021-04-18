@@ -7,7 +7,7 @@ import Button from '../UI/Button/Button';
 import { useStore } from '../../store/store';
 import { actions } from '../../store/configureStore';
 
-const RestaurantForm = React.memo(() => {
+const RestaurantForm = React.memo((props) => {
   const [{ restaurants }, dispatch] = useStore();
 
   const [formState, setFormState] = useState({
@@ -139,8 +139,6 @@ const RestaurantForm = React.memo(() => {
 
   // const [locations, setLocations] = useState([location]);
 
-  // const [menu, setMenu] = [{}];
-
   const [isFormValid, setIsFormValid] = useState(false);
 
   const inputChangedHandler = (event, inputIdentifier) => {
@@ -197,6 +195,7 @@ const RestaurantForm = React.memo(() => {
         }
         setFormState(updatedForm);
         setIsFormValid(false);
+        props.goTo('/restaurants/' + res.data.restaurant._id);
         console.log(res);
       })
       .catch((err) => {

@@ -21,6 +21,8 @@ export const useStore = () => {
 
     return () => {
       listeners = listeners.filter((li) => li !== setState);
+      console.log('LISTENERS');
+      console.log(listeners);
     };
   }, [setState]);
 

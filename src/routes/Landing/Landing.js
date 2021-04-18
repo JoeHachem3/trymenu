@@ -12,6 +12,8 @@ import { Redirect } from 'react-router';
 import { actions } from '../../store/configureStore';
 
 const Landing = () => {
+  const [{ isLoading, error, token }, dispatch] = useStore();
+
   const [state, setState] = useState({
     login: {
       form: {
@@ -135,8 +137,6 @@ const Landing = () => {
   });
   const [isLogin, setIsLogin] = useState(true);
 
-  const [{ isLoading, error, token }, dispatch] = useStore();
-
   let errorMessage = null;
 
   const inputChangedHandler = (event, inputIdentifier, form) => {
@@ -156,6 +156,7 @@ const Landing = () => {
       formIsValid = updatedOrderForm[inputId].valid && formIsValid;
     }
     setState({
+      ...state,
       [form]: { form: updatedOrderForm, formIsValid: formIsValid },
     });
   };
@@ -277,14 +278,30 @@ const Landing = () => {
     console.log(error);
     errorMessage = <p className='error'>{'error'}</p>;
   }
+
   return (
-    <div className={classes.Landing}>
-      <BackgroundSmall className={classes.BackgroundSmall}>
-        <IconFull className={classes.Logo} />
-        {form}
-        {errorMessage}
-      </BackgroundSmall>
-    </div>
+    <>
+      <div className={classes.Landing}>
+        <BackgroundSmall className={classes.BackgroundSmall}>
+          <IconFull className={classes.Logo} />
+          {form}
+          {errorMessage}
+        </BackgroundSmall>
+      </div>
+      <h3>
+        {
+          'ONLY use owner1@gmail.com 12312312 or create a new owner to create restaurants'
+        }
+        <br></br>
+        {
+          'use mail1@gmail.com to mail6@gmail.com 12312312 to rate items and stuff like that'
+        }
+        <br></br>
+        {
+          'NOTE: you can create items with any account, but so not create a restaurant with mail_@gmail.com'
+        }
+      </h3>
+    </>
   );
 };
 
