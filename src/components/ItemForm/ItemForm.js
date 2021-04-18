@@ -97,7 +97,6 @@ const ItemForm = (props) => {
         form.append(formElementID, formState[formElementID].file);
       } else form.append(formElementID, formState[formElementID].value);
     }
-    console.log(props);
     form.append('restaurant', props.restaurantId);
     axios
       .post(`${apiEndPoint}/items`, form, {
