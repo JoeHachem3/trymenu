@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { actions } from '../../store/configureStore';
 import { useStore } from '../../store/store';
 import { apiEndPoint } from '../../utils/common';
@@ -10,12 +10,11 @@ import Spinner from '../../components/UI/Spinner/Spinner';
 import Button from '../../components/UI/Button/Button';
 
 const Restaurant = (props) => {
-  const [{ restaurants, isLoading, error, token }, dispatch] = useStore();
-
-  const [shouldRender, setShouldRender] = useState(0);
+  const [{ restaurants, isLoading, error, token, user }, dispatch] = useStore();
 
   const restaurant = useRef(null);
   const ratedItems = useRef([]);
+  const itemsToDelete = useRef([]);
   useEffect(() => {
     if (!token) {
       props.history.push('/');
@@ -63,23 +62,6 @@ const Restaurant = (props) => {
     props.history,
   ]);
 
-  const deleteItem = (itemId) => {
-    axios
-      .delete(`${apiEndPoint}/items/${itemId}`, {
-        headers: {
-          Authorization: 'bearer ' + localStorage.getItem('tokenId'),
-        },
-      })
-      .then((res) => {
-        const menu = restaurant.current.menu.filter(
-          (item) => item.item._id !== itemId,
-        );
-        restaurant.current.menu = menu;
-        setShouldRender(shouldRender + 1);
-      })
-      .catch((err) => console.log(err));
-  };
-
   const toggleUsual = (item) => {
     let tmp;
     if (item.prevRating === null) {
@@ -112,7 +94,6 @@ const Restaurant = (props) => {
     if (tmp) {
       ratedItems.current.push(tmp);
     }
-    console.log(ratedItems);
   };
 
   const updateRating = (item, rating) => {
@@ -123,7 +104,6 @@ const Restaurant = (props) => {
         } else {
           ratedItems.current[i].rating = rating;
         }
-        console.log(ratedItems);
         return;
       }
     }
@@ -132,49 +112,154 @@ const Restaurant = (props) => {
       rating: rating,
       prevRating: null,
     });
-    console.log(ratedItems);
+  };
+
+  const setupForDeletion = (itemId, shouldDelete) => {
+    if (shouldDelete) {
+      itemsToDelete.current.push(itemId);
+    } else {
+      itemsToDelete.current = itemsToDelete.current.filter(
+        (id) => id.toString() !== itemId.toString(),
+      );
+    }
   };
 
   const updatesFinished = () => {
-    axios
-      .patch(
-        `${apiEndPoint}/users/rating`,
-        {
-          _id: props.match.params.restaurantId,
-          ratedItems: ratedItems.current,
-        },
-        {
-          headers: {
-            Authorization: 'bearer ' + localStorage.getItem('tokenId'),
+    if (user._id.toString() === restaurant.current.owner.toString()) {
+      if (ratedItems.current.length) {
+        axios
+          .patch(
+            `${apiEndPoint}/users/rating`,
+            {
+              _id: props.match.params.restaurantId,
+              ratedItems: ratedItems.current,
+            },
+            {
+              headers: {
+                Authorization: 'bearer ' + localStorage.getItem('tokenId'),
+              },
+            },
+          )
+          .then((res) => {
+            res.data.restaurant.ratedItems.forEach((ratedItem) => {
+              for (let i = 0; i < restaurant.current.menu.length; i++) {
+                if (
+                  ratedItem._id.toString() ===
+                  restaurant.current.menu[i].item._id
+                ) {
+                  restaurant.current.menu[i].rating = ratedItem.rating;
+                  restaurant.current.menu[i].prevRating = ratedItem.prevRating;
+                  break;
+                }
+              }
+            });
+            dispatch(actions.UPDATE_USER_RESTAURANTS, res.data.restaurants);
+
+            axios
+              .post(
+                `${apiEndPoint}/items/delete`,
+                { itemsToDelete: itemsToDelete.current },
+                {
+                  headers: {
+                    Authorization: 'bearer ' + localStorage.getItem('tokenId'),
+                  },
+                },
+              )
+              .then((result) => {
+                const menu = restaurant.current.menu.filter(
+                  (item) =>
+                    !itemsToDelete.current.find(
+                      (i) => item.item._id.toString() === i,
+                    ),
+                );
+                restaurant.current.menu = menu;
+                const updatedRestaurants = [];
+                restaurants.forEach((resto) => {
+                  if (resto._id === props.match.params.restaurantId) {
+                    updatedRestaurants.push(restaurant.current);
+                  } else {
+                    updatedRestaurants.push(resto);
+                  }
+                });
+
+                dispatch(actions.UPDATE_RESTAURANTS, updatedRestaurants);
+                console.log(result);
+              })
+              .catch((err) => console.log(err));
+          })
+          .catch((err) => console.log(err));
+      } else {
+        axios
+          .post(
+            `${apiEndPoint}/items/delete`,
+            { itemsToDelete: itemsToDelete.current },
+            {
+              headers: {
+                Authorization: 'bearer ' + localStorage.getItem('tokenId'),
+              },
+            },
+          )
+          .then((result) => {
+            const menu = restaurant.current.menu.filter(
+              (item) =>
+                !itemsToDelete.current.find(
+                  (i) => item.item._id.toString() === i,
+                ),
+            );
+            restaurant.current.menu = menu;
+            const updatedRestaurants = [];
+            restaurants.forEach((resto) => {
+              if (resto._id === props.match.params.restaurantId) {
+                updatedRestaurants.push(restaurant.current);
+              } else {
+                updatedRestaurants.push(resto);
+              }
+            });
+
+            dispatch(actions.UPDATE_RESTAURANTS, updatedRestaurants);
+          })
+          .catch((err) => console.log(err));
+      }
+    } else {
+      axios
+        .patch(
+          `${apiEndPoint}/users/rating`,
+          {
+            _id: props.match.params.restaurantId,
+            ratedItems: ratedItems.current,
           },
-        },
-      )
-      .then((res) => {
-        res.data.restaurant.ratedItems.forEach((ratedItem) => {
-          for (let i = 0; i < restaurant.current.menu.length; i++) {
-            console.log(restaurant.current.menu.length);
-            if (
-              ratedItem._id.toString() === restaurant.current.menu[i].item._id
-            ) {
-              restaurant.current.menu[i].rating = ratedItem.rating;
-              restaurant.current.menu[i].prevRating = ratedItem.prevRating;
-              break;
+          {
+            headers: {
+              Authorization: 'bearer ' + localStorage.getItem('tokenId'),
+            },
+          },
+        )
+        .then((res) => {
+          res.data.restaurant.ratedItems.forEach((ratedItem) => {
+            for (let i = 0; i < restaurant.current.menu.length; i++) {
+              if (
+                ratedItem._id.toString() === restaurant.current.menu[i].item._id
+              ) {
+                restaurant.current.menu[i].rating = ratedItem.rating;
+                restaurant.current.menu[i].prevRating = ratedItem.prevRating;
+                break;
+              }
             }
-          }
-        });
-        const updatedRestaurants = [];
-        restaurants.forEach((resto) => {
-          if (resto._id === props.match.params.restaurantId) {
-            updatedRestaurants.push(restaurant.current);
-          } else {
-            updatedRestaurants.push(resto);
-          }
-        });
-        dispatch(actions.UPDATE_USER_RESTAURANTS, res.data.restaurants);
-        dispatch(actions.UPDATE_RESTAURANTS, updatedRestaurants);
-        console.log(res);
-      })
-      .catch((err) => console.log(err));
+          });
+          const updatedRestaurants = [];
+          restaurants.forEach((resto) => {
+            if (resto._id === props.match.params.restaurantId) {
+              updatedRestaurants.push(restaurant.current);
+            } else {
+              updatedRestaurants.push(resto);
+            }
+          });
+          dispatch(actions.UPDATE_USER_RESTAURANTS, res.data.restaurants);
+          dispatch(actions.UPDATE_RESTAURANTS, updatedRestaurants);
+          console.log(res);
+        })
+        .catch((err) => console.log(err));
+    }
   };
 
   const logout = () => {
@@ -189,13 +274,7 @@ const Restaurant = (props) => {
   if (!isLoading && restaurant.current && token) {
     if (!error) {
       if (restaurant.current.menu.length === 0) {
-        output = (
-          <h1>
-            {
-              'still figuring out a way to save the edited menu for later entries to the same restaurant'
-            }
-          </h1>
-        );
+        output = <h1>{'empty menu :('}</h1>;
       } else {
         output = restaurant.current.menu.map((item) => {
           return (
@@ -206,9 +285,12 @@ const Restaurant = (props) => {
               img={item.item.image}
               rating={item.rating}
               prevRating={item.prevRating}
+              ownership={
+                user._id.toString() === restaurant.current.owner.toString()
+              }
               editable
               toggleUsual={toggleUsual}
-              deleteItem={() => deleteItem(item.item._id)}
+              setupForDeletion={setupForDeletion}
               updateRating={updateRating}
             />
           );

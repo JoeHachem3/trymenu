@@ -7,13 +7,27 @@
 
 .ItemThumbnail {
   border-radius: 5px;
-
+  position: relative;
   grid-row: 1;
   grid-column: 1/3;
 }
 
 .ItemThumbnail img {
   width: 100%;
+}
+
+.deleted::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(100, 100, 100, 0.5);
+}
+
+.deleted img {
+  filter: grayscale(100%);
 }
 
 .ItemBar {

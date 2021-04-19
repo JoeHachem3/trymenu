@@ -7,6 +7,8 @@ const ItemThumbnail = (props) => {
   const [rating, setRating] = useState();
   const [prevRating, setPrevRating] = useState();
 
+  const [isDeleted, setIsDeleted] = useState(false);
+
   useEffect(() => {
     setRating(props.rating);
     setPrevRating(props.prevRating);
@@ -18,6 +20,9 @@ const ItemThumbnail = (props) => {
   if (prevRating !== null) {
     classNames.push(classes.usual);
     tmpRating = prevRating;
+  }
+  if (isDeleted) {
+    classNames.push(classes.deleted);
   }
 
   const updateRating = (item, rating) => {
@@ -41,6 +46,11 @@ const ItemThumbnail = (props) => {
       setPrevRating(null);
     }
     props.toggleUsual(item);
+  };
+
+  const toggleIsDelete = () => {
+    props.setupForDeletion(props.itemId, !isDeleted);
+    setIsDeleted(!isDeleted);
   };
 
   const UIRating = [];
@@ -126,8 +136,10 @@ const ItemThumbnail = (props) => {
           {prevRating === null ? 'Usual' : 'Unusual'}
         </Button>
       ) : null}
-      {props.deleteItem ? (
-        <Button clicked={props.deleteItem}>{'Delete'}</Button>
+      {props.ownership ? (
+        <Button clicked={toggleIsDelete}>
+          {isDeleted ? 'Restore' : 'Delete'}
+        </Button>
       ) : null}
     </div>
   );
