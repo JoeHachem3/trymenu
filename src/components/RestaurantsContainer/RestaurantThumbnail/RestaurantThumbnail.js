@@ -11,7 +11,7 @@ const RestaurantThumbnail = (props) => {
           <h3>{props.name}</h3>
         </div>
       </div>
-      <button onClick={props.deleteRestaurant}>delete</button>
+      {/* <button onClick={props.deleteRestaurant}>delete</button> */}
     </>
   );
 };
