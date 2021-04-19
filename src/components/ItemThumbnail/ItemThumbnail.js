@@ -21,12 +21,26 @@ const ItemThumbnail = (props) => {
   }
 
   const updateRating = (item, rating) => {
+    if (!props.editable) {
+      return;
+    }
     if (item.prevRating !== null) {
       setPrevRating(rating);
     } else {
       setRating(rating);
     }
     props.updateRating(item, rating);
+  };
+
+  const toggleUsual = (item) => {
+    if (item.prevRating === null) {
+      setPrevRating(rating);
+      setRating(5);
+    } else {
+      setRating(prevRating);
+      setPrevRating(null);
+    }
+    props.toggleUsual(item);
   };
 
   const UIRating = [];
@@ -98,10 +112,23 @@ const ItemThumbnail = (props) => {
           <div className={classes.UIRating}>{UIRating}</div>
         </div>
       </div>
-      <Button clicked={props.toggleUsual}>
-        {prevRating === null ? 'Usual' : 'Unusual'}
-      </Button>
-      <Button clicked={props.deleteItem}>{'Delete'}</Button>
+
+      {props.toggleUsual ? (
+        <Button
+          clicked={() =>
+            toggleUsual({
+              _id: props.itemId,
+              rating: rating,
+              prevRating: prevRating,
+            })
+          }
+        >
+          {prevRating === null ? 'Usual' : 'Unusual'}
+        </Button>
+      ) : null}
+      {props.deleteItem ? (
+        <Button clicked={props.deleteItem}>{'Delete'}</Button>
+      ) : null}
     </div>
   );
 };

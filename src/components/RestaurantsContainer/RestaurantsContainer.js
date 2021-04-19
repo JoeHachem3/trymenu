@@ -2,9 +2,10 @@ import React from 'react';
 import axios from 'axios';
 import { apiEndPoint } from '../../utils/common';
 import RestaurantThumbnail from './RestaurantThumbnail/RestaurantThumbnail';
+import ItemRecommender from '../ItemRecommender/ItemRecommender';
 import { useStore } from '../../store/store';
-import classes from './RestaurantsContainer.module.css';
 import { actions } from '../../store/configureStore';
+import classes from './RestaurantsContainer.module.css';
 
 const RestaurantsContainer = (props) => {
   const [{ restaurants }, dispatch] = useStore();
@@ -67,6 +68,7 @@ const RestaurantsContainer = (props) => {
     <section className={classes.Restaurants}>
       {restaus}
       <button onClick={logout}>logout</button>
+      <ItemRecommender />
     </section>
   );
 };

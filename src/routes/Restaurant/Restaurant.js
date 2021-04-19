@@ -7,13 +7,13 @@ import ItemForm from '../../components/ItemForm/ItemForm';
 import Menu from '../../components/Menu/Menu';
 import ItemThumbnail from '../../components/ItemThumbnail/ItemThumbnail';
 import Spinner from '../../components/UI/Spinner/Spinner';
+import Button from '../../components/UI/Button/Button';
 
 const Restaurant = (props) => {
   const [{ restaurants, isLoading, error, token }, dispatch] = useStore();
 
   const [shouldRender, setShouldRender] = useState(0);
 
-  const updatedRestaurants = [];
   const restaurant = useRef(null);
   const ratedItems = useRef([]);
   useEffect(() => {
@@ -23,13 +23,9 @@ const Restaurant = (props) => {
     }
     dispatch(actions.IS_LOADING);
     if (restaurants) {
-      for (let resto of restaurants) {
-        if (resto._id === props.match.params.restaurantId) {
-          restaurant.current = resto;
-        } else {
-          updatedRestaurants.push(resto);
-        }
-      }
+      restaurant.current = restaurants.find(
+        (resto) => resto._id === props.match.params.restaurantId,
+      );
       if (restaurant.current && !restaurant.current.menu) {
         axios
           .get(`${apiEndPoint}/items/${restaurant.current._id}`, {
@@ -59,7 +55,13 @@ const Restaurant = (props) => {
         dispatch(actions.IS_NOT_LOADING);
       }
     }
-  }, [restaurants, props.match.params.restaurantId, dispatch]);
+  }, [
+    restaurants,
+    props.match.params.restaurantId,
+    dispatch,
+    token,
+    props.history,
+  ]);
 
   const deleteItem = (itemId) => {
     axios
@@ -79,22 +81,38 @@ const Restaurant = (props) => {
   };
 
   const toggleUsual = (item) => {
+    let tmp;
     if (item.prevRating === null) {
-      item.prevRating = item.rating;
-      item.rating = 5;
-      ratedItems.current.push({
-        _id: item.item._id,
-        rating: item.rating,
-        prevRating: item.prevRating,
-      });
+      tmp = {
+        _id: item._id,
+        rating: 5,
+        prevRating: item.rating,
+      };
     } else {
-      item.rating = item.prevRating;
-      item.prevRating = null;
-      ratedItems.current = ratedItems.current.filter(
-        (i) => i._id !== item.item._id,
-      );
+      if (item.prevRating === 0) {
+        ratedItems.current = ratedItems.current.filter(
+          (i) => i._id !== item._id,
+        );
+        return;
+      }
+      tmp = {
+        _id: item._id,
+        rating: item.prevRating,
+        prevRating: null,
+      };
     }
-    setShouldRender(shouldRender + 1);
+
+    for (let i = 0; i < ratedItems.current.length; i++) {
+      if (ratedItems.current[i]._id === item._id) {
+        ratedItems.current[i] = tmp;
+        tmp = null;
+        break;
+      }
+    }
+    if (tmp) {
+      ratedItems.current.push(tmp);
+    }
+    console.log(ratedItems);
   };
 
   const updateRating = (item, rating) => {
@@ -105,6 +123,7 @@ const Restaurant = (props) => {
         } else {
           ratedItems.current[i].rating = rating;
         }
+        console.log(ratedItems);
         return;
       }
     }
@@ -113,6 +132,7 @@ const Restaurant = (props) => {
       rating: rating,
       prevRating: null,
     });
+    console.log(ratedItems);
   };
 
   const updatesFinished = () => {
@@ -132,6 +152,7 @@ const Restaurant = (props) => {
       .then((res) => {
         res.data.restaurant.ratedItems.forEach((ratedItem) => {
           for (let i = 0; i < restaurant.current.menu.length; i++) {
+            console.log(restaurant.current.menu.length);
             if (
               ratedItem._id.toString() === restaurant.current.menu[i].item._id
             ) {
@@ -141,7 +162,14 @@ const Restaurant = (props) => {
             }
           }
         });
-        updatedRestaurants.push(restaurant.current);
+        const updatedRestaurants = [];
+        restaurants.forEach((resto) => {
+          if (resto._id === props.match.params.restaurantId) {
+            updatedRestaurants.push(restaurant.current);
+          } else {
+            updatedRestaurants.push(resto);
+          }
+        });
         dispatch(actions.UPDATE_USER_RESTAURANTS, res.data.restaurants);
         dispatch(actions.UPDATE_RESTAURANTS, updatedRestaurants);
         console.log(res);
@@ -149,9 +177,16 @@ const Restaurant = (props) => {
       .catch((err) => console.log(err));
   };
 
+  const logout = () => {
+    localStorage.removeItem('expiresIn');
+    localStorage.removeItem('tokenId');
+    localStorage.removeItem('userId');
+    dispatch(actions.LOGOUT);
+  };
+
   let output = <Spinner />;
 
-  if (!isLoading && restaurant.current) {
+  if (!isLoading && restaurant.current && token) {
     if (!error) {
       if (restaurant.current.menu.length === 0) {
         output = (
@@ -171,7 +206,8 @@ const Restaurant = (props) => {
               img={item.item.image}
               rating={item.rating}
               prevRating={item.prevRating}
-              toggleUsual={() => toggleUsual(item)}
+              editable
+              toggleUsual={toggleUsual}
               deleteItem={() => deleteItem(item.item._id)}
               updateRating={updateRating}
             />
@@ -185,6 +221,8 @@ const Restaurant = (props) => {
   return (
     <>
       <ItemForm restaurantId={props.match.params.restaurantId} />
+      <br></br>
+      <Button clicked={logout}>logout</Button>
       <Menu output={output} updatesFinished={updatesFinished} />
     </>
   );
