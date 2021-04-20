@@ -5,7 +5,9 @@ const Menu = (props) => {
   return (
     <div className={classes.Menu}>
       <div className={classes.Menu}>{props.output}</div>
-      <Button clicked={props.updatesFinished}>Done</Button>
+      <div className={classes.doneBtn}>
+        <Button clicked={props.updatesFinished}>Done</Button>
+      </div>
     </div>
   );
 };

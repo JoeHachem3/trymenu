@@ -2,6 +2,10 @@ import { initStore } from './store';
 
 const configureStore = () => {
   const actions = {
+    // recommendedItems
+    SET_RECOMMENDED_ITEMS: (curState, recommendedItems) => {
+      return { recommendedItems: recommendedItems };
+    },
     // restaurants
     UPDATE_RESTAURANTS: (curState, restaurants) => {
       return { restaurants: restaurants };
@@ -53,10 +57,12 @@ const configureStore = () => {
     error: null,
     isLoading: false,
     token: localStorage.getItem('tokenId') !== null,
+    recommendedItems: null,
   });
 };
 
 export const actions = {
+  SET_RECOMMENDED_ITEMS: 'SET_RECOMMENDED_ITEMS',
   UPDATE_RESTAURANTS: 'UPDATE_RESTAURANTS',
   IS_LOADING: 'IS_LOADING',
   IS_NOT_LOADING: 'IS_NOT_LOADING',

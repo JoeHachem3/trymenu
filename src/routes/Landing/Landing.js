@@ -182,6 +182,25 @@ const Landing = () => {
         localStorage.setItem('expiresIn', res.data.expiresIn);
         localStorage.setItem('userId', res.data.user._id);
         dispatch(actions.JOINED_SUCCESSFULLY, res.data.user);
+
+        axios
+          .post(
+            `${apiEndPoint}/users/cf-items`,
+            { restaurantId: null },
+            {
+              headers: {
+                Authorization: 'bearer ' + localStorage.getItem('tokenId'),
+              },
+            },
+          )
+          .then((res) => {
+            console.log(res);
+            dispatch(
+              actions.SET_RECOMMENDED_ITEMS,
+              res.data.recommendedItems[0],
+            );
+          })
+          .catch((err) => console.log(err));
       })
       .catch((err) => {
         console.log(err);
@@ -288,19 +307,6 @@ const Landing = () => {
           {errorMessage}
         </BackgroundSmall>
       </div>
-      <h3>
-        {
-          'ONLY use owner1@gmail.com 12312312 or create a new owner to create restaurants'
-        }
-        <br></br>
-        {
-          'use mail1@gmail.com to mail6@gmail.com 12312312 to rate items and stuff like that'
-        }
-        <br></br>
-        {
-          'NOTE: you can create items with any account, but so not create a restaurant with mail_@gmail.com'
-        }
-      </h3>
     </>
   );
 };

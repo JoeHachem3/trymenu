@@ -1,4 +1,32 @@
 .Menu {
+  box-sizing: border-box;
+  width: 80vw;
+  margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
+}
+
+.doneBtn {
+  width: 100%;
+  position: sticky;
+  bottom: 0;
+}
+
+@media (max-width: 730px) {
+  .Menu {
+    width: 90vw;
+  }
+}
+
+@media (max-width: 630px) {
+  .Menu {
+    width: 95vw;
+  }
+}
+
+@media (max-width: 500px) {
+  .Menu {
+    width: 100%;
+    margin: 0;
+  }
 }

@@ -19,3 +19,24 @@
   grid-row: 1;
   align-self: end;
 }
+
+@media (max-width: 1250px) {
+  .RestaurantThumbnail {
+    width: calc(25% - 40px);
+    margin: 20px;
+  }
+}
+
+@media (max-width: 1000px) {
+  .RestaurantThumbnail {
+    width: calc(33.3% - 40px);
+    margin: 20px;
+  }
+}
+
+@media (max-width: 630px) {
+  .RestaurantThumbnail {
+    width: 100%;
+    margin: 20px;
+  }
+}

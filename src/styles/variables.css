@@ -10,6 +10,8 @@
   --color-yellow: #ffc11f;
   --color-green: #1bd760;
   --color-red: #e4283d;
+  --color-border-red: rgba(228, 40, 61, 0.5);
+  --color-faded-red: rgba(228, 40, 61, 0.3);
 
   /* Shadows */
   --shadow: 0 10px 20px -10px rgba(0, 0, 0, 0.15),

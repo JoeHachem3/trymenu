@@ -2,7 +2,8 @@ import React from 'react';
 import axios from 'axios';
 import { apiEndPoint } from '../../utils/common';
 import RestaurantThumbnail from './RestaurantThumbnail/RestaurantThumbnail';
-import ItemRecommender from '../ItemRecommender/ItemRecommender';
+// import ItemRecommender from '../ItemRecommender/ItemRecommender';
+import Button from '../UI/Button/Button';
 import { useStore } from '../../store/store';
 import { actions } from '../../store/configureStore';
 import classes from './RestaurantsContainer.module.css';
@@ -37,38 +38,27 @@ const RestaurantsContainer = (props) => {
   let restaus = null;
 
   if (restaurants) {
-    if (restaurants.length === 0) {
-      restaus = (
-        <h1>
-          Make your own restaurants Jul... and fix the category part of the form
-          please (RestaurantForm.js:82 not showing).<br></br>
-          <br></br>
-          Check the console too!<br></br>
-          Okay it was 14 renders for RestaurantForm, with the use of React.memo
-          now it's 6... is this normal?
-        </h1>
+    restaus = restaurants.map((restaurant) => {
+      return (
+        <RestaurantThumbnail
+          key={restaurant._id}
+          img={restaurant.logo}
+          name={restaurant.name}
+          deleteRestaurant={() => deleteRestaurant(restaurant._id)}
+          onClick={() =>
+            props.onThumbnailClick('/restaurants/' + restaurant._id)
+          }
+        />
       );
-    } else {
-      restaus = restaurants.map((restaurant) => {
-        return (
-          <RestaurantThumbnail
-            key={restaurant._id}
-            img={restaurant.logo}
-            name={restaurant.name}
-            deleteRestaurant={() => deleteRestaurant(restaurant._id)}
-            onClick={() =>
-              props.onThumbnailClick('/restaurants/' + restaurant._id)
-            }
-          />
-        );
-      });
-    }
+    });
   }
   return (
     <section className={classes.Restaurants}>
       {restaus}
-      <button onClick={logout}>logout</button>
-      <ItemRecommender />
+      <div className={classes.logoutBtn}>
+        <Button clicked={logout}>logout</Button>
+      </div>
+      {/* <ItemRecommender /> */}
     </section>
   );
 };

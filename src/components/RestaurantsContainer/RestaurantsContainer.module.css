@@ -2,3 +2,13 @@
   display: flex;
   flex-wrap: wrap;
 }
+
+.logoutBtn {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  position: absolute;
+  width: fit-content;
+  right: 1rem;
+  top: 1rem;
+}

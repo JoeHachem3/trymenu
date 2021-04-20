@@ -9,6 +9,7 @@ const ItemThumbnail = (props) => {
 
   const [isDeleted, setIsDeleted] = useState(false);
 
+  let itemState = '.';
   useEffect(() => {
     setRating(props.rating);
     setPrevRating(props.prevRating);
@@ -17,12 +18,20 @@ const ItemThumbnail = (props) => {
   const classNames = [classes.ItemThumbnail];
   let tmpRating = rating;
 
+  console.log(props.recommended);
+  if (props.recommended) {
+    classNames.push(classes.recommended);
+    itemState = 'Recommended';
+  }
+
   if (prevRating !== null) {
     classNames.push(classes.usual);
     tmpRating = prevRating;
+    itemState = 'Usual';
   }
   if (isDeleted) {
     classNames.push(classes.deleted);
+    itemState = 'Deleted';
   }
 
   const updateRating = (item, rating) => {
@@ -53,7 +62,24 @@ const ItemThumbnail = (props) => {
     setIsDeleted(!isDeleted);
   };
 
-  const UIRating = [];
+  const UIRating = [
+    <div
+      key='-1'
+      className={classes.removeRating}
+      onClick={() =>
+        updateRating(
+          {
+            _id: props.itemId,
+            rating: rating,
+            prevRating: prevRating,
+          },
+          0,
+        )
+      }
+    >
+      <div></div>
+    </div>,
+  ];
   for (let i = 0; i < 5; i++) {
     const tmp = Math.floor(tmpRating);
     if (tmp > i) {
@@ -117,6 +143,9 @@ const ItemThumbnail = (props) => {
     <div className={classes.grid}>
       <div className={classNames.join(' ')}>
         <img src={`${apiEndPoint}/${props.img}`} alt='' />
+        <div className={classes.ItemState}>
+          <h4>{itemState}</h4>
+        </div>
         <div className={classes.ItemBar}>
           <h3>{props.name}</h3>
           <div className={classes.UIRating}>{UIRating}</div>

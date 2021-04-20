@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { actions } from '../../store/configureStore';
 import { useStore } from '../../store/store';
 import { apiEndPoint } from '../../utils/common';
@@ -8,10 +8,15 @@ import Menu from '../../components/Menu/Menu';
 import ItemThumbnail from '../../components/ItemThumbnail/ItemThumbnail';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import Button from '../../components/UI/Button/Button';
+import Backdrop from '../../components/UI/Backdrop/Backdrop';
+import classes from './Restaurant.module.css';
 
 const Restaurant = (props) => {
-  const [{ restaurants, isLoading, error, token, user }, dispatch] = useStore();
-
+  const [
+    { restaurants, isLoading, error, token, user, recommendedItems },
+    dispatch,
+  ] = useStore();
+  const [isPopup, setIsPopup] = useState(false);
   const restaurant = useRef(null);
   const ratedItems = useRef([]);
   const itemsToDelete = useRef([]);
@@ -97,6 +102,12 @@ const Restaurant = (props) => {
   };
 
   const updateRating = (item, rating) => {
+    if (item.prevRating === null && rating === 0) {
+      ratedItems.current = ratedItems.current.filter(
+        (i) => i._id.toString() !== item._id.toString(),
+      );
+      return;
+    }
     for (let i = 0; i < ratedItems.current.length; i++) {
       if (ratedItems.current[i]._id === item._id) {
         if (ratedItems.current[i].prevRating !== null) {
@@ -276,25 +287,68 @@ const Restaurant = (props) => {
       if (restaurant.current.menu.length === 0) {
         output = <h1>{'empty menu :('}</h1>;
       } else {
-        output = restaurant.current.menu.map((item) => {
-          return (
-            <ItemThumbnail
-              key={item.item._id}
-              itemId={item.item._id}
-              name={item.item.name}
-              img={item.item.image}
-              rating={item.rating}
-              prevRating={item.prevRating}
-              ownership={
-                user._id.toString() === restaurant.current.owner.toString()
-              }
-              editable
-              toggleUsual={toggleUsual}
-              setupForDeletion={setupForDeletion}
-              updateRating={updateRating}
-            />
+        let tmpRec;
+        if (recommendedItems) {
+          tmpRec = recommendedItems.find(
+            (resto) => resto._id.toString() === restaurant.current._id,
           );
-        });
+        }
+        if (tmpRec) {
+          let counter = 0;
+          let itemsToFind = 2;
+          output = restaurant.current.menu.map((item) => {
+            let recommended;
+            if (counter < 2) {
+              for (let i = 0; i < itemsToFind; i++) {
+                if (
+                  tmpRec.recommendedItems[i] &&
+                  tmpRec.recommendedItems[i].item._id.toString() ===
+                    item.item._id.toString()
+                ) {
+                  recommended = tmpRec.recommendedItems[i++].rating;
+                }
+              }
+            }
+            return (
+              <ItemThumbnail
+                key={item.item._id}
+                itemId={item.item._id}
+                name={item.item.name}
+                img={item.item.image}
+                rating={item.rating}
+                prevRating={item.prevRating}
+                recommended={recommended}
+                ownership={
+                  user._id.toString() === restaurant.current.owner.toString()
+                }
+                editable
+                toggleUsual={toggleUsual}
+                setupForDeletion={setupForDeletion}
+                updateRating={updateRating}
+              />
+            );
+          });
+        } else {
+          output = restaurant.current.menu.map((item) => {
+            return (
+              <ItemThumbnail
+                key={item.item._id}
+                itemId={item.item._id}
+                name={item.item.name}
+                img={item.item.image}
+                rating={item.rating}
+                prevRating={item.prevRating}
+                ownership={
+                  user._id.toString() === restaurant.current.owner.toString()
+                }
+                editable
+                toggleUsual={toggleUsual}
+                setupForDeletion={setupForDeletion}
+                updateRating={updateRating}
+              />
+            );
+          });
+        }
       }
     } else {
       output = <h1>{'ERROR'}</h1>;
@@ -302,9 +356,25 @@ const Restaurant = (props) => {
   }
   return (
     <>
-      <ItemForm restaurantId={props.match.params.restaurantId} />
-      <br></br>
-      <Button clicked={logout}>logout</Button>
+      <div className={classes.logoutBtn}>
+        <h3 onClick={props.history.goBack} style={{ cursor: 'pointer' }}>
+          {'BACK'}
+        </h3>
+        <Button clicked={logout}>logout</Button>
+      </div>
+      <h1>{restaurant.current ? restaurant.current.name : null}</h1>
+      <button className={classes.addBtn} onClick={() => setIsPopup(true)}>
+        <div></div>
+      </button>
+      {isPopup ? (
+        <>
+          <Backdrop onClick={() => setIsPopup(false)} />
+          <div className={classes.popup}>
+            <ItemForm restaurantId={props.match.params.restaurantId} />
+          </div>
+        </>
+      ) : null}
+
       <Menu output={output} updatesFinished={updatesFinished} />
     </>
   );

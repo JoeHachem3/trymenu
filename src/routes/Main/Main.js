@@ -6,9 +6,17 @@ import { useStore } from '../../store/store';
 
 const Main = (props) => {
   const { token } = useStore()[0];
+
   useEffect(() => {
     if (!token) props.history.replace('/');
   }, [token, props.history]);
+
+  useEffect(() => {
+    if (!token) props.history.replace('/');
+    else {
+    }
+  }, [token, props.history]);
+
   return (
     <main className={classes.Main}>
       <RestaurantForm goTo={props.history.push} />

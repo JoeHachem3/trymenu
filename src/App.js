@@ -37,10 +37,9 @@ const App = () => {
         dispatch(actions.UPDATE_RESTAURANTS, restaurants);
       })
       .catch((err) => console.log(err));
-
     const userId = localStorage.getItem('userId');
 
-    if (userId)
+    if (userId) {
       axios
         .get(`${apiEndPoint}/users/${userId}`, {
           headers: {
@@ -51,6 +50,23 @@ const App = () => {
           dispatch(actions.USER_LOGGED_IN, res.data);
         })
         .catch((err) => console.log(err));
+
+      axios
+        .post(
+          `${apiEndPoint}/users/cf-items`,
+          { restaurantId: null },
+          {
+            headers: {
+              Authorization: 'bearer ' + localStorage.getItem('tokenId'),
+            },
+          },
+        )
+        .then((res) => {
+          console.log(res);
+          dispatch(actions.SET_RECOMMENDED_ITEMS, res.data.recommendedItems[0]);
+        })
+        .catch((err) => console.log(err));
+    }
   }, [dispatch]);
 
   return (

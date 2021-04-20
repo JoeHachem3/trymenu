@@ -1,0 +1,57 @@
+.addBtn {
+  position: fixed;
+  z-index: 2;
+  border-radius: 50%;
+  background-color: var(--color-red);
+  width: 100px;
+  height: 100px;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  border: 0;
+  box-shadow: var(--shadow);
+  bottom: 0;
+  right: 0;
+  cursor: pointer;
+  transition: 0.1s ease-in-out;
+}
+.addBtn:hover {
+  transform: scale(1.03);
+}
+
+.addBtn div {
+  width: 40px;
+  height: 2px;
+  background-color: white;
+  position: relative;
+}
+
+.addBtn div::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: white;
+  transform: rotateZ(90deg);
+}
+
+.popup {
+  position: fixed;
+  z-index: 101;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.logoutBtn {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  position: fixed;
+  width: fit-content;
+  right: 1rem;
+  top: 1rem;
+  z-index: 10;
+}
