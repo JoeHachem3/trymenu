@@ -296,7 +296,25 @@ const Landing = () => {
     // loading = <IconFull loading />;
   }
   if (error) {
-    errorMessage = <p className={classes.errorMsg}>{'error'}</p>;
+    if (error.status === 500) {
+      errorMessage = (
+        <p className={classes.errorMsg}>
+          {'oops... something went wrong, please try again later'}
+        </p>
+      );
+    } else if (error.status === 401) {
+      errorMessage = (
+        <p className={classes.errorMsg}>
+          {'Make sure both your email and password are correct'}
+        </p>
+      );
+    } else if (error.status === 409) {
+      errorMessage = (
+        <p className={classes.errorMsg}>
+          {'Looks like this username or email already exists'}
+        </p>
+      );
+    }
   }
 
   return (
