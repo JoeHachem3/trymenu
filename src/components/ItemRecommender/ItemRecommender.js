@@ -18,7 +18,7 @@ const ItemRecommender = () => {
         },
       )
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         setRecommendedItems(res.data.recommendedItems[1]);
       })
       .catch((err) => console.log(err));

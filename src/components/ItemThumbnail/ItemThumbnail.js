@@ -18,7 +18,7 @@ const ItemThumbnail = (props) => {
   const classNames = [classes.ItemThumbnail];
   let tmpRating = rating;
 
-  console.log(props.recommended);
+  // console.log(props.recommended);
   if (props.recommended) {
     classNames.push(classes.recommended);
     itemState = 'Recommended';

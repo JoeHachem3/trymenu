@@ -32,14 +32,14 @@ const App = () => {
     axios
       .get(apiEndPoint + '/restaurants')
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         const restaurants = res.data.response.restaurants;
         dispatch(actions.UPDATE_RESTAURANTS, restaurants);
       })
       .catch((err) => console.log(err));
-    const userId = localStorage.getItem('userId');
 
-    if (userId) {
+    const userId = localStorage.getItem('userId');
+    if (userId != null) {
       axios
         .get(`${apiEndPoint}/users/${userId}`, {
           headers: {
@@ -62,7 +62,7 @@ const App = () => {
           },
         )
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           dispatch(actions.SET_RECOMMENDED_ITEMS, res.data.recommendedItems[0]);
         })
         .catch((err) => console.log(err));

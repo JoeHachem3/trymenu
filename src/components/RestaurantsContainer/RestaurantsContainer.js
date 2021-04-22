@@ -22,7 +22,7 @@ const RestaurantsContainer = (props) => {
           (resto) => resto._id !== restaurantId,
         );
         dispatch(actions.UPDATE_RESTAURANTS, updatedRestaurants);
-        console.log(res);
+        // console.log(res);
       })
       .catch((err) => console.log(err));
   };

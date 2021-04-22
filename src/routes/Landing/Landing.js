@@ -177,7 +177,7 @@ const Landing = () => {
     axios
       .post(`${apiEndPoint}/users/${type}`, form)
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         localStorage.setItem('tokenId', res.data.token);
         localStorage.setItem('expiresIn', res.data.expiresIn);
         localStorage.setItem('userId', res.data.user._id);
@@ -194,7 +194,7 @@ const Landing = () => {
             },
           )
           .then((res) => {
-            console.log(res);
+            // console.log(res);
             dispatch(
               actions.SET_RECOMMENDED_ITEMS,
               res.data.recommendedItems[0],
@@ -296,7 +296,6 @@ const Landing = () => {
     // loading = <IconFull loading />;
   }
   if (error) {
-    console.log(error);
     errorMessage = <p className={classes.errorMsg}>{'error'}</p>;
   }
 

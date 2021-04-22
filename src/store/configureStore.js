@@ -58,6 +58,7 @@ const configureStore = () => {
     isLoading: false,
     token: localStorage.getItem('tokenId') !== null,
     recommendedItems: null,
+    user: null,
   });
 };
 

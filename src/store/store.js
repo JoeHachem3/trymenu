@@ -10,7 +10,7 @@ export const useStore = () => {
   const dispatch = useCallback((action, payload = null) => {
     const newState = actions[action](globalState, payload);
     globalState = { ...globalState, ...newState };
-    console.log(globalState);
+    // console.log(globalState);
     for (const listener of listeners) {
       listener(globalState);
     }
@@ -21,8 +21,8 @@ export const useStore = () => {
 
     return () => {
       listeners = listeners.filter((li) => li !== setState);
-      console.log('LISTENERS');
-      console.log(listeners);
+      // console.log('LISTENERS');
+      // console.log(listeners);
     };
   }, [setState]);
 

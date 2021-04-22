@@ -42,7 +42,7 @@ const Restaurant = (props) => {
             },
           })
           .then((res) => {
-            console.log(res);
+            // console.log(res);
             res.data.items.forEach((item) => {
               if (item.rating !== 0) {
                 ratedItems.current.push({
@@ -198,7 +198,7 @@ const Restaurant = (props) => {
                 });
 
                 dispatch(actions.UPDATE_RESTAURANTS, updatedRestaurants);
-                console.log(result);
+                // console.log(result);
               })
               .catch((err) => console.log(err));
           })
@@ -271,7 +271,7 @@ const Restaurant = (props) => {
           });
           dispatch(actions.UPDATE_USER_RESTAURANTS, res.data.restaurants);
           dispatch(actions.UPDATE_RESTAURANTS, updatedRestaurants);
-          console.log(res);
+          // console.log(res);
         })
         .catch((err) => console.log(err));
     }
@@ -336,6 +336,7 @@ const Restaurant = (props) => {
                 rating={item.rating}
                 prevRating={item.prevRating}
                 ownership={
+                  user &&
                   user._id.toString() === restaurant.current.owner.toString()
                 }
                 editable

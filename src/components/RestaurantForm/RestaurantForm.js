@@ -197,7 +197,7 @@ const RestaurantForm = React.memo((props) => {
         setFormState(updatedForm);
         setIsFormValid(false);
         props.goTo('/restaurants/' + res.data.restaurant._id);
-        console.log(res);
+        // console.log(res);
       })
       .catch((err) => {
         console.log(err);
