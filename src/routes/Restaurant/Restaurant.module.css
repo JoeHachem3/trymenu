@@ -19,6 +19,10 @@
   transform: scale(1.03);
 }
 
+.modal {
+  padding: 20px;
+}
+
 .addBtn div {
   width: 40px;
   height: 2px;
@@ -46,12 +50,12 @@
 }
 
 .logoutBtn {
-  display: flex;
+  /* display: flex;
   gap: 1rem;
   align-items: center;
   position: fixed;
   width: fit-content;
   right: 1rem;
   top: 1rem;
-  z-index: 10;
+  z-index: 10; */
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { apiEndPoint } from '../../utils/common';
 import RestaurantThumbnail from './RestaurantThumbnail/RestaurantThumbnail';
-// import ItemRecommender from '../ItemRecommender/ItemRecommender';
+import ItemRecommender from '../ItemRecommender/ItemRecommender';
 import Button from '../UI/Button/Button';
 import { useStore } from '../../store/store';
 import { actions } from '../../store/configureStore';
@@ -55,10 +55,10 @@ const RestaurantsContainer = (props) => {
   return (
     <section className={classes.Restaurants}>
       {restaus}
-      <div className={classes.logoutBtn}>
+      {/* <div className={classes.logoutBtn}>
         <Button clicked={logout}>logout</Button>
-      </div>
-      {/* <ItemRecommender /> */}
+      </div> */}
+      <ItemRecommender />
     </section>
   );
 };

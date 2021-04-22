@@ -1,3 +1,7 @@
 .Main {
   display: grid;
 }
+
+.modal {
+  padding: 20px
+}

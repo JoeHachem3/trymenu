@@ -1,23 +1,72 @@
 .RestaurantThumbnail {
-  width: calc(25% - 40px);
-  border-radius: 5px;
-  display: grid;
-  margin: 20px;
+  width: calc(20% - 30px);
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  margin: 15px;
+  background-color: var(--color-red);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  transition: var(--transition-02);
 }
 
-.RestaurantThumbnail img {
+.RestaurantThumbnail:hover {
+  transform: var(--scale-hover);
+}
+
+.RestaurantThumbnail:active {
+  transform: var(--scale-active);
+}
+
+.imagediv {
+  position: relative;
   width: 100%;
-  grid-column: 1;
-  grid-row: 1;
+  border-radius: 19px;
+  background-color: var(--color-white);
+  overflow: hidden;
+  /* border: 10px solid white; */
+  box-shadow: var(--shadow);
+}
+
+.img {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  object-fit: cover;
+}
+
+.imagediv::after { /* to clear float */
+  content: "";
+  display: block;
+  padding-bottom: 100%;
 }
 
 .RestaurantBar {
   width: 100%;
-  height: 1.5rem;
-  background-color: var(--color-red);
-  grid-column: 1;
-  grid-row: 1;
-  align-self: end;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 18px 20px;
+}
+
+.title {
+  color: var(--color-white);
+  font-size: 18px;
+  line-height: 18px;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+.subtitle {
+  color: var(--color-white);
+  font-size: 15px;
+  line-height: 15px;
+  margin-top: 8px;
 }
 
 @media (max-width: 1250px) {

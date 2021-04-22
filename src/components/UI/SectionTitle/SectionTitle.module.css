@@ -1,0 +1,22 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 40px;
+}
+
+.title {
+  font-size: 2em;
+  font-weight: 900;
+  color: var(--color-text);
+  text-transform: uppercase;
+}
+
+.back {
+  font-size: 2em;
+  font-weight: 700;
+  color: var(--color-red);
+  text-transform: capitalize;
+  cursor: pointer;
+}

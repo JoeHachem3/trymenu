@@ -1,0 +1,29 @@
+.SocialButton {
+    width: 40px;
+    height: 40px;
+    overflow: hidden;
+    border-radius: 20px;
+    text-align: center;
+    background-color: var(--color-red);
+    display: inline-block;
+    transition: var(--transition-02);
+}
+
+.SocialButton img{
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    user-select: none;
+	pointer-events: none;
+}
+
+.SocialButton:hover {
+    cursor: pointer;
+    background-color: var(--color-yellow);
+    transform: var(--scale-hover)
+}
+
+.SocialButton:active {
+    cursor: pointer;
+    transform: var(--scale-active)
+}

@@ -10,6 +10,10 @@ import Spinner from '../../components/UI/Spinner/Spinner';
 import Button from '../../components/UI/Button/Button';
 import Backdrop from '../../components/UI/Backdrop/Backdrop';
 import classes from './Restaurant.module.css';
+import Footer from '../../components/navigation/Footer/Footer';
+import Header from '../../components/navigation/Header/Header';
+import SectionTitle from '../../components/UI/SectionTitle/SectionTitle';
+import Container from '../../hoc/Container/Container';
 
 const Restaurant = (props) => {
   const [
@@ -356,13 +360,9 @@ const Restaurant = (props) => {
   }
   return (
     <>
-      <div className={classes.logoutBtn}>
-        <h3 onClick={props.history.goBack} style={{ cursor: 'pointer' }}>
-          {'BACK'}
-        </h3>
-        <Button clicked={logout}>logout</Button>
-      </div>
-      <h1>{restaurant.current ? restaurant.current.name : null}</h1>
+        <Header onClick={props.history.goBack}/>
+        <Container>
+        <SectionTitle label={restaurant?.current?.name} onBack={props.history.goBack}/>
       <button className={classes.addBtn} onClick={() => setIsPopup(true)}>
         <div></div>
       </button>
@@ -376,6 +376,15 @@ const Restaurant = (props) => {
       ) : null}
 
       <Menu output={output} updatesFinished={updatesFinished} />
+        </Container>
+      <Footer 
+          actionLabel={`Help us populate ${restaurant?.current?.name} with menu items (Beta version)`}
+          actionButtonLabel={"Add Item"}
+          modalChildren={(
+            <div className={classes.modal}>
+              coming soon
+            </div>
+          )}/>
     </>
   );
 };

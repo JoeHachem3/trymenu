@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 64 (93537) - https://sketch.com -->
+    <title>linkedin_icon</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Jules-Design---Website" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="linkedin_icon">
+            <circle id="Oval" fill="#FFFFFF" opacity="0.00916108631" cx="20" cy="20" r="20"></circle>
+            <polygon id="Shape-path" fill="#F8F8F8" fill-rule="nonzero" points="15 15 15 27 11 27 11 15"></polygon>
+            <path d="M15,10.9993086 C15,12.1107014 14.227877,13 12.9881065,13 L12.9653844,13 C11.7716969,13 11,12.1107014 11,10.9993086 C11,9.86440812 11.7952,9 13.0115385,9 C14.227877,9 14.9769229,9.86440812 15,10.9993086 Z" id="Shape-path" fill="#F8F8F8" fill-rule="nonzero"></path>
+            <path d="M29,20.2772889 L28.999843,26.9996888 L25.0692619,26.9996888 L25.0692619,20.7271401 C25.0692619,19.1516104 24.5004612,18.076512 23.0775174,18.076512 C21.991568,18.076512 21.3447396,18.8012852 21.0606532,19.5013131 C20.9567212,19.7521902 20.9312091,20.1017372 20.9312091,20.4521402 L20.9312091,27 L17,27 C17,27 17.0518091,16.3757773 17,15.2756224 L20.9312091,15.2756224 L20.9312091,16.9362821 C21.4529107,16.1379733 22.3872793,15 24.4742426,15 C27.0608495,15 29,16.6760672 29,20.2772889 Z" id="Shape-path" fill="#F8F8F8" fill-rule="nonzero"></path>
+        </g>
+    </g>
+</svg>

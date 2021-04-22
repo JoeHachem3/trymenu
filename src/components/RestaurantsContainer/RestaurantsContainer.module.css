@@ -1,14 +1,15 @@
 .Restaurants {
   display: flex;
   flex-wrap: wrap;
+  margin: -15px;
 }
 
 .logoutBtn {
-  display: flex;
+  /* display: flex;
   gap: 1rem;
   align-items: center;
   position: absolute;
   width: fit-content;
   right: 1rem;
-  top: 1rem;
+  top: 1rem; */
 }
