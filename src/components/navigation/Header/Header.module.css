@@ -1,109 +1,115 @@
-.Header{
-    color: var(--color-white);
-    /* margin-top: 100px; */
-    background-color: var(--color-red);
-    padding: 20px;
-    margin-bottom: 60px;
+.Header {
+  color: var(--color-white);
+  /* margin-top: 100px; */
+  background-color: var(--color-red);
+  padding: 20px;
+  margin-bottom: 60px;
 }
 
 .pointer {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .row {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
 .logo {
-
 }
 
 .rightContainer {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .profileContainer {
-    background-color: var(--color-gray);
-    height: 46px;
-    margin-left: 10px;
-    border-radius: 46px;
-    display: flex;
-    align-items: center;
+  background-color: var(--color-gray);
+  height: 46px;
+  margin-left: 10px;
+  border-radius: 46px;
+  display: flex;
+  align-items: center;
 }
 .profileLabel {
-    padding-right: 16px;
-    padding-left: 30px;
-    font-weight: bold;
-    font-size: 14px;
-    line-height: 14px;
+  padding-right: 16px;
+  padding-left: 30px;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 14px;
 }
 .profilePic {
-    height: 34px;
-    width: 34px;
-    border-radius: 34px;
-    margin: 6px;
-    background-color: var(--color-white);
+  height: 34px;
+  width: 34px;
+  border-radius: 34px;
+  margin: 6px;
+  background-color: var(--color-white);
 }
 
 .TopShape {
-    height: 40px;
-    width: 100%;
-    background-image: url('../../../assets/images/top_footer.svg');
-    /* background-color: var(--color-gray); */
-    background-position: top;
-    background-repeat: no-repeat;
-    background-size: cover;
+  height: 40px;
+  width: 100%;
+  background-image: url('../../../assets/images/top_footer.svg');
+  /* background-color: var(--color-gray); */
+  background-position: top;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.logoutbtn {
+  padding: 0;
 }
 
 @media (max-width: 800px) {
-    .Footer{
-        margin-top: 80px;
-    }
-    .FooterMain {
-        padding: 0 24px 20px 24px;
-        flex-wrap: wrap;
-    }
-    .FooterMainItem {
-        width: 50%;
-        margin-bottom: 10px;
-    }
-    .FooterMainItem:nth-child(3) {
-        width: 100%;
-        margin-left: 0;
-        text-align: center;
-    }
-    .FooterMainItem h2 {
-        margin-bottom: 15px;
-    }
-    .FooterMainItem li {
-        margin-bottom: 10px;
-    }
-    .FooterMainItem p {
-        margin-bottom: 15px;
-    }
-    .FooterSocialList{
-        margin-bottom: 10px;
-    }
-    .FooterSocialList a{
-        margin-right: 10px;
-    }
-    .FooterLegal {
-        padding: 30px 24px 50px 24px;
-    }
+  .Footer {
+    margin-top: 80px;
+  }
+  .FooterMain {
+    padding: 0 24px 20px 24px;
+    flex-wrap: wrap;
+  }
+  .FooterMainItem {
+    width: 50%;
+    margin-bottom: 10px;
+  }
+  .FooterMainItem:nth-child(3) {
+    width: 100%;
+    margin-left: 0;
+    text-align: center;
+  }
+  .FooterMainItem h2 {
+    margin-bottom: 15px;
+  }
+  .FooterMainItem li {
+    margin-bottom: 10px;
+  }
+  .FooterMainItem p {
+    margin-bottom: 15px;
+  }
+  .FooterSocialList {
+    margin-bottom: 10px;
+  }
+  .FooterSocialList a {
+    margin-right: 10px;
+  }
+  .FooterLegal {
+    padding: 30px 24px 50px 24px;
+  }
 }
 
 @media (max-width: 768px) {
-    .Footer{
-        margin-top: 60px;
-    }
+  .Footer {
+    margin-top: 60px;
+  }
 }
 
 @media (max-width: 575px) {
-    .FooterLegal {
-        padding: 30px 24px 70px 24px;
-    }
+  .FooterLegal {
+    padding: 30px 24px 70px 24px;
+  }
+  .logo {
+    width: 100%;
+  }
 }
