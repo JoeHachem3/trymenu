@@ -24,6 +24,7 @@ const Restaurant = (props) => {
   const restaurant = useRef(null);
   const ratedItems = useRef([]);
   const itemsToDelete = useRef([]);
+  const prevRatedItemsNb = useRef(0);
   useEffect(() => {
     if (!token) {
       props.history.push('/');
@@ -141,7 +142,7 @@ const Restaurant = (props) => {
 
   const updatesFinished = () => {
     if (user._id.toString() === restaurant.current.owner.toString()) {
-      if (ratedItems.current.length) {
+      if (ratedItems.current.length !== prevRatedItemsNb.current) {
         axios
           .patch(
             `${apiEndPoint}/users/rating`,
@@ -169,6 +170,8 @@ const Restaurant = (props) => {
               }
             });
             dispatch(actions.UPDATE_USER_RESTAURANTS, res.data.restaurants);
+
+            prevRatedItemsNb.current = ratedItems.current.length;
 
             axios
               .post(
@@ -271,6 +274,7 @@ const Restaurant = (props) => {
               updatedRestaurants.push(resto);
             }
           });
+          prevRatedItemsNb.current = ratedItems.current.length;
           dispatch(actions.UPDATE_USER_RESTAURANTS, res.data.restaurants);
           dispatch(actions.UPDATE_RESTAURANTS, updatedRestaurants);
           // console.log(res);
