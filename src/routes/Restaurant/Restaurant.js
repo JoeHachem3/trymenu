@@ -241,46 +241,49 @@ const Restaurant = (props) => {
           .catch((err) => console.log(err));
       }
     } else {
-      axios
-        .patch(
-          `${apiEndPoint}/users/rating`,
-          {
-            _id: props.match.params.restaurantId,
-            ratedItems: ratedItems.current,
-          },
-          {
-            headers: {
-              Authorization: 'bearer ' + localStorage.getItem('tokenId'),
+      if (ratedItems.current.length !== prevRatedItemsNb.current) {
+        axios
+          .patch(
+            `${apiEndPoint}/users/rating`,
+            {
+              _id: props.match.params.restaurantId,
+              ratedItems: ratedItems.current,
             },
-          },
-        )
-        .then((res) => {
-          res.data.restaurant.ratedItems.forEach((ratedItem) => {
-            for (let i = 0; i < restaurant.current.menu.length; i++) {
-              if (
-                ratedItem._id.toString() === restaurant.current.menu[i].item._id
-              ) {
-                restaurant.current.menu[i].rating = ratedItem.rating;
-                restaurant.current.menu[i].prevRating = ratedItem.prevRating;
-                break;
+            {
+              headers: {
+                Authorization: 'bearer ' + localStorage.getItem('tokenId'),
+              },
+            },
+          )
+          .then((res) => {
+            res.data.restaurant.ratedItems.forEach((ratedItem) => {
+              for (let i = 0; i < restaurant.current.menu.length; i++) {
+                if (
+                  ratedItem._id.toString() ===
+                  restaurant.current.menu[i].item._id
+                ) {
+                  restaurant.current.menu[i].rating = ratedItem.rating;
+                  restaurant.current.menu[i].prevRating = ratedItem.prevRating;
+                  break;
+                }
               }
-            }
-          });
-          const updatedRestaurants = [];
-          restaurants.forEach((resto) => {
-            if (resto._id === props.match.params.restaurantId) {
-              updatedRestaurants.push(restaurant.current);
-            } else {
-              updatedRestaurants.push(resto);
-            }
-          });
-          prevRatedItemsNb.current = ratedItems.current.length;
-          dispatch(actions.UPDATE_USER_RESTAURANTS, res.data.restaurants);
-          dispatch(actions.UPDATE_RESTAURANTS, updatedRestaurants);
-          // console.log(res);
-          props.history.goBack();
-        })
-        .catch((err) => console.log(err));
+            });
+            const updatedRestaurants = [];
+            restaurants.forEach((resto) => {
+              if (resto._id === props.match.params.restaurantId) {
+                updatedRestaurants.push(restaurant.current);
+              } else {
+                updatedRestaurants.push(resto);
+              }
+            });
+            prevRatedItemsNb.current = ratedItems.current.length;
+            dispatch(actions.UPDATE_USER_RESTAURANTS, res.data.restaurants);
+            dispatch(actions.UPDATE_RESTAURANTS, updatedRestaurants);
+            // console.log(res);
+            props.history.goBack();
+          })
+          .catch((err) => console.log(err));
+      }
     }
   };
 
