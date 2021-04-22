@@ -50,6 +50,7 @@ const ItemForm = (props) => {
       elementConfig: {
         type: 'file',
         placeholder: 'Image',
+        accept: '.png, .jpg',
       },
       value: '',
       defaultValue: '',

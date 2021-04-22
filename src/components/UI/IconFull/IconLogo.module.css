@@ -1,0 +1,61 @@
+@keyframes logoAnimation {
+  0% {
+    color: transparent;
+    margin-right: -10px;
+  }
+  60% {
+    color: var(--color-red);
+    margin-right: -10px;
+  }
+  90% {
+    color: var(--color-red);
+    margin-right: -10px;
+  }
+  100% {
+    color: transparent;
+    margin-right: -40px;
+  }
+}
+
+@keyframes loading {
+  0% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 0.8;
+  }
+}
+
+.eu {
+  display: inline-block;
+  width: 0;
+  color: transparent;
+  /* animation: logoAnimation forwards ease-in-out; */
+  /* animation-duration: 2s; */
+  transition: 0s;
+}
+
+.logo:hover .eu {
+  width: fit-content;
+  margin-right: -10px;
+  color: inherit;
+  transition: 1s;
+}
+
+.loading:hover .eu {
+  margin-right: -5px;
+}
+.new {
+  font-size: bold;
+  color: var(--color-red);
+}
+
+.loading {
+  animation: loading ease-in-out;
+  animation-iteration-count: infinite;
+  animation-duration: 1s;
+  font-size: 1rem;
+}

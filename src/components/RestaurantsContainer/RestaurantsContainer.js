@@ -2,21 +2,13 @@ import React from 'react';
 import axios from 'axios';
 import { apiEndPoint } from '../../utils/common';
 import RestaurantThumbnail from './RestaurantThumbnail/RestaurantThumbnail';
-import ItemRecommender from '../ItemRecommender/ItemRecommender';
-import Button from '../UI/Button/Button';
+// import ItemRecommender from '../ItemRecommender/ItemRecommender';
 import { useStore } from '../../store/store';
 import { actions } from '../../store/configureStore';
 import classes from './RestaurantsContainer.module.css';
 
 const RestaurantsContainer = (props) => {
   const [{ restaurants }, dispatch] = useStore();
-
-  const logout = () => {
-    localStorage.removeItem('expiresIn');
-    localStorage.removeItem('tokenId');
-    localStorage.removeItem('userId');
-    dispatch(actions.LOGOUT);
-  };
 
   const deleteRestaurant = (restaurantId) => {
     axios
@@ -55,10 +47,7 @@ const RestaurantsContainer = (props) => {
   return (
     <section className={classes.Restaurants}>
       {restaus}
-      {/* <div className={classes.logoutBtn}>
-        <Button clicked={logout}>logout</Button>
-      </div> */}
-      <ItemRecommender />
+      {/* <ItemRecommender /> */}
     </section>
   );
 };

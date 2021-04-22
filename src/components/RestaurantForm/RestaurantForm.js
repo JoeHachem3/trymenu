@@ -33,6 +33,7 @@ const RestaurantForm = React.memo((props) => {
       elementConfig: {
         type: 'file',
         placeholder: 'Logo',
+        accept: '.png, .jpg',
       },
       value: '',
       defaultValue: '',

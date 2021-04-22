@@ -8,7 +8,7 @@ import Menu from '../../components/Menu/Menu';
 import ItemThumbnail from '../../components/ItemThumbnail/ItemThumbnail';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import Button from '../../components/UI/Button/Button';
-import Backdrop from '../../components/UI/Backdrop/Backdrop';
+import Modal from '../../components/UI/Modal/Modal';
 import classes from './Restaurant.module.css';
 import Footer from '../../components/navigation/Footer/Footer';
 import Header from '../../components/navigation/Header/Header';
@@ -20,7 +20,7 @@ const Restaurant = (props) => {
     { restaurants, isLoading, error, token, user, recommendedItems },
     dispatch,
   ] = useStore();
-  const [isPopup, setIsPopup] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const restaurant = useRef(null);
   const ratedItems = useRef([]);
   const itemsToDelete = useRef([]);
@@ -277,13 +277,6 @@ const Restaurant = (props) => {
     }
   };
 
-  const logout = () => {
-    localStorage.removeItem('expiresIn');
-    localStorage.removeItem('tokenId');
-    localStorage.removeItem('userId');
-    dispatch(actions.LOGOUT);
-  };
-
   let output = <Spinner />;
 
   if (!isLoading && restaurant.current && token) {
@@ -360,31 +353,40 @@ const Restaurant = (props) => {
   }
   return (
     <>
-        <Header onClick={props.history.goBack}/>
-        <Container>
-        <SectionTitle label={restaurant?.current?.name} onBack={props.history.goBack}/>
-      <button className={classes.addBtn} onClick={() => setIsPopup(true)}>
-        <div></div>
-      </button>
-      {isPopup ? (
-        <>
-          <Backdrop onClick={() => setIsPopup(false)} />
-          <div className={classes.popup}>
+      {showModal ? (
+        <Modal
+          modalClosed={() => {
+            setShowModal(false);
+          }}
+        >
+          <div className={classes.modal}>
             <ItemForm restaurantId={props.match.params.restaurantId} />
           </div>
-        </>
+        </Modal>
       ) : null}
+      <Header onClick={props.history.goBack} />
+      <Container>
+        <section className={classes.restaurantItems}>
+          <SectionTitle
+            label={restaurant?.current?.name}
+            onBack={props.history.goBack}
+          />
 
-      <Menu output={output} updatesFinished={updatesFinished} />
-        </Container>
-      <Footer 
-          actionLabel={`Help us populate ${restaurant?.current?.name} with menu items (Beta version)`}
-          actionButtonLabel={"Add Item"}
-          modalChildren={(
-            <div className={classes.modal}>
-              coming soon
-            </div>
-          )}/>
+          <Menu output={output} updatesFinished={updatesFinished} />
+        </section>
+      </Container>
+      <Button className={classes.addBtn} clicked={() => setShowModal(true)}>
+        <div></div>
+      </Button>
+      <Footer
+        actionLabel={`Help us populate ${restaurant?.current?.name} with menu items (Beta version)`}
+        actionButtonLabel={'Add Item'}
+        modalChildren={
+          <div className={classes.modal}>
+            <ItemForm restaurantId={props.match.params.restaurantId} />
+          </div>
+        }
+      />
     </>
   );
 };

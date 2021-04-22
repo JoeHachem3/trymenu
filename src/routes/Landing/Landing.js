@@ -210,6 +210,7 @@ const Landing = () => {
 
   const loginElementsArray = [];
   let form = null;
+  let loading = null;
   if (token) {
     return <Redirect to='/main' />;
   }
@@ -291,11 +292,12 @@ const Landing = () => {
     );
   }
   if (isLoading) {
-    form = <Spinner className={classes.Spinner} />;
+    loading = <Spinner className={classes.Spinner} />;
+    // loading = <IconFull loading />;
   }
   if (error) {
     console.log(error);
-    errorMessage = <p className='error'>{'error'}</p>;
+    errorMessage = <p className={classes.errorMsg}>{'error'}</p>;
   }
 
   return (
@@ -304,6 +306,7 @@ const Landing = () => {
         <BackgroundSmall className={classes.BackgroundSmall}>
           <IconFull className={classes.Logo} />
           {form}
+          {loading}
           {errorMessage}
         </BackgroundSmall>
       </div>

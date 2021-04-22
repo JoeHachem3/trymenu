@@ -5,7 +5,7 @@
   flex-direction: column;
   margin: 15px;
   background-color: var(--color-red);
-  overflow: hidden;
+  /* overflow: hidden; */
   box-shadow: var(--shadow);
   cursor: pointer;
   transition: var(--transition-02);
@@ -21,12 +21,13 @@
 
 .imagediv {
   position: relative;
-  width: 100%;
+  width: 93%;
+  align-self: center;
   border-radius: 19px;
   background-color: var(--color-white);
   overflow: hidden;
-  /* border: 10px solid white; */
   box-shadow: var(--shadow);
+  margin-top: -20px;
 }
 
 .img {
@@ -40,8 +41,9 @@
   object-fit: cover;
 }
 
-.imagediv::after { /* to clear float */
-  content: "";
+.imagediv::after {
+  /* to clear float */
+  content: '';
   display: block;
   padding-bottom: 100%;
 }
@@ -52,6 +54,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-top: -10px;
   padding: 18px 20px;
 }
 

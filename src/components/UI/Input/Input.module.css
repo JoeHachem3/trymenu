@@ -1,33 +1,90 @@
-.Input {
-    width: 100%;
-    padding: 10px;
-    box-sizing: border-box;
+.InputElement {
+  display: block;
+  width: 100%;
+  outline: none;
+  border: 0;
+  font: inherit;
+  box-sizing: border-box;
+  border-radius: 3px;
 }
 
-.InputElement {
-    display: block;
-    width: 100%;
-    outline: none;
-    border: 0;
-    font: inherit;
-    box-sizing: border-box;
-    border-radius: 3px;
+input.InputElement {
+  height: 56px;
+  margin-bottom: 10px;
+  /* width: 320px; */
+  max-width: 100%;
+}
+
+input.InputElement:not([type='submit']):not([type='checkbox']) {
+  background-color: var(--color-bg-grey);
+  color: var(--color-gray);
+  font-weight: bold;
+  font-size: 14px;
+  padding: 0 20px;
+}
+
+input.InputElement[type='checkbox'] {
+  margin: 0;
+  margin-right: 10px;
+  margin-bottom: 20px;
+}
+
+select.InputElement {
+  background-color: transparent;
+  color: var(--color-dark-gray);
+  font-weight: 800;
+  font-size: 1.8em;
+  line-height: 1;
+
+  display: block;
+  padding: 10px 0;
+  width: 100%;
+  max-width: 100%; /* useful when width is set to anything other than 100% */
+  box-sizing: border-box;
+  margin: 0;
+  border: 0;
+
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 .InputElement:focus {
-    outline: none;
-    /* background-color: #ccc; */
+  background-color: var(--color-light-grey);
+}
+
+input.InputElement::-webkit-input-placeholder,
+textarea.InputElement::-webkit-input-placeholder {
+  /* Edge */
+  opacity: 0.39;
+  color: var(--color-dark-gray);
+}
+input.InputElement:-ms-input-placeholder,
+textarea.InputElement:-ms-input-placeholder {
+  /* Internet Explorer 10-11 */
+  opacity: 0.39;
+  color: var(--color-dark-gray);
+}
+input.InputElement::placeholder,
+textarea.InputElement::placeholder {
+  opacity: 0.39;
+  color: var(--color-dark-gray);
+}
+
+.InputElement:focus {
+  outline: none;
+  /* background-color: #ccc; */
 }
 
 .Invalid {
-    /* border: -1px solid var(--color-coral); */
-    background-color: #ffefef !important;
-    /* padding-left: 15px !important; */
-    color: red !important
+  /* border: -1px solid var(--color-coral); */
+  background-color: #ffefef !important;
+  /* padding-left: 15px !important; */
+  color: red !important;
 }
 
 .HR {
-    margin: 0;
-    margin-bottom: 30px;
-    border: 0.5px solid rgba(0,0,0,.1);
+  margin: 0;
+  margin-bottom: 30px;
+  border: 0.5px solid rgba(0, 0, 0, 0.1);
 }

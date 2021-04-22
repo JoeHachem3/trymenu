@@ -142,7 +142,9 @@ const ItemThumbnail = (props) => {
   return (
     <div className={classes.grid}>
       <div className={classNames.join(' ')}>
-        <img src={`${apiEndPoint}/${props.img}`} alt='' />
+        <div className={classes.imagediv}>
+          <img src={`${apiEndPoint}/${props.img}`} alt='' />
+        </div>
         <div className={classes.ItemState}>
           <h4>{itemState}</h4>
         </div>
@@ -151,25 +153,30 @@ const ItemThumbnail = (props) => {
           <div className={classes.UIRating}>{UIRating}</div>
         </div>
       </div>
-
-      {props.toggleUsual ? (
-        <Button
-          clicked={() =>
-            toggleUsual({
-              _id: props.itemId,
-              rating: rating,
-              prevRating: prevRating,
-            })
-          }
-        >
-          {prevRating === null ? 'Usual' : 'Unusual'}
-        </Button>
-      ) : null}
-      {props.ownership ? (
-        <Button clicked={toggleIsDelete}>
-          {isDeleted ? 'Restore' : 'Delete'}
-        </Button>
-      ) : null}
+      <div className={classes.btndiv}>
+        {props.toggleUsual ? (
+          <Button
+            className={classes.smallBtn}
+            clicked={() =>
+              toggleUsual({
+                _id: props.itemId,
+                rating: rating,
+                prevRating: prevRating,
+              })
+            }
+          >
+            {prevRating === null ? 'Usual' : 'Unusual'}
+          </Button>
+        ) : null}
+        {props.ownership ? (
+          <Button
+            clicked={toggleIsDelete}
+            className={[classes.smallBtn, classes.deleteBtn].join(' ')}
+          >
+            {isDeleted ? 'Restore' : 'Delete'}
+          </Button>
+        ) : null}
+      </div>
     </div>
   );
 };
