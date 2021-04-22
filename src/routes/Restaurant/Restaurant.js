@@ -198,6 +198,7 @@ const Restaurant = (props) => {
                 });
 
                 dispatch(actions.UPDATE_RESTAURANTS, updatedRestaurants);
+                props.history.goBack();
                 // console.log(result);
               })
               .catch((err) => console.log(err));
