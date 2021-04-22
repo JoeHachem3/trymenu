@@ -62,4 +62,7 @@ export const capitalizeFirstLetter = (str) => {
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
 
-export const apiEndPoint = 'http://localhost:5000';
+export const apiEndPoint =
+  process.env.NODE_ENV !== 'production'
+    ? 'http://localhost:5000'
+    : 'https://try-menu.herokuapp.com';
