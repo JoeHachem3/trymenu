@@ -12,7 +12,7 @@ import { Redirect } from 'react-router';
 import { actions } from '../../store/configureStore';
 
 const Landing = () => {
-  const [{ isLoading, error, token }, dispatch] = useStore();
+  const [{ isLoading, token }, dispatch] = useStore();
 
   const [state, setState] = useState({
     login: {
@@ -136,6 +136,7 @@ const Landing = () => {
     },
   });
   const [isLogin, setIsLogin] = useState(true);
+  const [error, setError] = useState(null);
 
   let errorMessage = null;
 
@@ -163,6 +164,7 @@ const Landing = () => {
 
   const toggleLogin = () => {
     setIsLogin(!isLogin);
+    setError(null);
   };
 
   const submitHandler = (event) => {
@@ -204,6 +206,7 @@ const Landing = () => {
       })
       .catch((err) => {
         console.log(err);
+        setError(err);
         dispatch(actions.NOT_JOINED_SUCCESSFULLY, err);
       });
   };
@@ -296,25 +299,7 @@ const Landing = () => {
     // loading = <IconFull loading />;
   }
   if (error) {
-    if (error.status === 500) {
-      errorMessage = (
-        <p className={classes.errorMsg}>
-          {'oops... something went wrong, please try again later'}
-        </p>
-      );
-    } else if (error.status === 401) {
-      errorMessage = (
-        <p className={classes.errorMsg}>
-          {'Make sure both your email and password are correct'}
-        </p>
-      );
-    } else if (error.status === 409) {
-      errorMessage = (
-        <p className={classes.errorMsg}>
-          {'Looks like this username or email already exists'}
-        </p>
-      );
-    }
+    errorMessage = <p className={classes.errorMsg}>{'Error...'}</p>;
   }
 
   return (
