@@ -233,6 +233,7 @@ const Restaurant = (props) => {
             });
 
             dispatch(actions.UPDATE_RESTAURANTS, updatedRestaurants);
+            props.history.goBack();
           })
           .catch((err) => console.log(err));
       }
@@ -273,6 +274,7 @@ const Restaurant = (props) => {
           dispatch(actions.UPDATE_USER_RESTAURANTS, res.data.restaurants);
           dispatch(actions.UPDATE_RESTAURANTS, updatedRestaurants);
           // console.log(res);
+          props.history.goBack();
         })
         .catch((err) => console.log(err));
     }
