@@ -1,6 +1,6 @@
 import React from 'react';
 import classes from './Menu.module.css';
-import Button from '../UI/Button/Button';
+import Button from '../UI/Buttons/Button/Button';
 const Menu = (props) => {
   return (
     <div className={classes.Menu}>

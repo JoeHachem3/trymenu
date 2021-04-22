@@ -7,7 +7,7 @@ import ItemForm from '../../components/ItemForm/ItemForm';
 import Menu from '../../components/Menu/Menu';
 import ItemThumbnail from '../../components/ItemThumbnail/ItemThumbnail';
 import Spinner from '../../components/UI/Spinner/Spinner';
-import Button from '../../components/UI/Button/Button';
+import Button from '../../components/UI/Buttons/Button/Button';
 import Modal from '../../components/UI/Modal/Modal';
 import classes from './Restaurant.module.css';
 import Footer from '../../components/navigation/Footer/Footer';

@@ -3,7 +3,7 @@ import axios from 'axios';
 import { apiEndPoint } from '../../utils/common';
 import { checkInputValidity } from '../../utils/common';
 import Input from '../UI/Input/Input';
-import Button from '../UI/Button/Button';
+import Button from '../UI/Buttons/Button/Button';
 import { useStore } from '../../store/store';
 import { actions } from '../../store/configureStore';
 

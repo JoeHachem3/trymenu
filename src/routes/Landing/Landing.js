@@ -6,7 +6,7 @@ import IconFull from '../../components/UI/IconFull/IconFull';
 import BackgroundSmall from '../../components/UI/backgrounds/BackgroundSmall/BackgroundSmall';
 import Input from '../../components/UI/Input/Input';
 import Spinner from '../../components/UI/Spinner/Spinner';
-import Button from '../../components/UI/Button/Button';
+import Button from '../../components/UI/Buttons/Button/Button';
 import { apiEndPoint, checkInputValidity } from '../../utils/common';
 import { Redirect } from 'react-router';
 import { actions } from '../../store/configureStore';

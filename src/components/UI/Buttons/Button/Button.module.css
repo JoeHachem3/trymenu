@@ -1,47 +1,53 @@
 .Button {
-    background-color: var(--color-red);
-    border-radius: 23px;
-    overflow: hidden;
-    padding: 0 48px;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 1.09px;
-    color: var(--color-white);
-    border: none;
-    height: 46px;
-    min-height: 46px;
-    box-sizing: border-box;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: var(--transition-02);
+  background-color: var(--color-red);
+  border-radius: 23px;
+  overflow: hidden;
+  padding: 0 48px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.09px;
+  color: var(--color-white);
+  border: none;
+  height: 46px;
+  min-height: 46px;
+  box-sizing: border-box;
+  text-transform: uppercase;
+  cursor: pointer;
+  width: 100%;
+  transition: var(--transition-02);
+}
+
+.Button:focus {
+  outline: 0;
+  border: 2px solid black;
 }
 
 .Button:hover:not(:disabled) {
-    transform: var(--scale-hover)
+  transform: var(--scale-hover);
 }
 
 .Button:active:not(:disabled) {
-    transform: var(--scale-active)
+  transform: var(--scale-active);
 }
 
 .Button:disabled {
-    background-color: var(--color-gray);
-    cursor: not-allowed;
-    color: rgba(255, 255, 255, 0.5);
+  background-color: var(--color-light-gray);
+  cursor: not-allowed;
+  color: rgba(255, 255, 255, 0.5);
 }
 
 /* .Button:not(:disabled) { */
-    /* animation: enable 0.3s linear; */
+/* animation: enable 0.3s linear; */
 /* } */
 
 @keyframes enable {
-    0% {
-        transform: scale(1);
-    }
-    60% {
-        transform: scale(1.1);
-    }
-    100% {
-        transform: scale(1);
-    }
+  0% {
+    transform: scale(1);
+  }
+  60% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
 }

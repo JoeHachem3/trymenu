@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import classes from './ItemThumbnail.module.css';
 import { apiEndPoint } from '../../utils/common';
-import Button from '../UI/Button/Button';
+import Button from '../UI/Buttons/Button/Button';
 
 const ItemThumbnail = (props) => {
   const [rating, setRating] = useState();
