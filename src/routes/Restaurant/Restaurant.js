@@ -283,7 +283,7 @@ const Restaurant = (props) => {
             props.history.goBack();
           })
           .catch((err) => console.log(err));
-      }
+      } else props.history.goBack();
     }
   };
 
