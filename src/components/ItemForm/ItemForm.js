@@ -126,7 +126,7 @@ const ItemForm = (props) => {
         }
         setFormState(updatedForm);
         setIsFormValid(false);
-        props.setShowModal(false);
+        props.closeModal();
         // console.log(res);
       })
       .catch((err) => {

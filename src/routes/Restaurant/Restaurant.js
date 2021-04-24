@@ -376,7 +376,7 @@ const Restaurant = (props) => {
           <div className={classes.modal}>
             <ItemForm
               restaurantId={props.match.params.restaurantId}
-              setShowModal={setShowModal}
+              closeModal={() => setShowModal(false)}
             />
           </div>
         </Modal>
