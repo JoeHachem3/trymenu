@@ -172,39 +172,42 @@ const Restaurant = (props) => {
             dispatch(actions.UPDATE_USER_RESTAURANTS, res.data.restaurants);
 
             prevRatedItemsNb.current = ratedItems.current.length;
-
-            axios
-              .post(
-                `${apiEndPoint}/items/delete`,
-                { itemsToDelete: itemsToDelete.current },
-                {
-                  headers: {
-                    Authorization: 'bearer ' + localStorage.getItem('tokenId'),
+            if (itemsToDelete.current.length !== 0) {
+              axios
+                .post(
+                  `${apiEndPoint}/items/delete`,
+                  { itemsToDelete: itemsToDelete.current },
+                  {
+                    headers: {
+                      Authorization:
+                        'bearer ' + localStorage.getItem('tokenId'),
+                    },
                   },
-                },
-              )
-              .then((result) => {
-                const menu = restaurant.current.menu.filter(
-                  (item) =>
-                    !itemsToDelete.current.find(
-                      (i) => item.item._id.toString() === i,
-                    ),
-                );
-                restaurant.current.menu = menu;
-                const updatedRestaurants = [];
-                restaurants.forEach((resto) => {
-                  if (resto._id === props.match.params.restaurantId) {
-                    updatedRestaurants.push(restaurant.current);
-                  } else {
-                    updatedRestaurants.push(resto);
-                  }
-                });
+                )
+                .then((result) => {
+                  const menu = restaurant.current.menu.filter(
+                    (item) =>
+                      !itemsToDelete.current.find(
+                        (i) => item.item._id.toString() === i,
+                      ),
+                  );
+                  restaurant.current.menu = menu;
+                  const updatedRestaurants = [];
+                  restaurants.forEach((resto) => {
+                    if (resto._id === props.match.params.restaurantId) {
+                      updatedRestaurants.push(restaurant.current);
+                    } else {
+                      updatedRestaurants.push(resto);
+                    }
+                  });
 
-                dispatch(actions.UPDATE_RESTAURANTS, updatedRestaurants);
-                props.history.goBack();
-                // console.log(result);
-              })
-              .catch((err) => console.log(err));
+                  dispatch(actions.UPDATE_RESTAURANTS, updatedRestaurants);
+                  itemsToDelete.current = [];
+                  props.history.goBack();
+                  // console.log(result);
+                })
+                .catch((err) => console.log(err));
+            }
           })
           .catch((err) => console.log(err));
       } else {
@@ -371,7 +374,10 @@ const Restaurant = (props) => {
           }}
         >
           <div className={classes.modal}>
-            <ItemForm restaurantId={props.match.params.restaurantId} />
+            <ItemForm
+              restaurantId={props.match.params.restaurantId}
+              setShowModal={setShowModal}
+            />
           </div>
         </Modal>
       ) : null}

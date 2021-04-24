@@ -50,7 +50,7 @@ const ItemForm = (props) => {
       elementConfig: {
         type: 'file',
         placeholder: 'Image',
-        accept: '.png, .jpg',
+        accept: '.png, .jpg .jpeg',
       },
       value: '',
       defaultValue: '',
@@ -126,14 +126,13 @@ const ItemForm = (props) => {
         }
         setFormState(updatedForm);
         setIsFormValid(false);
+        props.setShowModal(false);
         // console.log(res);
       })
       .catch((err) => {
         console.log(err);
       });
   };
-
-  console.count('ItemForm');
 
   const elementsArray = [];
   let form = null;

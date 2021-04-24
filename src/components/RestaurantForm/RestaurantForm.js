@@ -33,7 +33,7 @@ const RestaurantForm = React.memo((props) => {
       elementConfig: {
         type: 'file',
         placeholder: 'Logo',
-        accept: '.png, .jpg',
+        accept: '.png, .jpg .jpeg',
       },
       value: '',
       defaultValue: '',
@@ -203,8 +203,6 @@ const RestaurantForm = React.memo((props) => {
         console.log(err);
       });
   };
-
-  console.count('restaurantForm');
 
   const elementsArray = [];
   let form = null;
