@@ -43,6 +43,7 @@ const ItemThumbnail = (props) => {
     } else {
       setRating(rating);
     }
+    props.setEdited();
     props.updateRating(item, rating);
   };
 
@@ -54,6 +55,7 @@ const ItemThumbnail = (props) => {
       setRating(prevRating);
       setPrevRating(null);
     }
+    props.setEdited();
     props.toggleUsual(item);
   };
 

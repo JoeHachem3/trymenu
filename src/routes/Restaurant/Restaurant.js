@@ -24,7 +24,7 @@ const Restaurant = (props) => {
   const restaurant = useRef(null);
   const ratedItems = useRef([]);
   const itemsToDelete = useRef([]);
-  const prevRatedItemsNb = useRef(0);
+  const isRatedItemsEdited = useRef(false);
   useEffect(() => {
     if (!token) {
       props.history.push('/');
@@ -142,7 +142,7 @@ const Restaurant = (props) => {
 
   const updatesFinished = () => {
     if (user._id.toString() === restaurant.current.owner.toString()) {
-      if (ratedItems.current.length !== prevRatedItemsNb.current) {
+      if (isRatedItemsEdited.current) {
         axios
           .patch(
             `${apiEndPoint}/users/rating`,
@@ -171,7 +171,7 @@ const Restaurant = (props) => {
             });
             dispatch(actions.UPDATE_USER_RESTAURANTS, res.data.restaurants);
 
-            prevRatedItemsNb.current = ratedItems.current.length;
+            isRatedItemsEdited.current = false;
             if (itemsToDelete.current.length !== 0) {
               axios
                 .post(
@@ -211,40 +211,42 @@ const Restaurant = (props) => {
           })
           .catch((err) => console.log(err));
       } else {
-        axios
-          .post(
-            `${apiEndPoint}/items/delete`,
-            { itemsToDelete: itemsToDelete.current },
-            {
-              headers: {
-                Authorization: 'bearer ' + localStorage.getItem('tokenId'),
+        if (itemsToDelete.current.length !== 0) {
+          axios
+            .post(
+              `${apiEndPoint}/items/delete`,
+              { itemsToDelete: itemsToDelete.current },
+              {
+                headers: {
+                  Authorization: 'bearer ' + localStorage.getItem('tokenId'),
+                },
               },
-            },
-          )
-          .then((result) => {
-            const menu = restaurant.current.menu.filter(
-              (item) =>
-                !itemsToDelete.current.find(
-                  (i) => item.item._id.toString() === i,
-                ),
-            );
-            restaurant.current.menu = menu;
-            const updatedRestaurants = [];
-            restaurants.forEach((resto) => {
-              if (resto._id === props.match.params.restaurantId) {
-                updatedRestaurants.push(restaurant.current);
-              } else {
-                updatedRestaurants.push(resto);
-              }
-            });
+            )
+            .then((result) => {
+              const menu = restaurant.current.menu.filter(
+                (item) =>
+                  !itemsToDelete.current.find(
+                    (i) => item.item._id.toString() === i,
+                  ),
+              );
+              restaurant.current.menu = menu;
+              const updatedRestaurants = [];
+              restaurants.forEach((resto) => {
+                if (resto._id === props.match.params.restaurantId) {
+                  updatedRestaurants.push(restaurant.current);
+                } else {
+                  updatedRestaurants.push(resto);
+                }
+              });
 
-            dispatch(actions.UPDATE_RESTAURANTS, updatedRestaurants);
-            props.history.goBack();
-          })
-          .catch((err) => console.log(err));
+              dispatch(actions.UPDATE_RESTAURANTS, updatedRestaurants);
+              props.history.goBack();
+            })
+            .catch((err) => console.log(err));
+        }
       }
     } else {
-      if (ratedItems.current.length !== prevRatedItemsNb.current) {
+      if (isRatedItemsEdited.current) {
         axios
           .patch(
             `${apiEndPoint}/users/rating`,
@@ -279,7 +281,7 @@ const Restaurant = (props) => {
                 updatedRestaurants.push(resto);
               }
             });
-            prevRatedItemsNb.current = ratedItems.current.length;
+            isRatedItemsEdited.current = false;
             dispatch(actions.UPDATE_USER_RESTAURANTS, res.data.restaurants);
             dispatch(actions.UPDATE_RESTAURANTS, updatedRestaurants);
             // console.log(res);
@@ -288,6 +290,10 @@ const Restaurant = (props) => {
           .catch((err) => console.log(err));
       } else props.history.goBack();
     }
+  };
+
+  const setEdited = () => {
+    isRatedItemsEdited.current = true;
   };
 
   let output = <Spinner />;
@@ -332,6 +338,7 @@ const Restaurant = (props) => {
                   user._id.toString() === restaurant.current.owner.toString()
                 }
                 editable
+                setEdited={setEdited}
                 toggleUsual={toggleUsual}
                 setupForDeletion={setupForDeletion}
                 updateRating={updateRating}
@@ -352,6 +359,7 @@ const Restaurant = (props) => {
                   user &&
                   user._id.toString() === restaurant.current.owner.toString()
                 }
+                setEdited={setEdited}
                 editable
                 toggleUsual={toggleUsual}
                 setupForDeletion={setupForDeletion}
