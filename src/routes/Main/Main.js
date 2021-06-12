@@ -26,7 +26,7 @@ const Main = (props) => {
     <Header onClick={props.history.goBack}/>
     <Container>
     <main className={classes.Main}>
-      <SectionTitle label={"Restaurants"}/>
+      <SectionTitle label={"Restaurants"} showSearch/>
       <RestaurantsContainer onThumbnailClick={props.history.push} />
     </main>
     </Container>

@@ -18,6 +18,8 @@
   --shadow: 0 10px 20px -10px rgba(0, 0, 0, 0.15),
     0 20px 30px -10px rgba(0, 0, 0, 0.15);
 
+  --shadow-sm: 0 2px 5px 2px rgba(0, 0, 0, 0.15);
+
   /* Border Radiuses */
   --border-radius-lg: 25px;
   --border-radius-md: 20px;

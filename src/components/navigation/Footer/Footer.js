@@ -5,6 +5,7 @@ import Button from '../../UI/Buttons/Button/Button';
 import SocialButton from '../../UI/Buttons/SocialButton/SocialButton';
 import { NavLink } from 'react-router-dom';
 import Modal from '../../UI/Modal/Modal';
+import OnboardingModals from '../OnboardingModals/OnboardingModals'
 
 const Footer = (props) => {
     const [showModal, setShowModal] = useState(false);
@@ -12,7 +13,7 @@ const Footer = (props) => {
         return (
             <>
             <footer className={classes.Footer}>
-                <div className={classes.TopShape} />
+                {/* <div className={classes.TopShape} /> */}
                 <div className={classes.Parent}>
                     <Container>
                         <section className={classes.FooterMain}>
@@ -45,8 +46,8 @@ const Footer = (props) => {
                             </div>
         
                             <div className={classes.FooterMainItem}>
-                            <p>{t(props.actionLabel)}</p>
-                            <Button clicked={() => setShowModal(true)}>{t(props.actionButtonLabel)}</Button>
+                            {/* <p>{t(props.actionLabel)}</p>
+                            <Button clicked={() => setShowModal(true)}>{t(props.actionButtonLabel)}</Button> */}
                             <br /><br /><br />
                             <h2>{t("Social Media")}</h2>
                             <div className={classes.FooterSocialList}>
@@ -68,13 +69,14 @@ const Footer = (props) => {
             </footer>
             {showModal ? (
                 <Modal
-                modalClosed={() => {
-                  setShowModal(false);
-                }}
+                    modalClosed={() => {
+                    setShowModal(false);
+                    }}
                 >
                     {props.modalChildren}
                 </Modal>
             ) : null}
+            <OnboardingModals />
             </>
         );
 }

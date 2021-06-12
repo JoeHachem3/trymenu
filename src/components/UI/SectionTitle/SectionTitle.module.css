@@ -20,3 +20,38 @@
   text-transform: capitalize;
   cursor: pointer;
 }
+
+.container input[type=search]{
+  -moz-appearance: none;/* older firefox */
+  -webkit-appearance: none; /* safari, chrome, edge and ie mobile */
+  appearance: none; /* rest */
+}
+.container input{
+  height: 44px;
+  min-width: 350px;
+  border: 0;
+  border-radius: var(--border-radius-md);
+  font-size: 18px;
+  font-weight: 900;
+  box-sizing: border-box;
+  padding: 0 20px;
+  color: var(--color-dark-gray);
+}
+
+.container input::-webkit-input-placeholder { /* Edge */
+  font-weight: 500;
+  color: var(--color-light-gray);
+}
+.container input:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  font-weight: 500;
+  color: var(--color-light-gray);
+}
+.container input::placeholder {
+  font-weight: 500;
+  color: var(--color-light-gray);
+}
+
+.container input:disabled {
+  background-color: var(--color-lighter-gray);
+  cursor: not-allowed;
+}

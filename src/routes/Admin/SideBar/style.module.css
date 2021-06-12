@@ -1,0 +1,91 @@
+
+  .sidebar {
+    display: flex;
+    height: 100vh;
+    background-color: var(--color-gray);
+    width: 300px;
+    box-sizing: border-box;
+    box-shadow: var(--shadow-small-04);
+    z-index: 100;
+    flex-direction: column;
+    padding: 50px 50px;
+    padding-top: 50px;
+  }
+  
+  .logo {
+    padding-bottom: 50px;
+    margin-bottom: 40px;
+    border-bottom: 2px solid var(--color-light-gray);
+  }
+
+  .menubtninactive {
+    transition: var(--transition-02);
+    width: 100%;
+    padding: 15px 20px;
+    border: none;
+    border-radius: var(--border-radius-xs);
+    font-size: 16px;
+    box-sizing: border-box;
+    text-transform: capitalize;
+    font-weight: 400;
+    text-align: left;
+    color: var(--color-light-gray);
+    background-color: transparent;
+    cursor: pointer;
+    margin: 0;
+  }
+  
+  
+  .logoutbtn {
+    transition: var(--transition-02);
+    width: 100%;
+    padding: 15px 20px;
+    border: none;
+    border-radius: 50px;
+    font-size: 16px;
+    box-sizing: border-box;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: white;
+    background-color: var(--color-red);
+    cursor: pointer;
+    margin: 0;
+    box-shadow: var(--shadow-small-06);
+    margin-top: auto;
+  }
+
+  .updatebtn {
+    transition: var(--transition-02);
+    width: 100%;
+    padding: 15px 20px;
+    border: none;
+    border-radius: var(--border-radius-xs);
+    font-size: 16px;
+    box-sizing: border-box;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: white;
+    background-color: var(--color-black);
+    cursor: pointer;
+    margin: 0;
+    box-shadow: var(--shadow-small-06);
+    margin-top: 15px;
+  }
+
+  
+  .menubtn {
+    transition: var(--transition-02);
+    width: 100%;
+    padding: 15px 20px;
+    border: none;
+    border-radius: var(--border-radius-xs);
+    font-size: 16px;
+    box-sizing: border-box;
+    text-transform: capitalize;
+    font-weight: 600;
+    text-align: left;
+    color: var(--color-white);
+    background-color: transparent;
+    cursor: pointer;
+    margin: 0;
+  }

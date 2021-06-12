@@ -7,6 +7,8 @@ import { apiEndPoint } from './utils/common';
 import { useStore } from './store/store';
 import { actions } from './store/configureStore';
 import Restaurant from './routes/Restaurant/Restaurant';
+import Account from './routes/Account/Account';
+import Admin from './routes/Admin/Admin';
 
 const App = () => {
   const [{ token }, dispatch] = useStore();
@@ -73,6 +75,8 @@ const App = () => {
     <Switch>
       <Route path='/' exact component={Landing} />
       <Route path='/main' exact component={Main} />
+      <Route path='/admin' exact component={Admin} />
+      <Route path='/account' exact component={Account} />
       <Route path='/restaurants/:restaurantId' exact component={Restaurant} />
     </Switch>
   );

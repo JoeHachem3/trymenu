@@ -1,0 +1,99 @@
+.Main {
+  display: grid;
+  gap: 10px;
+}
+
+.modal {
+  padding: 20px;
+}
+
+.Container {
+  display: flex;
+  flex-direction: row;
+  min-height: 60vh;
+}
+
+.leftContainer {
+  margin-left: 24px;
+  padding: 40px;
+  background-color: var(--color-white);
+  box-shadow: var(--shadow);
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.onboardingContainerContent {
+  /* flex: 1; */
+  overflow-y: scroll;
+  max-height: 300px;
+  /* background-color: black; */
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  padding: 0px;
+  margin-top: 15px;
+  padding-top: 0;
+}
+
+.ProfilePic {
+  width: 200px;
+  height: 200px;
+  border-radius: 100px;
+  background-color: var(--color-light-gray);
+  padding: 5px;
+  position: relative;
+}
+
+.pic {
+  width: 100%;
+  height: 100%;
+  border-radius: 100px;
+}
+
+.rightContainer {
+  flex: 1;
+  padding: 30px 40px;
+  background-color: green;
+  background-color: var(--color-white);
+  box-shadow: var(--shadow);
+  border-radius: 20px;
+}
+
+.col2{
+  display: flex;
+  flex-direction: row;
+}
+.InputLabel {
+  width: 100%;
+  display: block;
+  padding: 15px 15px;
+  font-size: 0.9em;
+  font-weight: 800;
+  color: var(--color-text);
+}
+
+.InputInput {
+  width: 100%;
+  height: 50px;
+  margin-top: 10px;
+  border-radius: 5px;
+  border: 0;
+  color: var(--color-text);
+  background-color: var(--color-bg-grey);
+  padding: 0 20px;
+  font-size: 1em;
+}
+
+.btn {
+  margin-top: 40px;
+}
+
+.btn2c {
+  margin-top: auto;
+}
+
+.btn2 {
+  background-color: var(--color-text);
+}
+

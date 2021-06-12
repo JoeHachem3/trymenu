@@ -26,6 +26,9 @@ const Header = (props) => {
                 <img src={Logo} alt='Trymenu logo' className={classes.logo} />
               </a>
               <div className={classes.rightContainer}>
+                <Button className={classes.logoutbtn} clicked={() => window.open('/account',"_self")}>
+                  Account
+                </Button>
                 <Button className={classes.logoutbtn} clicked={logout}>
                   Logout
                 </Button>

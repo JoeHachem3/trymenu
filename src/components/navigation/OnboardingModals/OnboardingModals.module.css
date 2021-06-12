@@ -1,0 +1,173 @@
+.Container {
+    height: 600px;
+    background-color: var(--color-red);
+    padding: 24px;
+    color: var(--color-white);
+    display: flex;
+    flex-direction: column;
+}
+
+.centerPart{
+    flex: 1;
+    display: flex;
+    /* background-color: red; */
+}
+
+.bottomPart{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+.onboardingImageContainer1 {
+    background-image: url('../../../assets/images/onboard/Group12.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size:contain;
+    flex: 1;
+}
+
+.onboardingImageContainer2 {
+    background-image: url('../../../assets/images/onboard/Group14.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size:contain;
+    flex: 1;
+}
+
+.onboardingImageContainer3 {
+    background-image: url('../../../assets/images/onboard/Group15.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size:contain;
+    flex: 1;
+}
+
+.onboardingContainer {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 0 24px;
+    /* background-color: black; */
+}
+
+.cusineContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    padding: 0 15px;
+    border: 2px solid var(--color-white);
+    border-radius: 5px;
+    color: var(--color-white);
+    margin: 7.5px;
+    cursor: pointer;
+    transition: var(--transition-02);
+    /* box-shadow: var(--shadow-sm); */
+}
+
+.cusineContainerSelected {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    padding: 0 15px;
+    border: 2px solid var(--color-white);
+    background-color: var(--color-white);
+    color: var(--color-red);
+    border-radius: 5px;
+    margin: 7.5px;
+    cursor: pointer;
+    transition: var(--transition-02);
+    box-shadow: var(--shadow-sm);
+}
+
+.cusineContainerDark {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    padding: 0 15px;
+    border: 2px solid var(--color-light-gray);
+    border-radius: 5px;
+    color: var(--color-light-gray);
+    margin: 7.5px;
+    cursor: pointer;
+    transition: var(--transition-02);
+    /* box-shadow: var(--shadow-sm); */
+}
+
+.cusineContainerSelectedDark {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    padding: 0 15px;
+    border: 2px solid var(--color-red);
+    background-color: var(--color-red);
+    color: var(--color-white);
+    border-radius: 5px;
+    margin: 7.5px;
+    cursor: pointer;
+    transition: var(--transition-02);
+    box-shadow: var(--shadow-sm);
+}
+
+.cusineLabel {
+    font-size: 16px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.onboardingContainerContent {
+    /* flex: 1; */
+    overflow-y: scroll;
+    /* background-color: black; */
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    padding: 15px;
+    margin-top: 30px;
+    padding-top: 0;
+}
+
+.onboardingContainerTitle {
+    display: block;
+    color: var(--color-white);
+    font-size: 2em;
+    margin-bottom: 10px;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+.onboardingContainerSub {
+    font-size: 1em;
+    display: block;
+}
+
+.nextBTN{
+    width: 200px;
+    background-color: var(--color-gray);
+    margin: 0;
+}
+
+.topPart{
+    display: flex;
+    flex-direction: row;
+    justify-content:flex-end;
+    margin-bottom: 0px;
+}
+
+.XButton {
+    background-color: transparent;
+    border: none;
+    height: 30px;
+}
+
+.XButton:hover {
+    cursor: pointer;
+}
+
+.logo {
+    height: 30px;
+}
