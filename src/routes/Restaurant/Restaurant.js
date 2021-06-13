@@ -1,47 +1,36 @@
-import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react';
 import { actions } from '../../store/configureStore';
 import { useStore } from '../../store/store';
+import * as requests from '../../utils/requests';
 import { apiEndPoint } from '../../utils/common';
 import ItemForm from '../../components/ItemForm/ItemForm';
 import Menu from '../../components/Menu/Menu';
 import ItemThumbnail from '../../components/ItemThumbnail/ItemThumbnail';
 import Spinner from '../../components/UI/Spinner/Spinner';
-import Button from '../../components/UI/Buttons/Button/Button';
-import Modal from '../../components/UI/Modal/Modal';
-import classes from './Restaurant.module.css';
 import Footer from '../../components/navigation/Footer/Footer';
 import Header from '../../components/navigation/Header/Header';
 import SectionTitle from '../../components/UI/SectionTitle/SectionTitle';
 import Container from '../../hoc/Container/Container';
+import ErrorHandler from '../../hoc/ErrorHandler/ErrorHandler';
+import classes from './Restaurant.module.css';
 
 const Restaurant = (props) => {
-  const [
-    { restaurants, isLoading, error, token, user, recommendedItems },
-    dispatch,
-  ] = useStore();
-  const [showModal, setShowModal] = useState(false);
+  const [{ restaurants, token, user, recommendedItems }, dispatch] = useStore();
+
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const restaurant = useRef(null);
   const ratedItems = useRef([]);
-  const itemsToDelete = useRef([]);
   const isRatedItemsEdited = useRef(false);
   useEffect(() => {
-    if (!token) {
-      props.history.push('/');
-      return;
-    }
-    dispatch(actions.IS_LOADING);
+    setIsLoading(true);
     if (restaurants) {
       restaurant.current = restaurants.find(
         (resto) => resto._id === props.match.params.restaurantId,
       );
       if (restaurant.current && !restaurant.current.menu) {
-        axios
-          .get(`${apiEndPoint}/items/${restaurant.current._id}`, {
-            headers: {
-              Authorization: 'bearer ' + localStorage.getItem('tokenId'),
-            },
-          })
+        requests
+          .getRestaurantItems(restaurant.current._id)
           .then((res) => {
             // console.log(res);
             res.data.items.forEach((item) => {
@@ -54,14 +43,14 @@ const Restaurant = (props) => {
               }
             });
             restaurant.current.menu = res.data.items;
-            dispatch(actions.IS_NOT_LOADING);
+            setIsLoading(false);
           })
           .catch((err) => {
             console.log(err);
-            dispatch(actions.IS_ERROR, err);
+            setError({ message: err.message, modal: true });
           });
       } else {
-        dispatch(actions.IS_NOT_LOADING);
+        setIsLoading(false);
       }
     }
   }, [
@@ -130,32 +119,11 @@ const Restaurant = (props) => {
     });
   };
 
-  const setupForDeletion = (itemId, shouldDelete) => {
-    if (shouldDelete) {
-      itemsToDelete.current.push(itemId);
-    } else {
-      itemsToDelete.current = itemsToDelete.current.filter(
-        (id) => id.toString() !== itemId.toString(),
-      );
-    }
-  };
-
   const updatesFinished = () => {
     if (user._id.toString() === restaurant.current.owner.toString()) {
       if (isRatedItemsEdited.current) {
-        axios
-          .patch(
-            `${apiEndPoint}/users/rating`,
-            {
-              _id: props.match.params.restaurantId,
-              ratedItems: ratedItems.current,
-            },
-            {
-              headers: {
-                Authorization: 'bearer ' + localStorage.getItem('tokenId'),
-              },
-            },
-          )
+        requests
+          .updateRatings(props.match.params.restaurantId, ratedItems.current)
           .then((res) => {
             res.data.restaurant.ratedItems.forEach((ratedItem) => {
               for (let i = 0; i < restaurant.current.menu.length; i++) {
@@ -170,125 +138,13 @@ const Restaurant = (props) => {
               }
             });
             dispatch(actions.UPDATE_USER_RESTAURANTS, res.data.restaurants);
-
             isRatedItemsEdited.current = false;
-            if (itemsToDelete.current.length !== 0) {
-              axios
-                .post(
-                  `${apiEndPoint}/items/delete`,
-                  { itemsToDelete: itemsToDelete.current },
-                  {
-                    headers: {
-                      Authorization:
-                        'bearer ' + localStorage.getItem('tokenId'),
-                    },
-                  },
-                )
-                .then((result) => {
-                  const menu = restaurant.current.menu.filter(
-                    (item) =>
-                      !itemsToDelete.current.find(
-                        (i) => item.item._id.toString() === i,
-                      ),
-                  );
-                  restaurant.current.menu = menu;
-                  const updatedRestaurants = [];
-                  restaurants.forEach((resto) => {
-                    if (resto._id === props.match.params.restaurantId) {
-                      updatedRestaurants.push(restaurant.current);
-                    } else {
-                      updatedRestaurants.push(resto);
-                    }
-                  });
-
-                  dispatch(actions.UPDATE_RESTAURANTS, updatedRestaurants);
-                  itemsToDelete.current = [];
-                  props.history.goBack();
-                  // console.log(result);
-                })
-                .catch((err) => console.log(err));
-            }
-          })
-          .catch((err) => console.log(err));
-      } else {
-        if (itemsToDelete.current.length !== 0) {
-          axios
-            .post(
-              `${apiEndPoint}/items/delete`,
-              { itemsToDelete: itemsToDelete.current },
-              {
-                headers: {
-                  Authorization: 'bearer ' + localStorage.getItem('tokenId'),
-                },
-              },
-            )
-            .then((result) => {
-              const menu = restaurant.current.menu.filter(
-                (item) =>
-                  !itemsToDelete.current.find(
-                    (i) => item.item._id.toString() === i,
-                  ),
-              );
-              restaurant.current.menu = menu;
-              const updatedRestaurants = [];
-              restaurants.forEach((resto) => {
-                if (resto._id === props.match.params.restaurantId) {
-                  updatedRestaurants.push(restaurant.current);
-                } else {
-                  updatedRestaurants.push(resto);
-                }
-              });
-
-              dispatch(actions.UPDATE_RESTAURANTS, updatedRestaurants);
-              props.history.goBack();
-            })
-            .catch((err) => console.log(err));
-        } else props.history.goBack();
-      }
-    } else {
-      if (isRatedItemsEdited.current) {
-        axios
-          .patch(
-            `${apiEndPoint}/users/rating`,
-            {
-              _id: props.match.params.restaurantId,
-              ratedItems: ratedItems.current,
-            },
-            {
-              headers: {
-                Authorization: 'bearer ' + localStorage.getItem('tokenId'),
-              },
-            },
-          )
-          .then((res) => {
-            res.data.restaurant.ratedItems.forEach((ratedItem) => {
-              for (let i = 0; i < restaurant.current.menu.length; i++) {
-                if (
-                  ratedItem._id.toString() ===
-                  restaurant.current.menu[i].item._id
-                ) {
-                  restaurant.current.menu[i].rating = ratedItem.rating;
-                  restaurant.current.menu[i].prevRating = ratedItem.prevRating;
-                  break;
-                }
-              }
-            });
-            const updatedRestaurants = [];
-            restaurants.forEach((resto) => {
-              if (resto._id === props.match.params.restaurantId) {
-                updatedRestaurants.push(restaurant.current);
-              } else {
-                updatedRestaurants.push(resto);
-              }
-            });
-            isRatedItemsEdited.current = false;
-            dispatch(actions.UPDATE_USER_RESTAURANTS, res.data.restaurants);
-            dispatch(actions.UPDATE_RESTAURANTS, updatedRestaurants);
-            // console.log(res);
             props.history.goBack();
           })
           .catch((err) => console.log(err));
-      } else props.history.goBack();
+      } else {
+        props.history.goBack();
+      }
     }
   };
 
@@ -334,13 +190,10 @@ const Restaurant = (props) => {
                 rating={item.rating}
                 prevRating={item.prevRating}
                 recommended={recommended}
-                ownership={
-                  user._id.toString() === restaurant.current.owner.toString()
-                }
+                isDeleted={item.item.deletedAt}
                 editable
                 setEdited={setEdited}
                 toggleUsual={toggleUsual}
-                setupForDeletion={setupForDeletion}
                 updateRating={updateRating}
               />
             );
@@ -355,14 +208,10 @@ const Restaurant = (props) => {
                 img={item.item.image}
                 rating={item.rating}
                 prevRating={item.prevRating}
-                ownership={
-                  user &&
-                  user._id.toString() === restaurant.current.owner.toString()
-                }
+                isDeleted={item.item.deletedAt}
                 setEdited={setEdited}
                 editable
                 toggleUsual={toggleUsual}
-                setupForDeletion={setupForDeletion}
                 updateRating={updateRating}
               />
             );
@@ -375,21 +224,10 @@ const Restaurant = (props) => {
   }
   return (
     <>
-      {showModal ? (
-        <Modal
-          closeModal={() => {
-            setShowModal(false);
-          }}
-        >
-          <div className={classes.modal}>
-            <ItemForm
-              restaurantId={props.match.params.restaurantId}
-              closeModal={() => setShowModal(false)}
-            />
-          </div>
-        </Modal>
-      ) : null}
-      <Header onClick={props.history.goBack} />
+      <Header
+        onLogoClick={() => props.history.push('/')}
+        onAccountClick={() => props.history.push('/account')}
+      />
       <Container>
         <section className={classes.restaurantItems}>
           <SectionTitle
@@ -400,9 +238,6 @@ const Restaurant = (props) => {
           <Menu output={output} updatesFinished={updatesFinished} />
         </section>
       </Container>
-      <Button className={classes.addBtn} clicked={() => setShowModal(true)}>
-        <div></div>
-      </Button>
       <Footer
         actionLabel={`Help us populate ${restaurant?.current?.name} with menu items (Beta version)`}
         actionButtonLabel={'Add Item'}
@@ -412,6 +247,7 @@ const Restaurant = (props) => {
           </div>
         }
       />
+      <ErrorHandler error={error} setError={setError} />
     </>
   );
 };

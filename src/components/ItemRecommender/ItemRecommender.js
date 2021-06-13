@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import * as requests from '../../utils/requests';
 import { apiEndPoint } from '../../utils/common';
 import ItemThumbnail from '../ItemThumbnail/ItemThumbnail';
 
@@ -7,16 +7,8 @@ const ItemRecommender = () => {
   let output = <h1>recommender system</h1>;
   const [recommendedItems, setRecommendedItems] = useState();
   useEffect(() => {
-    axios
-      .post(
-        `${apiEndPoint}/users/cf-items`,
-        { restaurantId: null },
-        {
-          headers: {
-            Authorization: 'bearer ' + localStorage.getItem('tokenId'),
-          },
-        },
-      )
+    requests
+      .getRecommendedItems()
       .then((res) => {
         // console.log(res);
         setRecommendedItems(res.data.recommendedItems[1]);

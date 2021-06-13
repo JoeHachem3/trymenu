@@ -1,15 +1,12 @@
 import React from 'react';
-import axios from 'axios';
-import { apiEndPoint } from '../../utils/common';
 import RestaurantThumbnail from './RestaurantThumbnail/RestaurantThumbnail';
 // import ItemRecommender from '../ItemRecommender/ItemRecommender';
 import { useStore } from '../../store/store';
-import { actions } from '../../store/configureStore';
 import Container from '../../hoc/Container/Container';
 import classes from './RestaurantsContainer.module.css';
 
 const RestaurantsContainer = (props) => {
-  const [{ restaurants }, dispatch] = useStore();
+  const { restaurants } = useStore()[0];
 
   const byCuisine = [];
   const restaus = [];

@@ -30,7 +30,10 @@ const Account = (props) => {
 
   return (
     <>
-      <Header onClick={props.history.goBack} />
+      <Header
+        onLogoClick={() => props.history.push('/')}
+        onAccountClick={() => props.history.push('/account')}
+      />
       <Container>
         <main className={classes.Main}>
           <SectionTitle label={'Account Settings'} />

@@ -1,32 +1,31 @@
-import React from "react";
-import Logo from "../../../assets/images/logo_white.svg";
-import classes from "./style.module.css";
+import React from 'react';
+import Logo from '../../../assets/images/logo_white.svg';
+import classes from './style.module.css';
 
 const MenuItem = (props) => {
   return (
     <input
       className={props.active ? classes.menubtn : classes.menubtninactive}
-      type="button"
-      value={"◼︎     " + props.label}
+      type='button'
+      value={'◼︎     ' + props.label}
       onClick={props.onpress}
     />
   );
 };
 
 const SideBar = (props) => {
-  const handleLogout = () => {
-    if (window.confirm("Are you sure you want to logout?")) {
-      props.handleLogout();
-    }
-  };
-
   return (
     <div className={classes.sidebar}>
-      <img src={Logo} alt="trymenu logo" height="200" className={classes.logo} />
+      <img
+        src={Logo}
+        alt='trymenu logo'
+        height='200'
+        className={classes.logo}
+      />
 
       {props.tables?.map((x, index) => (
         <MenuItem
-          active={props.selected == x}
+          active={props.selected === x}
           label={x}
           onpress={() => props.onset(x)}
         />
@@ -34,21 +33,20 @@ const SideBar = (props) => {
 
       <input
         className={classes.logoutbtn}
-        type="button"
-        value={"Logout"}
-        onClick={handleLogout}
+        type='button'
+        value={'Logout'}
+        onClick={props.logout}
       />
-      {props.type == 'admin' ? (
+      {props.type === 'admin' ? (
         <input
           className={classes.updatebtn}
-          type="button"
-          value={"Update school"}
+          type='button'
+          value={'Update school'}
           onClick={props.handleUpdate}
         />
       ) : null}
     </div>
   );
 };
-
 
 export default SideBar;

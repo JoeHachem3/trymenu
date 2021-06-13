@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import * as requests from '../../utils/requests';
 import { apiEndPoint } from '../../utils/common';
 import { checkInputValidity } from '../../utils/common';
 import Input from '../UI/Input/Input';
@@ -99,13 +99,8 @@ const ItemForm = (props) => {
       } else form.append(formElementID, formState[formElementID].value);
     }
     form.append('restaurant', props.restaurantId);
-    axios
-      .post(`${apiEndPoint}/items`, form, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          Authorization: 'bearer ' + localStorage.getItem('tokenId'),
-        },
-      })
+    requests
+      .addItem(form)
       .then((res) => {
         const restaurant = restaurants.find(
           (resto) => resto._id === props.restaurantId,

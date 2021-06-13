@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Switch, Route, withRouter, Redirect } from 'react-router-dom';
 import Landing from './routes/Landing/Landing';
 import Main from './routes/Main/Main';
-import axios from 'axios';
-import { apiEndPoint } from './utils/common';
+import * as requests from './utils/requests';
 import { useStore } from './store/store';
 import { actions } from './store/configureStore';
 import Restaurant from './routes/Restaurant/Restaurant';
@@ -34,12 +33,8 @@ const App = () => {
         }, time);
         dispatch(actions.SET_TIMER_ID, timerId);
         if (localStorage.getItem('userType') === 'customer') {
-          axios
-            .get(apiEndPoint + '/restaurants/cuisine', {
-              headers: {
-                Authorization: 'bearer ' + localStorage.getItem('tokenId'),
-              },
-            })
+          requests
+            .getRestaurantsByCuisine()
             .then((res) => {
               console.log(res);
               const restaurants = res.data.restaurants;
@@ -52,12 +47,8 @@ const App = () => {
 
           const userId = localStorage.getItem('userId');
           if (userId && !user) {
-            axios
-              .get(`${apiEndPoint}/users/${userId}`, {
-                headers: {
-                  Authorization: 'bearer ' + localStorage.getItem('tokenId'),
-                },
-              })
+            requests
+              .getUser(userId)
               .then((res) => {
                 dispatch(actions.SET_USER, res.data.user);
               })
@@ -66,16 +57,8 @@ const App = () => {
                 setError(err);
               });
 
-            axios
-              .post(
-                `${apiEndPoint}/users/cf-items`,
-                { restaurantId: null },
-                {
-                  headers: {
-                    Authorization: 'bearer ' + localStorage.getItem('tokenId'),
-                  },
-                },
-              )
+            requests
+              .getRecommendedItems()
               .then((res) => {
                 // console.log(res);
                 dispatch(

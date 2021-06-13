@@ -4,7 +4,7 @@ import Modal from '../../UI/Modal/Modal';
 import Button from '../../UI/Buttons/Button/Button';
 import Logo from '../../../assets/images/logo_white.svg';
 import Close from '../../../assets/images/close_icon_white.svg';
-import axios from 'axios';
+import * as requests from '../../../utils/requests';
 import { apiEndPoint } from '../../../utils/common';
 
 import classes from './OnboardingModals.module.css';
@@ -218,16 +218,8 @@ const FavCuisinesScene = (props) => {
 
   useEffect(() => {
     return () => {
-      axios
-        .patch(
-          `${apiEndPoint}/users/${user._id}`,
-          { cuisine: selectedCuisine },
-          {
-            headers: {
-              Authorization: 'bearer ' + localStorage.getItem('tokenId'),
-            },
-          },
-        )
+      requests
+        .updateUser(user._id, selectedCuisine)
         .then((res) => console.log(res))
         .catch((error) => console.log(error));
     };

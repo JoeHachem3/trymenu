@@ -7,8 +7,6 @@ const ItemThumbnail = (props) => {
   const [rating, setRating] = useState();
   const [prevRating, setPrevRating] = useState();
 
-  const [isDeleted, setIsDeleted] = useState(false);
-
   let itemState = '.';
   useEffect(() => {
     setRating(props.rating);
@@ -29,7 +27,7 @@ const ItemThumbnail = (props) => {
     tmpRating = prevRating;
     itemState = 'Usual';
   }
-  if (isDeleted) {
+  if (props.isDeleted) {
     classNames.push(classes.deleted);
     itemState = 'Deleted';
   }
@@ -59,11 +57,6 @@ const ItemThumbnail = (props) => {
     props.toggleUsual(item);
   };
 
-  const toggleIsDelete = () => {
-    props.setupForDeletion(props.itemId, !isDeleted);
-    setIsDeleted(!isDeleted);
-  };
-
   const UIRating = [
     <div
       key='-1'
@@ -88,7 +81,7 @@ const ItemThumbnail = (props) => {
       UIRating.push(
         <div
           key={i}
-          className={classes.circle}
+          className={classes.star}
           style={{ background: 'gold' }}
           onClick={() =>
             updateRating(
@@ -106,7 +99,7 @@ const ItemThumbnail = (props) => {
       UIRating.push(
         <div
           key={i}
-          className={classes.circle}
+          className={classes.star}
           style={{ background: 'linear-gradient(90deg, gold 50%, gray 50%)' }}
           onClick={() =>
             updateRating(
@@ -124,7 +117,7 @@ const ItemThumbnail = (props) => {
       UIRating.push(
         <div
           key={i}
-          className={classes.circle}
+          className={classes.star}
           style={{ background: 'gray' }}
           onClick={() =>
             updateRating(
@@ -168,14 +161,6 @@ const ItemThumbnail = (props) => {
             }
           >
             {prevRating === null ? 'Usual' : 'Unusual'}
-          </Button>
-        ) : null}
-        {props.ownership ? (
-          <Button
-            clicked={toggleIsDelete}
-            className={[classes.smallBtn, classes.deleteBtn].join(' ')}
-          >
-            {isDeleted ? 'Restore' : 'Delete'}
           </Button>
         ) : null}
       </div>

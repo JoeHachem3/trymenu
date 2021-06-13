@@ -18,7 +18,6 @@ const RestaurantThumbnail = (props) => {
           {/* <div className={classes.subtitle}>0 Menu items</div> */}
         </div>
       </div>
-      {/* <button onClick={props.deleteRestaurant}>delete</button> */}
     </>
   );
 };

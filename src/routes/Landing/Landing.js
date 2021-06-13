@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { useStore } from '../../store/store';
-import axios from 'axios';
+import * as requests from '../../utils/requests';
 import classes from './Landing.module.css';
 import IconFull from '../../components/UI/IconFull/IconFull';
 import BackgroundSmall from '../../components/UI/backgrounds/BackgroundSmall/BackgroundSmall';
@@ -176,8 +176,8 @@ const Landing = () => {
       form[formElementID] = state[type].form[formElementID].value;
     }
 
-    axios
-      .post(`${apiEndPoint}/users/${type}`, form)
+    requests
+      .authenticate(type, form)
       .then((res) => {
         // console.log(res);
         if (res.data.success) {
@@ -186,30 +186,6 @@ const Landing = () => {
           localStorage.setItem('userId', res.data.user._id);
           localStorage.setItem('userType', res.data.user.userType);
           dispatch(actions.JOINED_SUCCESSFULLY, res.data.user);
-          if (res.data.user.userType === 'customer') {
-            axios
-              .post(
-                `${apiEndPoint}/users/cf-items`,
-                { restaurantId: null },
-                {
-                  headers: {
-                    Authorization: 'bearer ' + localStorage.getItem('tokenId'),
-                  },
-                },
-              )
-              .then((res) => {
-                // console.log(res);
-                dispatch(
-                  actions.SET_RECOMMENDED_ITEMS,
-                  res.data.recommendedItems[0],
-                );
-              })
-              .catch((err) => {
-                console.log(err);
-                setIsLoading(false);
-                setError({ message: err.message, modal: true });
-              });
-          }
         } else {
           setIsLoading(false);
           setError({ message: res.data.message, modal: false });

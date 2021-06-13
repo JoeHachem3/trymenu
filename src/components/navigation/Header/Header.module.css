@@ -9,11 +9,12 @@
 }
 
 .Header:after {
-  background: linear-gradient(-30deg, var(--color-bg-grey) 8px, transparent 0), linear-gradient(30deg, var(--color-bg-grey) 8px, transparent 0);
+  background: linear-gradient(-30deg, var(--color-bg-grey) 8px, transparent 0),
+    linear-gradient(30deg, var(--color-bg-grey) 8px, transparent 0);
   background-position: left-bottom;
   background-repeat: repeat-x;
   background-size: 16px 16px;
-  content: " ";
+  content: ' ';
   display: block;
   position: absolute;
   bottom: 0px;
@@ -49,6 +50,7 @@
   border-radius: 46px;
   display: flex;
   align-items: center;
+  cursor: pointer;
 }
 .profileLabel {
   padding-right: 16px;

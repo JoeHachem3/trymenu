@@ -22,20 +22,17 @@ const Header = (props) => {
         <div className={classes.Parent}>
           <Container>
             <div className={classes.row}>
-              <a onClick={props.onClick} className={classes.pointer}>
+              <a onClick={props.onLogoClick} className={classes.pointer}>
                 <img src={Logo} alt='Trymenu logo' className={classes.logo} />
               </a>
               <div className={classes.rightContainer}>
-                <Button
-                  className={classes.logoutbtn}
-                  clicked={() => window.open('/account', '_self')}
-                >
-                  Account
-                </Button>
                 <Button className={classes.logoutbtn} clicked={logout}>
                   Logout
                 </Button>
-                <div className={classes.profileContainer}>
+                <div
+                  className={classes.profileContainer}
+                  onClick={props.onAccountClick}
+                >
                   <div className={classes.profileLabel}>{user?.username}</div>
                   <div className={classes.profilePic}></div>
                 </div>
