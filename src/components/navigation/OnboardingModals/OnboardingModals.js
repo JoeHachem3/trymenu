@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useStore } from '../../../store/store';
 import Modal from '../../UI/Modal/Modal';
 import Button from '../../UI/Buttons/Button/Button';
 import Logo from '../../../assets/images/logo_white.svg';
 import Close from '../../../assets/images/close_icon_white.svg';
+import axios from 'axios';
+import { apiEndPoint } from '../../../utils/common';
 
 import classes from './OnboardingModals.module.css';
 
@@ -213,6 +215,24 @@ export const cuisines = [
 const FavCuisinesScene = (props) => {
   const [{ user }, dispatch] = useStore();
   const [selectedCuisine, setSelectedCuisine] = useState([]);
+
+  useEffect(() => {
+    return () => {
+      axios
+        .patch(
+          `${apiEndPoint}/users/${user._id}`,
+          { cuisine: selectedCuisine },
+          {
+            headers: {
+              Authorization: 'bearer ' + localStorage.getItem('tokenId'),
+            },
+          },
+        )
+        .then((res) => console.log(res))
+        .catch((error) => console.log(error));
+    };
+  });
+
   return (
     <div className={classes.onboardingContainer}>
       <span className={classes.onboardingContainerTitle}>
@@ -220,27 +240,31 @@ const FavCuisinesScene = (props) => {
       </span>
       <span className={classes.onboardingContainerSub}>
         {' '}
-        In order to make better reommendations, select your favortie cuisines
+        In order to make better recommendations, select your favorite cuisines
       </span>
       <div className={classes.onboardingContainerContent}>
-        {cuisines.map((cuisine, idx) => (
-          <Cuisine
-            selected={selectedCuisine.includes(idx)}
-            label={cuisine}
-            onPress={() => {
-              setSelectedCuisine((x) => {
-                const old = [...x];
-                if (old.includes(idx)) {
-                  old.splice(old.indexOf(idx), 1);
-                } else {
-                  old.push(idx);
-                }
+        {cuisines.map((cuisine, idx) => {
+          const lowercase = cuisine.toLowerCase();
+          return (
+            <Cuisine
+              key={idx}
+              selected={selectedCuisine.includes(lowercase)}
+              label={cuisine}
+              onPress={() => {
+                setSelectedCuisine((x) => {
+                  const old = [...x];
+                  if (old.includes(lowercase)) {
+                    old.splice(old.indexOf(lowercase), 1);
+                  } else {
+                    old.push(lowercase);
+                  }
 
-                return old;
-              });
-            }}
-          />
-        ))}
+                  return old;
+                });
+              }}
+            />
+          );
+        })}
       </div>
     </div>
   );

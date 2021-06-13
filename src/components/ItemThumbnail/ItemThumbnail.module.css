@@ -39,6 +39,10 @@
   align-items: center;
 }
 
+.ItemBar h3 {
+  margin: 0;
+}
+
 .ItemThumbnail .imagediv {
   width: 100%;
   border-radius: 0.5rem;
@@ -112,10 +116,6 @@
   right: 0;
   background-color: var(--color-gray);
   transform: rotateZ(-90deg);
-}
-
-h3 {
-  margin: 0;
 }
 
 .btndiv {

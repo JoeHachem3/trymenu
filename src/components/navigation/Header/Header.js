@@ -8,7 +8,6 @@ import { actions } from '../../../store/configureStore';
 
 const Header = (props) => {
   const [{ user }, dispatch] = useStore();
-  console.log(user);
   const logout = () => {
     localStorage.removeItem('expiresIn');
     localStorage.removeItem('tokenId');
