@@ -13,6 +13,12 @@ html {
   background-color: var(--color-bg-grey) !important;
 }
 
+.errorMessage {
+  text-align: center;
+  color: var(--color-red);
+  font-weight: bold;
+}
+
 /* @media (prefers-color-scheme: dark) {
   body, html {
     background-color: var(--color-gray) !important;

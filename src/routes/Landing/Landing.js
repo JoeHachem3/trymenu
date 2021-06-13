@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useStore } from '../../store/store';
 import axios from 'axios';
 import classes from './Landing.module.css';
@@ -7,12 +7,13 @@ import BackgroundSmall from '../../components/UI/backgrounds/BackgroundSmall/Bac
 import Input from '../../components/UI/Input/Input';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import Button from '../../components/UI/Buttons/Button/Button';
+import ErrorHandler from '../../hoc/ErrorHandler/ErrorHandler';
 import { apiEndPoint, checkInputValidity } from '../../utils/common';
 import { Redirect } from 'react-router';
 import { actions } from '../../store/configureStore';
 
 const Landing = () => {
-  const [{ isLoading, token }, dispatch] = useStore();
+  const [{ token, user }, dispatch] = useStore();
 
   const [state, setState] = useState({
     login: {
@@ -136,9 +137,9 @@ const Landing = () => {
     },
   });
   const [isLogin, setIsLogin] = useState(true);
-  const [error, setError] = useState(null);
-
-  let errorMessage = null;
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const inputChangedHandler = (event, inputIdentifier, form) => {
     const updatedOrderForm = { ...state[form].form };
@@ -162,15 +163,21 @@ const Landing = () => {
     });
   };
 
+  const closeModal = () => {
+    setErrorMessage(null);
+    setShowModal(false);
+  };
+
   const toggleLogin = () => {
     setIsLogin(!isLogin);
-    setError(null);
+    setErrorMessage(null);
+    setShowModal(false);
   };
 
   const submitHandler = (event) => {
     event.preventDefault();
     const type = isLogin ? 'login' : 'register';
-    dispatch(actions.IS_LOADING);
+    setIsLoading(true);
     const form = {};
     for (let formElementID in state[type].form) {
       form[formElementID] = state[type].form[formElementID].value;
@@ -180,42 +187,63 @@ const Landing = () => {
       .post(`${apiEndPoint}/users/${type}`, form)
       .then((res) => {
         // console.log(res);
-        localStorage.setItem('tokenId', res.data.token);
-        localStorage.setItem('expiresIn', res.data.expiresIn);
-        localStorage.setItem('userId', res.data.user._id);
-        dispatch(actions.JOINED_SUCCESSFULLY, res.data.user);
-
-        axios
-          .post(
-            `${apiEndPoint}/users/cf-items`,
-            { restaurantId: null },
-            {
-              headers: {
-                Authorization: 'bearer ' + localStorage.getItem('tokenId'),
-              },
-            },
-          )
-          .then((res) => {
-            // console.log(res);
-            dispatch(
-              actions.SET_RECOMMENDED_ITEMS,
-              res.data.recommendedItems[0],
-            );
-          })
-          .catch((err) => console.log(err));
+        if (res.data.success) {
+          localStorage.setItem('tokenId', res.data.token);
+          localStorage.setItem('expiresIn', res.data.expiresIn);
+          localStorage.setItem('userId', res.data.user._id);
+          localStorage.setItem('userType', res.data.user.userType);
+          dispatch(actions.JOINED_SUCCESSFULLY, res.data.user);
+          if (res.data.user.userType === 'customer') {
+            axios
+              .post(
+                `${apiEndPoint}/users/cf-items`,
+                { restaurantId: null },
+                {
+                  headers: {
+                    Authorization: 'bearer ' + localStorage.getItem('tokenId'),
+                  },
+                },
+              )
+              .then((res) => {
+                // console.log(res);
+                dispatch(
+                  actions.SET_RECOMMENDED_ITEMS,
+                  res.data.recommendedItems[0],
+                );
+              })
+              .catch((err) => {
+                console.log(err);
+                setIsLoading(false);
+                setErrorMessage(err.message);
+                setShowModal(true);
+              });
+          }
+        } else {
+          setIsLoading(false);
+          setErrorMessage(res.data.message);
+          setShowModal(false);
+        }
       })
       .catch((err) => {
         console.log(err);
-        setError(err);
-        dispatch(actions.NOT_JOINED_SUCCESSFULLY, err);
+        setIsLoading(false);
+        setErrorMessage(err.message);
+        setShowModal(true);
       });
   };
 
   const loginElementsArray = [];
   let form = null;
   let loading = null;
+
   if (token) {
-    return <Redirect to='/main' />;
+    return (
+      <Redirect
+        to={
+          localStorage.getItem('userType') === 'customer' ? '/main' : '/admin'
+        }
+      />
+    );
   }
   if (isLogin) {
     for (let key in state.login.form) {
@@ -298,19 +326,24 @@ const Landing = () => {
     loading = <Spinner className={classes.Spinner} />;
     // loading = <IconFull loading />;
   }
-  if (error) {
-    errorMessage = <p className={classes.errorMsg}>{'Error...'}</p>;
-  }
 
   return (
     <>
       <div className={classes.Landing}>
-        <BackgroundSmall className={classes.BackgroundSmall}>
-          <IconFull className={classes.Logo} />
-          {form}
-          {loading}
-          {errorMessage}
-        </BackgroundSmall>
+        <ErrorHandler
+          closeModal={closeModal}
+          errorMessage={errorMessage}
+          showModal={showModal}
+        >
+          <BackgroundSmall className={classes.BackgroundSmall}>
+            <IconFull className={classes.Logo} />
+            {form}
+            {loading}
+            {errorMessage ? (
+              <p className={'errorMessage'}>{errorMessage}</p>
+            ) : null}
+          </BackgroundSmall>
+        </ErrorHandler>
       </div>
     </>
   );

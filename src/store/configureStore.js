@@ -10,26 +10,9 @@ const configureStore = () => {
     UPDATE_RESTAURANTS: (curState, restaurants) => {
       return { restaurants: restaurants };
     },
-    // loading
-    IS_LOADING: (curState) => {
-      return { isLoading: true };
-    },
-    IS_NOT_LOADING: (curState) => {
-      return { isLoading: false };
-    },
-    // error
-    IS_ERROR: (curState, error) => {
-      return { error: error, isLoading: false };
-    },
-    IS_NOT_ERROR: (curState, error) => {
-      return { error: null };
-    },
     // joined
     JOINED_SUCCESSFULLY: (curState, user) => {
-      return { isLoading: false, error: false, token: true, user: user };
-    },
-    NOT_JOINED_SUCCESSFULLY: (curState, error) => {
-      return { isLoading: false, error: error };
+      return { token: true, user: user };
     },
     // logout
     LOGOUT: (curState) => {
@@ -54,8 +37,6 @@ const configureStore = () => {
 
   initStore(actions, {
     shouldRender: 0,
-    error: null,
-    isLoading: false,
     token: localStorage.getItem('tokenId') !== null,
     recommendedItems: null,
     user: null,
@@ -65,10 +46,6 @@ const configureStore = () => {
 export const actions = {
   SET_RECOMMENDED_ITEMS: 'SET_RECOMMENDED_ITEMS',
   UPDATE_RESTAURANTS: 'UPDATE_RESTAURANTS',
-  IS_LOADING: 'IS_LOADING',
-  IS_NOT_LOADING: 'IS_NOT_LOADING',
-  IS_ERROR: 'IS_ERROR',
-  IS_NOT_ERROR: 'IS_NOT_ERROR',
   JOINED_SUCCESSFULLY: 'JOINED_SUCCESSFULLY',
   NOT_JOINED_SUCCESSFULLY: 'NOT_JOINED_SUCCESSFULLY',
   LOGOUT: 'LOGOUT',

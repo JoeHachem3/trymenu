@@ -377,7 +377,7 @@ const Restaurant = (props) => {
     <>
       {showModal ? (
         <Modal
-          modalClosed={() => {
+          closeModal={() => {
             setShowModal(false);
           }}
         >

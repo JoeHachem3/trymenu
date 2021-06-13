@@ -6,9 +6,9 @@ const Modal = (props) => {
   const ModalClasses = [classes.Modal];
   return (
     <>
-      <Backdrop show={props.show} onClick={props.modalClosed} />
+      <Backdrop onClick={props.closeModal} />
       <div className={ModalClasses.join(' ')}>
-        {/* <button className={classes.CloseBtn} onClick={props.modalClosed}>
+        {/* <button className={classes.CloseBtn} onClick={props.closeModal}>
           <img src={closeIcon} alt='close icon' />
         </button>
         <br /> */}

@@ -9,6 +9,7 @@ import { actions } from './store/configureStore';
 import Restaurant from './routes/Restaurant/Restaurant';
 import Account from './routes/Account/Account';
 import Admin from './routes/Admin/Admin';
+import PageNotFound from './routes/PageNotFound/PageNotFound';
 
 const App = () => {
   const [{ token }, dispatch] = useStore();
@@ -35,7 +36,7 @@ const App = () => {
       .get(apiEndPoint + '/restaurants')
       .then((res) => {
         // console.log(res);
-        const restaurants = res.data.response.restaurants;
+        const restaurants = res.data.restaurants;
         dispatch(actions.UPDATE_RESTAURANTS, restaurants);
       })
       .catch((err) => console.log(err));
@@ -49,7 +50,7 @@ const App = () => {
           },
         })
         .then((res) => {
-          dispatch(actions.USER_LOGGED_IN, res.data);
+          dispatch(actions.USER_LOGGED_IN, res.data.user);
         })
         .catch((err) => console.log(err));
 
@@ -71,13 +72,23 @@ const App = () => {
     }
   }, [dispatch]);
 
+  let routes = null;
+  if (token && localStorage.getItem('userType')) {
+    routes =
+      localStorage.getItem('userType') === 'customer' ? (
+        <Route path='/main' exact component={Main} />
+      ) : (
+        <Route path='/admin' exact component={Admin} />
+      );
+  }
+
   return (
     <Switch>
       <Route path='/' exact component={Landing} />
-      <Route path='/main' exact component={Main} />
-      <Route path='/admin' exact component={Admin} />
+      {routes}
       <Route path='/account' exact component={Account} />
       <Route path='/restaurants/:restaurantId' exact component={Restaurant} />
+      <Route path='/' component={PageNotFound} />
     </Switch>
   );
 };

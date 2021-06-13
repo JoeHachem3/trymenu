@@ -39,9 +39,3 @@
   width: 320px;
   max-width: 100%;
 }
-
-.errorMsg {
-  color: red;
-  opacity: 0.66;
-  text-align: center;
-}

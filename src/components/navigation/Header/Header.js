@@ -8,7 +8,7 @@ import { actions } from '../../../store/configureStore';
 
 const Header = (props) => {
   const [{ user }, dispatch] = useStore();
-
+  console.log(user);
   const logout = () => {
     localStorage.removeItem('expiresIn');
     localStorage.removeItem('tokenId');
@@ -26,7 +26,10 @@ const Header = (props) => {
                 <img src={Logo} alt='Trymenu logo' className={classes.logo} />
               </a>
               <div className={classes.rightContainer}>
-                <Button className={classes.logoutbtn} clicked={() => window.open('/account',"_self")}>
+                <Button
+                  className={classes.logoutbtn}
+                  clicked={() => window.open('/account', '_self')}
+                >
                   Account
                 </Button>
                 <Button className={classes.logoutbtn} clicked={logout}>
