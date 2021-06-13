@@ -13,6 +13,7 @@ const Header = (props) => {
     localStorage.removeItem('expiresIn');
     localStorage.removeItem('tokenId');
     localStorage.removeItem('userId');
+    localStorage.removeItem('userType');
     dispatch(actions.LOGOUT);
   };
 

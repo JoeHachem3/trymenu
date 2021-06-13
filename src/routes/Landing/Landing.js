@@ -137,8 +137,7 @@ const Landing = () => {
     },
   });
   const [isLogin, setIsLogin] = useState(true);
-  const [errorMessage, setErrorMessage] = useState(null);
-  const [showModal, setShowModal] = useState(false);
+  const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const inputChangedHandler = (event, inputIdentifier, form) => {
@@ -163,15 +162,9 @@ const Landing = () => {
     });
   };
 
-  const closeModal = () => {
-    setErrorMessage(null);
-    setShowModal(false);
-  };
-
   const toggleLogin = () => {
     setIsLogin(!isLogin);
-    setErrorMessage(null);
-    setShowModal(false);
+    setError(null);
   };
 
   const submitHandler = (event) => {
@@ -214,21 +207,18 @@ const Landing = () => {
               .catch((err) => {
                 console.log(err);
                 setIsLoading(false);
-                setErrorMessage(err.message);
-                setShowModal(true);
+                setError({ message: err.message, modal: true });
               });
           }
         } else {
           setIsLoading(false);
-          setErrorMessage(res.data.message);
-          setShowModal(false);
+          setError({ message: res.data.message, modal: false });
         }
       })
       .catch((err) => {
         console.log(err);
         setIsLoading(false);
-        setErrorMessage(err.message);
-        setShowModal(true);
+        setError({ message: err.message, modal: true });
       });
   };
 
@@ -330,20 +320,15 @@ const Landing = () => {
   return (
     <>
       <div className={classes.Landing}>
-        <ErrorHandler
-          closeModal={closeModal}
-          errorMessage={errorMessage}
-          showModal={showModal}
-        >
-          <BackgroundSmall className={classes.BackgroundSmall}>
-            <IconFull className={classes.Logo} />
-            {form}
-            {loading}
-            {errorMessage ? (
-              <p className={'errorMessage'}>{errorMessage}</p>
-            ) : null}
-          </BackgroundSmall>
-        </ErrorHandler>
+        <BackgroundSmall className={classes.BackgroundSmall}>
+          <IconFull className={classes.Logo} />
+          {form}
+          {loading}
+          {error?.modal ? null : (
+            <p className={'errorMessage'}>{error?.message}</p>
+          )}
+        </BackgroundSmall>
+        <ErrorHandler error={error} setError={setError} />
       </div>
     </>
   );

@@ -52,7 +52,7 @@
   /* background-color: black; */
 }
 
-.cusineContainer {
+.cuisineContainer {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -67,7 +67,7 @@
   /* box-shadow: var(--shadow-sm); */
 }
 
-.cusineContainerSelected {
+.cuisineContainerSelected {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -83,7 +83,7 @@
   box-shadow: var(--shadow-sm);
 }
 
-.cusineContainerDark {
+.cuisineContainerDark {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -98,7 +98,7 @@
   /* box-shadow: var(--shadow-sm); */
 }
 
-.cusineContainerSelectedDark {
+.cuisineContainerSelectedDark {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -114,7 +114,7 @@
   box-shadow: var(--shadow-sm);
 }
 
-.cusineLabel {
+.cuisineLabel {
   font-size: 16px;
   font-weight: 600;
   text-transform: uppercase;

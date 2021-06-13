@@ -12,43 +12,45 @@ const Container = (props) => {
     <div className={classes.Container}>
       <div className={classes.topPart}>
         {/* <img src={Logo} alt='Trymenu logo' className={classes.logo}/> */}
-        <a onClick={() => props.onClose()}>
-          <img src={Close} alt='Close button' className={classes.XButton} />
+        <a href onClick={() => props.onClose()}>
+          <img src={Close} alt='Close' className={classes.XButton} />
         </a>
       </div>
 
       <div className={classes.centerPart}>{props.children}</div>
 
       <div className={classes.bottomPart}>
-        <Button className={classes.nextBTN} clicked={() => props.onNext()}>
-          Next
-        </Button>
+        {props.onNext ? (
+          <Button className={classes.nextBTN} clicked={() => props.onNext()}>
+            Next
+          </Button>
+        ) : null}
       </div>
     </div>
   );
 };
 
-export const Cusine = (props) => {
+export const Cuisine = (props) => {
   return (
-    <a onClick={() => (props.onPress ? props.onPress() : {})}>
+    <a href onClick={() => (props.onPress ? props.onPress() : {})}>
       <div
         className={
           props.selected
             ? props.dark
-              ? classes.cusineContainerSelectedDark
-              : classes.cusineContainerSelected
+              ? classes.cuisineContainerSelectedDark
+              : classes.cuisineContainerSelected
             : props.dark
-            ? classes.cusineContainerDark
-            : classes.cusineContainer
+            ? classes.cuisineContainerDark
+            : classes.cuisineContainer
         }
       >
-        <span className={classes.cusineLabel}>{props.label}</span>
+        <span className={classes.cuisineLabel}>{props.label}</span>
       </div>
     </a>
   );
 };
 
-export const cusines = [
+export const cuisines = [
   'Afghan',
   'African',
   'Albanian',
@@ -208,7 +210,7 @@ export const cusines = [
   'Wraps',
 ];
 
-const FavCusinesScene = (props) => {
+const FavCuisinesScene = (props) => {
   const [{ user }, dispatch] = useStore();
   const [selectedCuisine, setSelectedCuisine] = useState([]);
   return (
@@ -221,8 +223,8 @@ const FavCusinesScene = (props) => {
         In order to make better reommendations, select your favortie cuisines
       </span>
       <div className={classes.onboardingContainerContent}>
-        {cusines.map((cuisine, idx) => (
-          <Cusine
+        {cuisines.map((cuisine, idx) => (
+          <Cuisine
             selected={selectedCuisine.includes(idx)}
             label={cuisine}
             onPress={() => {
@@ -244,6 +246,25 @@ const FavCusinesScene = (props) => {
   );
 };
 
+export const FavCuisines = () => {
+  const [showModal, setShowModal] = useState(true);
+  return (
+    <>
+      {showModal ? (
+        <Modal
+          closeModal={() => {
+            setShowModal(false);
+          }}
+        >
+          <Container onClose={() => setShowModal(false)}>
+            <FavCuisinesScene />
+          </Container>
+        </Modal>
+      ) : null}
+    </>
+  );
+};
+
 const OnboardingModals = (props) => {
   const [showModal, setShowModal] = useState(true);
   const [onBoard, setOnboard] = useState(0);
@@ -251,7 +272,7 @@ const OnboardingModals = (props) => {
   const renderOnboard = () => {
     switch (onBoard) {
       case 0:
-        return <FavCusinesScene />;
+        return <FavCuisinesScene />;
       case 1:
         return <div className={classes.onboardingImageContainer1} />;
       case 2:

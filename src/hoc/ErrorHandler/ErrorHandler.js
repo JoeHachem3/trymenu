@@ -1,18 +1,27 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Modal from '../../components/UI/Modal/Modal';
 import classes from './ErrorHandler.module.css';
 
 const ErrorHandler = (props) => {
-  return props.showModal ? (
-    <Modal closeModal={props.closeModal}>
+  const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+    if (props.error) setShowModal(true);
+  }, [props]);
+
+  const closeModal = () => {
+    setShowModal(false);
+    props.setError(false);
+  };
+
+  return showModal ? (
+    <Modal closeModal={closeModal}>
       <div className={classes.ErrorHandler}>
         <h3>{'Server Error'}</h3>
-        <p className={'errorMessage'}>{props.errorMessage}</p>
+        <p className={'errorMessage'}>{props.error?.message}</p>
       </div>
     </Modal>
-  ) : (
-    <>{props.children}</>
-  );
+  ) : null;
 };
 
 export default ErrorHandler;

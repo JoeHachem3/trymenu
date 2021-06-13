@@ -13,15 +13,14 @@ const Header2 = (props) => {
     localStorage.removeItem('expiresIn');
     localStorage.removeItem('tokenId');
     localStorage.removeItem('userId');
+    localStorage.removeItem('userType');
     dispatch(actions.LOGOUT);
   };
 
   return (
     <>
       <header className={classes.Header}>
-        <div className={classes.Parent}>
-          {props.children}
-        </div>
+        <div className={classes.Parent}>{props.children}</div>
       </header>
     </>
   );

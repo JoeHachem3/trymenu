@@ -14,22 +14,20 @@ const configureStore = () => {
     JOINED_SUCCESSFULLY: (curState, user) => {
       return { token: true, user: user };
     },
+    // timer id
+    SET_TIMER_ID: (curState, timerId) => {
+      return { timerId };
+    },
     // logout
     LOGOUT: (curState) => {
-      const restaurants = [];
-      curState.restaurants.forEach((resto) => {
-        if (resto.menu) delete resto.menu;
-        restaurants.push(resto);
-      });
-      return { token: false, user: null, restaurants: restaurants };
+      clearInterval(curState.timerId);
+      return { token: false, user: null, restaurants: [], timerId: null };
     },
-    // token
-    REMOVE_TOKEN: (curState) => {
-      return { token: false };
-    },
-    USER_LOGGED_IN: (curState, user) => {
+    // user
+    SET_USER: (curState, user) => {
       return { user: user };
     },
+    // user restaurants
     UPDATE_USER_RESTAURANTS: (curState, restaurants) => {
       return { user: { ...curState.user, restaurants: restaurants } };
     },
@@ -38,6 +36,7 @@ const configureStore = () => {
   initStore(actions, {
     shouldRender: 0,
     token: localStorage.getItem('tokenId') !== null,
+    timerId: null,
     recommendedItems: null,
     user: null,
   });
@@ -47,10 +46,9 @@ export const actions = {
   SET_RECOMMENDED_ITEMS: 'SET_RECOMMENDED_ITEMS',
   UPDATE_RESTAURANTS: 'UPDATE_RESTAURANTS',
   JOINED_SUCCESSFULLY: 'JOINED_SUCCESSFULLY',
-  NOT_JOINED_SUCCESSFULLY: 'NOT_JOINED_SUCCESSFULLY',
+  SET_TIMER_ID: 'SET_TIMER_ID',
   LOGOUT: 'LOGOUT',
-  REMOVE_TOKEN: 'REMOVE_TOKEN',
-  USER_LOGGED_IN: 'USER_LOGGED_IN',
+  SET_USER: 'SET_USER',
   UPDATE_USER_RESTAURANTS: 'UPDATE_USER_RESTAURANTS',
 };
 

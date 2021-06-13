@@ -1,19 +1,25 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useStore } from '../../store/store';
 import RestaurantsContainer from '../../components/RestaurantsContainer/RestaurantsContainer';
 import RestaurantForm from '../../components/RestaurantForm/RestaurantForm';
 import classes from './Main.module.css';
-import { useStore } from '../../store/store';
 import Footer from '../../components/navigation/Footer/Footer';
 import Header from '../../components/navigation/Header/Header';
 import Container from '../../hoc/Container/Container';
 import SectionTitle from '../../components/UI/SectionTitle/SectionTitle';
+import OnboardingModals, {
+  FavCuisines,
+} from '../../components/navigation/OnboardingModals/OnboardingModals';
 
 const Main = (props) => {
-  const { token } = useStore()[0];
+  const { user } = useStore()[0];
+  const [modals, setModals] = useState(null);
   useEffect(() => {
-    if (!token) props.history.replace('/');
-  }, [token, props.history]);
-
+    if (user) {
+      if (user.tutorial) setModals(<OnboardingModals />);
+      else if (!user.cuisine.length) setModals(<FavCuisines />);
+    }
+  }, [user]);
   return (
     <>
       <Header onClick={props.history.goBack} />
@@ -23,6 +29,7 @@ const Main = (props) => {
           <RestaurantsContainer onThumbnailClick={props.history.push} />
         </main>
       </Container>
+      {modals}
       <Footer
         actionLabel={'Help us populate trymenu with restauants (Beta version)'}
         actionButtonLabel={'Add Restaurant'}

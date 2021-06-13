@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { Switch, Route, withRouter } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Switch, Route, withRouter, Redirect } from 'react-router-dom';
 import Landing from './routes/Landing/Landing';
 import Main from './routes/Main/Main';
 import axios from 'axios';
@@ -9,68 +9,89 @@ import { actions } from './store/configureStore';
 import Restaurant from './routes/Restaurant/Restaurant';
 import Account from './routes/Account/Account';
 import Admin from './routes/Admin/Admin';
-import PageNotFound from './routes/PageNotFound/PageNotFound';
 
 const App = () => {
-  const [{ token }, dispatch] = useStore();
+  const [{ token, user }, dispatch] = useStore();
 
-  if (token) {
-    const time = localStorage.getItem('expiresIn') - new Date().getTime();
-    if (time < 0) {
-      dispatch(actions.REMOVE_TOKEN);
-      localStorage.removeItem('tokenId');
-      localStorage.removeItem('userId');
-      localStorage.removeItem('expiresIn');
-    } else {
-      setTimeout(() => {
-        dispatch(actions.REMOVE_TOKEN);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    if (token) {
+      const time = localStorage.getItem('expiresIn') - new Date().getTime();
+      if (time < 0) {
+        dispatch(actions.LOGOUT);
         localStorage.removeItem('tokenId');
         localStorage.removeItem('userId');
         localStorage.removeItem('expiresIn');
-      }, time);
+        localStorage.removeItem('userType');
+      } else {
+        const timerId = setTimeout(() => {
+          dispatch(actions.LOGOUT);
+          localStorage.removeItem('tokenId');
+          localStorage.removeItem('userId');
+          localStorage.removeItem('expiresIn');
+          localStorage.removeItem('userType');
+        }, time);
+        dispatch(actions.SET_TIMER_ID, timerId);
+        if (localStorage.getItem('userType') === 'customer') {
+          axios
+            .get(apiEndPoint + '/restaurants/cuisine', {
+              headers: {
+                Authorization: 'bearer ' + localStorage.getItem('tokenId'),
+              },
+            })
+            .then((res) => {
+              console.log(res);
+              const restaurants = res.data.restaurants;
+              dispatch(actions.UPDATE_RESTAURANTS, restaurants);
+            })
+            .catch((err) => {
+              console.log(err);
+              setError(err);
+            });
+
+          const userId = localStorage.getItem('userId');
+          if (userId && !user) {
+            axios
+              .get(`${apiEndPoint}/users/${userId}`, {
+                headers: {
+                  Authorization: 'bearer ' + localStorage.getItem('tokenId'),
+                },
+              })
+              .then((res) => {
+                dispatch(actions.SET_USER, res.data.user);
+              })
+              .catch((err) => {
+                console.log(err);
+                setError(err);
+              });
+
+            axios
+              .post(
+                `${apiEndPoint}/users/cf-items`,
+                { restaurantId: null },
+                {
+                  headers: {
+                    Authorization: 'bearer ' + localStorage.getItem('tokenId'),
+                  },
+                },
+              )
+              .then((res) => {
+                // console.log(res);
+                dispatch(
+                  actions.SET_RECOMMENDED_ITEMS,
+                  res.data.recommendedItems[0],
+                );
+              })
+              .catch((err) => {
+                console.log(err);
+                setError(err);
+              });
+          }
+        }
+      }
     }
-  }
-
-  useEffect(() => {
-    axios
-      .get(apiEndPoint + '/restaurants')
-      .then((res) => {
-        // console.log(res);
-        const restaurants = res.data.restaurants;
-        dispatch(actions.UPDATE_RESTAURANTS, restaurants);
-      })
-      .catch((err) => console.log(err));
-
-    const userId = localStorage.getItem('userId');
-    if (userId != null) {
-      axios
-        .get(`${apiEndPoint}/users/${userId}`, {
-          headers: {
-            Authorization: 'bearer ' + localStorage.getItem('tokenId'),
-          },
-        })
-        .then((res) => {
-          dispatch(actions.USER_LOGGED_IN, res.data.user);
-        })
-        .catch((err) => console.log(err));
-
-      axios
-        .post(
-          `${apiEndPoint}/users/cf-items`,
-          { restaurantId: null },
-          {
-            headers: {
-              Authorization: 'bearer ' + localStorage.getItem('tokenId'),
-            },
-          },
-        )
-        .then((res) => {
-          // console.log(res);
-          dispatch(actions.SET_RECOMMENDED_ITEMS, res.data.recommendedItems[0]);
-        })
-        .catch((err) => console.log(err));
-    }
-  }, [dispatch]);
+  }, [dispatch, token, user]);
 
   let routes = null;
   if (token && localStorage.getItem('userType')) {
@@ -83,13 +104,16 @@ const App = () => {
   }
 
   return (
-    <Switch>
-      <Route path='/' exact component={Landing} />
-      {routes}
-      <Route path='/account' exact component={Account} />
-      <Route path='/restaurants/:restaurantId' exact component={Restaurant} />
-      <Route path='/' component={PageNotFound} />
-    </Switch>
+    <>
+      <Switch>
+        <Route path='/' exact component={Landing} />
+        {routes}
+        <Route path='/account' exact component={Account} />
+        <Route path='/restaurants/:restaurantId' exact component={Restaurant} />
+        <Route path='/' render={() => <Redirect to='/' />} />
+      </Switch>
+      {token ? null : <Redirect to='/' />}
+    </>
   );
 };
 

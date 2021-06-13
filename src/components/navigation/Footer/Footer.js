@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import classes from './Footer.module.css';
 import Container from '../../../hoc/Container/Container';
-import Button from '../../UI/Buttons/Button/Button';
 import SocialButton from '../../UI/Buttons/SocialButton/SocialButton';
 import { NavLink } from 'react-router-dom';
 import Modal from '../../UI/Modal/Modal';
-import OnboardingModals from '../OnboardingModals/OnboardingModals';
 
 const Footer = (props) => {
   const [showModal, setShowModal] = useState(false);
@@ -96,7 +94,6 @@ const Footer = (props) => {
           {props.modalChildren}
         </Modal>
       ) : null}
-      <OnboardingModals />
     </>
   );
 };
