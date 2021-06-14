@@ -48,6 +48,7 @@ const Restaurant = (props) => {
           .catch((err) => {
             console.log(err);
             setError({ message: err.message, modal: true });
+            setIsLoading(false);
           });
       } else {
         setIsLoading(false);
@@ -120,42 +121,41 @@ const Restaurant = (props) => {
   };
 
   const updatesFinished = () => {
-      if (isRatedItemsEdited.current) {
-        requests
-          .updateRatings(props.match.params.restaurantId, ratedItems.current)
-          .then((res) => {
-            res.data.restaurant.ratedItems.forEach((ratedItem) => {
-              for (let i = 0; i < restaurant.current.menu.length; i++) {
-                if (
-                  ratedItem._id.toString() ===
-                  restaurant.current.menu[i].item._id
-                ) {
-                  restaurant.current.menu[i].rating = ratedItem.rating;
-                  restaurant.current.menu[i].prevRating = ratedItem.prevRating;
-                  break;
-                }
+    if (isRatedItemsEdited.current) {
+      requests
+        .updateRatings(props.match.params.restaurantId, ratedItems.current)
+        .then((res) => {
+          res.data.restaurant.ratedItems.forEach((ratedItem) => {
+            for (let i = 0; i < restaurant.current.menu.length; i++) {
+              if (
+                ratedItem._id.toString() === restaurant.current.menu[i].item._id
+              ) {
+                restaurant.current.menu[i].rating = ratedItem.rating;
+                restaurant.current.menu[i].prevRating = ratedItem.prevRating;
+                break;
               }
-            });
-            dispatch(actions.UPDATE_USER_RESTAURANTS, res.data.restaurants);
-            isRatedItemsEdited.current = false;
-            props.history.goBack();
-          })
-          .catch((err) => console.log(err));
-      } else {
-        props.history.goBack();
-      }
+            }
+          });
+          dispatch(actions.UPDATE_USER_RESTAURANTS, res.data.restaurants);
+          isRatedItemsEdited.current = false;
+          props.history.goBack();
+        })
+        .catch((err) => console.log(err));
+    } else {
+      props.history.goBack();
+    }
   };
 
   const setEdited = () => {
     isRatedItemsEdited.current = true;
   };
 
-  let output = 502
+  let output = 502;
 
   if (!isLoading && restaurant.current && token) {
     if (!error) {
       if (restaurant.current.menu.length === 0) {
-        output = 501
+        output = 501;
       } else {
         let tmpRec;
         if (recommendedItems) {
@@ -217,7 +217,7 @@ const Restaurant = (props) => {
         }
       }
     } else {
-      output = 500
+      output = 500;
     }
   }
   return (
@@ -233,21 +233,21 @@ const Restaurant = (props) => {
             onBack={props.history.goBack}
           />
 
-          {
-            output === 500 ? (
-              <div className={classes.spinnerontainer1}>
-                <span>SOMETHING WENT WRONG</span>
-              </div>
-            ) : output === 501 ? (
-              <div className={classes.spinnerontainer}>
-                <Spinner />
-              </div>
-            ) : output === 502 ? (
-              <div className={classes.spinnerontainer1}>
-                <span>NO MENU FOUND</span>
-              </div>
-            ) : (<Menu output={output} updatesFinished={updatesFinished} />)
-          }
+          {output === 500 ? (
+            <div className={classes.spinnerontainer1}>
+              <span>SOMETHING WENT WRONG</span>
+            </div>
+          ) : output === 502 ? (
+            <div className={classes.spinnerontainer}>
+              <Spinner />
+            </div>
+          ) : output === 501 ? (
+            <div className={classes.spinnerontainer1}>
+              <span>NO MENU FOUND</span>
+            </div>
+          ) : (
+            <Menu output={output} updatesFinished={updatesFinished} />
+          )}
         </section>
       </Container>
       <Footer

@@ -12,7 +12,7 @@ const Admin = (props) => {
   const [{ user, restaurants, cuisines }, dispatch] = useStore();
   const [selectedTable, setSelectedTable] = useState('restaurants');
   const tables = ['restaurants', 'account'];
-
+  console.log(restaurants);
   const logout = () => {
     localStorage.removeItem('expiresIn');
     localStorage.removeItem('tokenId');
