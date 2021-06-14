@@ -17,6 +17,7 @@ const SideBar = (props) => {
   return (
     <div className={classes.sidebar}>
       <img
+        onClick={props.goBack}
         src={Logo}
         alt='trymenu logo'
         height='200'

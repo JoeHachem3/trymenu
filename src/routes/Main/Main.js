@@ -16,8 +16,10 @@ const Main = (props) => {
   const [modals, setModals] = useState(null);
   useEffect(() => {
     if (user) {
-      if (user.tutorial) setModals(<OnboardingModals />);
-      else if (!user.cuisines.length) setModals(<FavCuisines />);
+      if (user.tutorial) {
+        setModals(<OnboardingModals />);
+        delete user.tutorial;
+      } else if (!user.cuisines.length) setModals(<FavCuisines />);
     }
   }, [user]);
   return (
