@@ -80,6 +80,7 @@ const App = () => {
           requests
             .getRestaurantsByOwner()
             .then((res) => {
+              console.log(res.data.restaurants);
               dispatch(actions.UPDATE_RESTAURANTS, res.data.restaurants);
             })
             .catch((err) => {
