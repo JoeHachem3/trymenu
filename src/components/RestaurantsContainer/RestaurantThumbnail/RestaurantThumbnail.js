@@ -15,7 +15,7 @@ const RestaurantThumbnail = (props) => {
         </div>
         <div className={classes.RestaurantBar}>
           <div className={classes.title}>{props.name}</div>
-          {props.cusine ? <div className={classes.subtitle}>{props.cusines}</div> : null}
+          {props.cusine ? <div className={classes.subtitle}>{props.cusine}</div> : null}
         </div>
       </div>
     </>

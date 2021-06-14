@@ -1,12 +1,19 @@
-.Restaurants {
+.Restaurants1 {
   display: flex;
   flex-wrap: wrap;
   margin: -15px;
   padding-bottom: 40px;
 }
 
+.Restaurants2 {
+  display: flex;
+  flex-wrap: wrap;
+  margin: -15px;
+  padding-bottom: 0px;
+}
+
 .h3 {
-  padding-bottom: 30px;
+  padding-bottom: 22px;
   font-size: 1.2em;
   font-weight: 800;
   color: var(--color-text);

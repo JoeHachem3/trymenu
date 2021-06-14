@@ -45,3 +45,20 @@
 .modal {
   padding: 20px;
 }
+
+.spinnerontainer {
+  min-height: 50vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.spinnerontainer1 {
+  min-height: 50vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2em;
+  font-weight: 900;
+  color: #bbbbbb;
+}

@@ -120,7 +120,6 @@ const Restaurant = (props) => {
   };
 
   const updatesFinished = () => {
-    if (user._id.toString() === restaurant.current.owner.toString()) {
       if (isRatedItemsEdited.current) {
         requests
           .updateRatings(props.match.params.restaurantId, ratedItems.current)
@@ -145,19 +144,18 @@ const Restaurant = (props) => {
       } else {
         props.history.goBack();
       }
-    }
   };
 
   const setEdited = () => {
     isRatedItemsEdited.current = true;
   };
 
-  let output = <Spinner />;
+  let output = 502
 
   if (!isLoading && restaurant.current && token) {
     if (!error) {
       if (restaurant.current.menu.length === 0) {
-        output = <h1>{'empty menu :('}</h1>;
+        output = 501
       } else {
         let tmpRec;
         if (recommendedItems) {
@@ -219,7 +217,7 @@ const Restaurant = (props) => {
         }
       }
     } else {
-      output = <h1>{'ERROR'}</h1>;
+      output = 500
     }
   }
   return (
@@ -235,7 +233,21 @@ const Restaurant = (props) => {
             onBack={props.history.goBack}
           />
 
-          <Menu output={output} updatesFinished={updatesFinished} />
+          {
+            output === 500 ? (
+              <div className={classes.spinnerontainer1}>
+                <span>SOMETHING WENT WRONG</span>
+              </div>
+            ) : output === 501 ? (
+              <div className={classes.spinnerontainer}>
+                <Spinner />
+              </div>
+            ) : output === 502 ? (
+              <div className={classes.spinnerontainer1}>
+                <span>NO MENU FOUND</span>
+              </div>
+            ) : (<Menu output={output} updatesFinished={updatesFinished} />)
+          }
         </section>
       </Container>
       <Footer
