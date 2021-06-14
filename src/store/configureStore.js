@@ -31,6 +31,10 @@ const configureStore = () => {
     UPDATE_USER_RESTAURANTS: (curState, restaurants) => {
       return { user: { ...curState.user, restaurants: restaurants } };
     },
+    // cuisines
+    SET_CUISINES: (curState, cuisines) => {
+      return { cuisines };
+    },
   };
 
   initStore(actions, {
@@ -39,6 +43,7 @@ const configureStore = () => {
     timerId: null,
     recommendedItems: null,
     user: null,
+    cuisines: null,
   });
 };
 
@@ -50,6 +55,7 @@ export const actions = {
   LOGOUT: 'LOGOUT',
   SET_USER: 'SET_USER',
   UPDATE_USER_RESTAURANTS: 'UPDATE_USER_RESTAURANTS',
+  SET_CUISINES: 'SET_CUISINES',
 };
 
 export default configureStore;

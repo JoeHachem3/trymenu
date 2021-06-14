@@ -64,7 +64,7 @@ const Footer = (props) => {
 
               <div className={classes.FooterMainItem}>
                 {/* <p>{t(props.actionLabel)}</p>
-                            <Button clicked={() => setShowModal(true)}>{t(props.actionButtonLabel)}</Button> */}
+                            <Button onClick={() => setShowModal(true)}>{t(props.actionButtonLabel)}</Button> */}
                 <br />
                 <br />
                 <br />

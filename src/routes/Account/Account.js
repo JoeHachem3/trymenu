@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import classes from './Account.module.css';
 import { useStore } from '../../store/store';
 import Footer from '../../components/navigation/Footer/Footer';
 import Header from '../../components/navigation/Header/Header';
@@ -7,26 +6,50 @@ import Container from '../../hoc/Container/Container';
 import SectionTitle from '../../components/UI/SectionTitle/SectionTitle';
 import Button from '../../components/UI/Buttons/Button/Button';
 import Input from '../../components/UI/Input/Input';
-import {
-  Cuisine,
-  cuisines,
-} from '../../components/navigation/OnboardingModals/OnboardingModals';
+import { Cuisine } from '../../components/navigation/OnboardingModals/OnboardingModals';
+import * as requests from '../../utils/requests';
+import classes from './Account.module.css';
 
 const Account = (props) => {
-  const { token } = useStore()[0];
-  const [{ user }, dispatch] = useStore();
+  const [{ user, cuisines }, dispatch] = useStore();
 
   const [selectedCuisine, setSelectedCuisine] = useState([]);
+  const [username, setUsername] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
 
   useEffect(() => {
-    if (!token) props.history.replace('/');
-  }, [token, props.history]);
-
-  useEffect(() => {
-    if (!token) props.history.replace('/');
-    else {
+    if (user) {
+      setSelectedCuisine(user.cuisines);
+      setUsername(user.username);
+      setFirstName(user.first_name);
+      setLastName(user.last_name);
+      setEmail(user.email);
     }
-  }, [token, props.history]);
+  }, [user]);
+
+  const inputHandler = (event, cb) => {
+    cb(event.target.value);
+  };
+
+  const save = () => {
+    console.log('save');
+    requests
+      .updateUser(user._id, {
+        username,
+        email,
+        first_name: firstName,
+        last_name: lastName,
+        cuisines: selectedCuisine,
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <>
@@ -43,8 +66,9 @@ const Account = (props) => {
                 Username
                 <br />
                 <input
+                  onChange={(event) => inputHandler(event, setUsername)}
                   placeholder='Username'
-                  value={user?.username}
+                  value={username}
                   className={classes.InputInput}
                 />
               </label>
@@ -53,8 +77,9 @@ const Account = (props) => {
                   First Name
                   <br />
                   <input
+                    onChange={(event) => inputHandler(event, setFirstName)}
                     placeholder='First Name'
-                    value={user?.first_name}
+                    value={firstName}
                     className={classes.InputInput}
                   />
                 </label>
@@ -62,8 +87,9 @@ const Account = (props) => {
                   Last Name
                   <br />
                   <input
+                    onChange={(event) => inputHandler(event, setLastName)}
                     placeholder='Last Name'
-                    value={user?.last_name}
+                    value={lastName}
                     className={classes.InputInput}
                   />
                 </label>
@@ -72,8 +98,9 @@ const Account = (props) => {
                 Email
                 <br />
                 <input
+                  onChange={(event) => inputHandler(event, setEmail)}
                   placeholder='Email'
-                  value={user?.email}
+                  value={email}
                   className={classes.InputInput}
                 />
               </label>
@@ -81,18 +108,19 @@ const Account = (props) => {
                 Favorite Cuisines
                 <br />
                 <div className={classes.onboardingContainerContent}>
-                  {cuisines.map((cuisine, idx) => (
+                  {cuisines?.map((cuisine, idx) => (
                     <Cuisine
+                      key={idx}
                       dark
-                      selected={selectedCuisine.includes(idx)}
+                      selected={selectedCuisine.includes(cuisine)}
                       label={cuisine}
                       onPress={() => {
                         setSelectedCuisine((x) => {
                           const old = [...x];
-                          if (old.includes(idx)) {
-                            old.splice(old.indexOf(idx), 1);
+                          if (old.includes(cuisine)) {
+                            old.splice(old.indexOf(cuisine), 1);
                           } else {
-                            old.push(idx);
+                            old.push(cuisine);
                           }
 
                           return old;
@@ -119,7 +147,7 @@ const Account = (props) => {
               </div>
 
               <div className={classes.btn2c}>
-                <Button className={classes.btn2} onClick={() => {}}>
+                <Button className={classes.btn2} onClick={save}>
                   Save
                 </Button>
               </div>

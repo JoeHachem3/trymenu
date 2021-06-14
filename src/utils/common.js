@@ -1,5 +1,6 @@
 export const domainOfURL = (url) => {
-  var urlPattern = /^(?:https?:\/\/)?(?:w{3}\.)?([a-z\d-]+)\.(?:[a-z.]{2,10})(?:[/\w.-]*)*/;
+  var urlPattern =
+    /^(?:https?:\/\/)?(?:w{3}\.)?([a-z\d-]+)\.(?:[a-z.]{2,10})(?:[/\w.-]*)*/;
   var domainPattern = url.match(urlPattern);
   var extractDomain = domainPattern[1];
   return extractDomain;
@@ -52,7 +53,8 @@ export const checkInputValidity = (value, rules) => {
     isValid = value.length <= rules.maxLength && isValid;
   }
   if (rules.isEmail) {
-    const pattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+    const pattern =
+      /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
     isValid = pattern.test(value) && isValid;
   }
   return isValid;

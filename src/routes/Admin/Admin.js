@@ -1,188 +1,71 @@
 import React, { useState } from 'react';
-import classes from './Admin.module.css';
+import * as requests from '../../utils/requests';
 import Header2 from '../../components/navigation/Header2/Header2';
 import SideBar from './SideBar';
-import { actions } from '../../store/configureStore';
-import { useStore } from '../../store/store';
 import { StickyTable, Row, Cell } from 'react-sticky-table';
-
-const MoreBtn = (props) => {
-  return (
-    <div className={classes.btncontainer}>
-      <input
-        className={classes.actionbtn}
-        type='button'
-        value={'•••'}
-        onClick={() => {}}
-      />
-      <div className={classes.submenu}>
-        {props.showDelete ? (
-          <input
-            className={classes.delete}
-            type='button'
-            value={'delete'}
-            onClick={props.handleDelete}
-          />
-        ) : null}
-        {props.showUpdate ? (
-          <input
-            className={classes.update}
-            type='button'
-            value={'update'}
-            onClick={props.handleUpdate}
-          />
-        ) : null}
-      </div>
-    </div>
-  );
-};
+import { useStore } from '../../store/store';
+import { actions } from '../../store/configureStore';
+import { apiEndPoint } from '../../utils/common';
+import { Cuisine } from '../../components/navigation/OnboardingModals/OnboardingModals';
+import classes from './Admin.module.css';
 
 const Admin = (props) => {
-  const dispatch = useStore()[1];
-  const [selectedTable, setSelectedTable] = useState('');
-  const tables = ['restaurant', 'menu'];
-  const [data, setData] = useState([
-    {
-      id: '001',
-      name: 'McDouble',
-      price: '$13.45',
-      image_link:
-        'https://www.mcdonalds.com/content/dam/usa/nfl/nutrition/items/regular/desktop/t-mcdonalds-McDouble.jpg',
-    },
-    {
-      id: '001',
-      name: 'McDouble',
-      price: '$13.45',
-      image_link:
-        'https://www.mcdonalds.com/content/dam/usa/nfl/nutrition/items/regular/desktop/t-mcdonalds-McDouble.jpg',
-    },
-    {
-      id: '001',
-      name: 'McDouble',
-      price: '$13.45',
-      image_link:
-        'https://www.mcdonalds.com/content/dam/usa/nfl/nutrition/items/regular/desktop/t-mcdonalds-McDouble.jpg',
-    },
-    {
-      id: '001',
-      name: 'McDouble',
-      price: '$13.45',
-      image_link:
-        'https://www.mcdonalds.com/content/dam/usa/nfl/nutrition/items/regular/desktop/t-mcdonalds-McDouble.jpg',
-    },
-    {
-      id: '001',
-      name: 'McDouble',
-      price: '$13.45',
-      image_link:
-        'https://www.mcdonalds.com/content/dam/usa/nfl/nutrition/items/regular/desktop/t-mcdonalds-McDouble.jpg',
-    },
-    {
-      id: '001',
-      name: 'McDouble',
-      price: '$13.45',
-      image_link:
-        'https://www.mcdonalds.com/content/dam/usa/nfl/nutrition/items/regular/desktop/t-mcdonalds-McDouble.jpg',
-    },
-    {
-      id: '001',
-      name: 'McDouble',
-      price: '$13.45',
-      image_link:
-        'https://www.mcdonalds.com/content/dam/usa/nfl/nutrition/items/regular/desktop/t-mcdonalds-McDouble.jpg',
-    },
-    {
-      id: '001',
-      name: 'McDouble',
-      price: '$13.45',
-      image_link:
-        'https://www.mcdonalds.com/content/dam/usa/nfl/nutrition/items/regular/desktop/t-mcdonalds-McDouble.jpg',
-    },
-    {
-      id: '001',
-      name: 'McDouble',
-      price: '$13.45',
-      image_link:
-        'https://www.mcdonalds.com/content/dam/usa/nfl/nutrition/items/regular/desktop/t-mcdonalds-McDouble.jpg',
-    },
-    {
-      id: '001',
-      name: 'McDouble',
-      price: '$13.45',
-      image_link:
-        'https://www.mcdonalds.com/content/dam/usa/nfl/nutrition/items/regular/desktop/t-mcdonalds-McDouble.jpg',
-    },
-    {
-      id: '001',
-      name: 'McDouble',
-      price: '$13.45',
-      image_link:
-        'https://www.mcdonalds.com/content/dam/usa/nfl/nutrition/items/regular/desktop/t-mcdonalds-McDouble.jpg',
-    },
-    {
-      id: '001',
-      name: 'McDouble',
-      price: '$13.45',
-      image_link:
-        'https://www.mcdonalds.com/content/dam/usa/nfl/nutrition/items/regular/desktop/t-mcdonalds-McDouble.jpg',
-    },
-    {
-      id: '001',
-      name: 'McDouble',
-      price: '$13.45',
-      image_link:
-        'https://www.mcdonalds.com/content/dam/usa/nfl/nutrition/items/regular/desktop/t-mcdonalds-McDouble.jpg',
-    },
-    {
-      id: '001',
-      name: 'McDouble',
-      price: '$13.45',
-      image_link:
-        'https://www.mcdonalds.com/content/dam/usa/nfl/nutrition/items/regular/desktop/t-mcdonalds-McDouble.jpg',
-    },
-    {
-      id: '001',
-      name: 'McDouble',
-      price: '$13.45',
-      image_link:
-        'https://www.mcdonalds.com/content/dam/usa/nfl/nutrition/items/regular/desktop/t-mcdonalds-McDouble.jpg',
-    },
-    {
-      id: '001',
-      name: 'McDouble',
-      price: '$13.45',
-      image_link:
-        'https://www.mcdonalds.com/content/dam/usa/nfl/nutrition/items/regular/desktop/t-mcdonalds-McDouble.jpg',
-    },
-    {
-      id: '001',
-      name: 'McDouble',
-      price: '$13.45',
-      image_link:
-        'https://www.mcdonalds.com/content/dam/usa/nfl/nutrition/items/regular/desktop/t-mcdonalds-McDouble.jpg',
-    },
-    {
-      id: '001',
-      name: 'McDouble',
-      price: '$13.45',
-      image_link:
-        'https://www.mcdonalds.com/content/dam/usa/nfl/nutrition/items/regular/desktop/t-mcdonalds-McDouble.jpg',
-    },
-  ]);
+  const [{ user, restaurants, cuisines }, dispatch] = useStore();
+  const [selectedTable, setSelectedTable] = useState('restaurants');
+  const tables = ['restaurants', 'account'];
+
+  const logout = () => {
+    localStorage.removeItem('expiresIn');
+    localStorage.removeItem('tokenId');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('userType');
+    dispatch(actions.LOGOUT);
+  };
 
   const getColumnsFromTable = (table, data) => {
-    return data[0] ? Object.keys(data[0]) : [];
+    return ['name', 'phone', 'email'];
   };
+
+  //   const MoreBtn = (props) => {
+  //     return (
+  //       <div className={classes.btncontainer}>
+  //         <input
+  //           className={classes.actionbtn}
+  //           type='button'
+  //           value={'•••'}
+  //           onClick={() => {}}
+  //         />
+  //         <div className={classes.submenu}>
+  //           {props.showDelete ? (
+  //             <input
+  //               className={classes.delete}
+  //               type='button'
+  //               value={'delete'}
+  //               onClick={props.handleDelete}
+  //             />
+  //           ) : null}
+  //           {props.showUpdate ? (
+  //             <input
+  //               className={classes.update}
+  //               type='button'
+  //               value={'update'}
+  //               onClick={props.handleUpdate}
+  //             />
+  //           ) : null}
+  //         </div>
+  //       </div>
+  //     );
+  //   };
 
   const switchContent = () => {
     switch (selectedTable) {
-      case 'menu':
+      case 'restaurants':
         return (
           <>
             <div>
               <div className={classes.pagetitlecontainer}>
                 <div className={classes.pagetitle}>{selectedTable}</div>
-                <div className={classes.acctioncontain}>
+                {/* <div className={classes.acctioncontain}>
                   <input
                     className={classes.uploadcsv}
                     type='button'
@@ -195,40 +78,76 @@ const Admin = (props) => {
                     value={'+ add entry'}
                     onClick={() => alert(true)}
                   />
-                </div>
+                </div> */}
               </div>
-              {data.length > 0 ? (
-                <div>
+              {restaurants ? (
+                <div className={classes.tableContainerContainer}>
                   <div className={classes.tabblecontainer}>
                     <StickyTable>
                       <Row>
+                        {/* <Cell></Cell> */}
                         <Cell></Cell>
-                        {data[0]
-                          ? getColumnsFromTable(selectedTable, data)?.map(
-                              (x) => (
-                                <Cell>
-                                  <div style={{ padding: '10px 0px' }}>
-                                    <b>{x.toUpperCase()}</b>
-                                  </div>
-                                </Cell>
-                              ),
-                            )
-                          : null}
-                      </Row>
-                      {data
-                        ? data?.map((row) => (
-                            <Row>
+                        {restaurants[0]
+                          ? getColumnsFromTable(
+                              selectedTable,
+                              restaurants,
+                            )?.map((x) => (
                               <Cell>
+                                <div style={{ padding: '10px 0px' }}>
+                                  <b>{x.toUpperCase()}</b>
+                                </div>
+                              </Cell>
+                            ))
+                          : null}
+                        <Cell>
+                          <div style={{ padding: '10px 0px' }}>
+                            <b>CUISINE</b>
+                          </div>
+                        </Cell>
+                      </Row>
+                      {restaurants
+                        ? restaurants?.map((row) => (
+                            <Row
+                              onClick={() =>
+                                props.history.push('admin/' + row._id)
+                              }
+                            >
+                              {/* <Cell>
                                 <MoreBtn
                                   handleDelete={() => alert(row)}
                                   handleUpdate={() => alert(row)}
                                   showDelete={true}
                                   showUpdate={true}
                                 />
+                              </Cell> */}
+                              <Cell>
+                                <div className={classes.logoContainer}>
+                                  <img
+                                    src={`${apiEndPoint}/${row.logo}`}
+                                    alt=''
+                                  />
+                                </div>
                               </Cell>
-                              {Object.keys(row)?.map((key) => (
+                              {getColumnsFromTable(
+                                selectedTable,
+                                restaurants,
+                              )?.map((key) => (
                                 <Cell>{row[key]}</Cell>
                               ))}
+                              <Cell>
+                                <div
+                                  style={{
+                                    display: 'flex',
+                                    flexWrap: 'wrap',
+                                    gap: '2px',
+                                    maxWidth: '300px',
+                                  }}
+                                >
+                                  {row.cuisines?.map((cuisine) => (
+                                    <span>cuisine</span>
+                                  ))}
+                                </div>
+                              </Cell>
                             </Row>
                           ))
                         : null}
@@ -259,14 +178,6 @@ const Admin = (props) => {
     }
   };
 
-  const logout = () => {
-    localStorage.removeItem('expiresIn');
-    localStorage.removeItem('tokenId');
-    localStorage.removeItem('userId');
-    localStorage.removeItem('userType');
-    dispatch(actions.LOGOUT);
-  };
-
   return (
     <>
       <div className={classes.container}>
@@ -281,8 +192,7 @@ const Admin = (props) => {
           <Header2>
             <div className={classes.header1}>
               <div className={classes.header2}>
-                <div className={classes.header4}>Julien Hosri</div>
-                <div className={classes.header5}>Mcdonalds</div>
+                <div className={classes.header4}>{user?.username}</div>
               </div>
               <div className={classes.header3} />
             </div>

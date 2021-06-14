@@ -8,13 +8,20 @@ import { actions } from './store/configureStore';
 import Restaurant from './routes/Restaurant/Restaurant';
 import Account from './routes/Account/Account';
 import Admin from './routes/Admin/Admin';
+import AdminRestaurant from './routes/Admin/AdminRestaurant/AdminRestaurant';
 
 const App = () => {
-  const [{ token, user }, dispatch] = useStore();
+  const [{ token, user, cuisines }, dispatch] = useStore();
 
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    if (!cuisines) {
+      requests
+        .getCuisines()
+        .then((res) => dispatch(actions.SET_CUISINES, res.data))
+        .catch((err) => console.log(err));
+    }
     if (token) {
       const time = localStorage.getItem('expiresIn') - new Date().getTime();
       if (time < 0) {
@@ -36,9 +43,7 @@ const App = () => {
           requests
             .getRestaurantsByCuisine()
             .then((res) => {
-              console.log(res);
-              const restaurants = res.data.restaurants;
-              dispatch(actions.UPDATE_RESTAURANTS, restaurants);
+              dispatch(actions.UPDATE_RESTAURANTS, res.data.restaurants);
             })
             .catch((err) => {
               console.log(err);
@@ -71,19 +76,38 @@ const App = () => {
                 setError(err);
               });
           }
+        } else {
+          requests
+            .getRestaurantsByOwner()
+            .then((res) => {
+              dispatch(actions.UPDATE_RESTAURANTS, res.data.restaurants);
+            })
+            .catch((err) => {
+              console.log(err);
+              setError(err);
+            });
         }
       }
     }
-  }, [dispatch, token, user]);
+  }, [dispatch, token, user, cuisines]);
 
-  let routes = null;
+  let routes = [];
   if (token && localStorage.getItem('userType')) {
-    routes =
-      localStorage.getItem('userType') === 'customer' ? (
-        <Route path='/main' exact component={Main} />
-      ) : (
-        <Route path='/admin' exact component={Admin} />
+    if (localStorage.getItem('userType') === 'customer') {
+      routes.push(<Route key={'main'} path='/main' exact component={Main} />);
+    } else {
+      routes.push(
+        <Route key={'admin'} path='/admin' exact component={Admin} />,
       );
+      routes.push(
+        <Route
+          key={'adminRestaurant'}
+          path='/admin/:restaurantId'
+          exact
+          component={AdminRestaurant}
+        />,
+      );
+    }
   }
 
   return (

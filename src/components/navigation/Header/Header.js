@@ -26,7 +26,7 @@ const Header = (props) => {
                 <img src={Logo} alt='Trymenu logo' className={classes.logo} />
               </a>
               <div className={classes.rightContainer}>
-                <Button className={classes.logoutbtn} clicked={logout}>
+                <Button className={classes.logoutbtn} onClick={logout}>
                   Logout
                 </Button>
                 <div

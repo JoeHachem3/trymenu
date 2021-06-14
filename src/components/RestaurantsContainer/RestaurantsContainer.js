@@ -12,7 +12,6 @@ const RestaurantsContainer = (props) => {
   const restaus = [];
 
   if (restaurants) {
-    console.log(restaurants.length);
     restaurants.forEach((restaurant) => {
       if (restaurant.byCuisine) {
         byCuisine.push(
@@ -27,7 +26,6 @@ const RestaurantsContainer = (props) => {
           />,
         );
       } else {
-        console.log(restaurant);
         restaus.push(
           <RestaurantThumbnail
             key={restaurant._id}

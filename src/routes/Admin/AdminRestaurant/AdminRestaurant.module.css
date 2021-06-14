@@ -221,15 +221,3 @@
   margin: 0;
   box-shadow: var(--shadow-small-06);
 }
-
-.logoContainer {
-  width: 50px;
-  height: 50px;
-  overflow: hidden;
-  border-radius: 50%;
-  background-color: white;
-}
-
-.logoContainer img {
-  width: 100%;
-}

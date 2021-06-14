@@ -152,7 +152,7 @@ const ItemThumbnail = (props) => {
         {props.toggleUsual ? (
           <Button
             className={classes.smallBtn}
-            clicked={() =>
+            onClick={() =>
               toggleUsual({
                 _id: props.itemId,
                 rating: rating,
