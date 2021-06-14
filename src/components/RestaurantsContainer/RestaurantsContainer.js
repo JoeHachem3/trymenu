@@ -19,11 +19,11 @@ const RestaurantsContainer = (props) => {
             key={restaurant._id}
             img={restaurant.logo}
             name={restaurant.name}
-            cusine={restaurant.cusines?.join(", ")}
+            cuisines={restaurant.cuisines}
             byCuisine={true}
-            onClick={() =>
+            onClick={() =>{
               props.onThumbnailClick('/restaurants/' + restaurant._id)
-            }
+            }}
           />,
         );
       } else {
@@ -32,6 +32,7 @@ const RestaurantsContainer = (props) => {
             key={restaurant._id}
             img={restaurant.logo}
             name={restaurant.name}
+            cuisines={restaurant.cuisines}
             cusine={restaurant.cusines?.join(", ")}
             onClick={() =>
               props.onThumbnailClick('/restaurants/' + restaurant._id)
