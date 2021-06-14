@@ -23,6 +23,7 @@ const App = () => {
         .catch((err) => console.log(err));
     }
     if (token) {
+      const userId = localStorage.getItem('userId');
       const time = localStorage.getItem('expiresIn') - new Date().getTime();
       if (time < 0) {
         dispatch(actions.LOGOUT);
@@ -43,14 +44,13 @@ const App = () => {
           requests
             .getRestaurantsByCuisine()
             .then((res) => {
+              console.log(res.data.restaurants);
               dispatch(actions.UPDATE_RESTAURANTS, res.data.restaurants);
             })
             .catch((err) => {
               console.log(err);
               setError(err);
             });
-
-          const userId = localStorage.getItem('userId');
           if (userId && !user) {
             requests
               .getUser(userId)
@@ -77,16 +77,27 @@ const App = () => {
               });
           }
         } else {
-          requests
-            .getRestaurantsByOwner()
-            .then((res) => {
-              console.log(res.data.restaurants);
-              dispatch(actions.UPDATE_RESTAURANTS, res.data.restaurants);
-            })
-            .catch((err) => {
-              console.log(err);
-              setError(err);
-            });
+          if (!user) {
+            requests
+              .getUser(userId)
+              .then((res) => {
+                dispatch(actions.SET_USER, res.data.user);
+              })
+              .catch((err) => {
+                console.log(err);
+                setError(err);
+              });
+            requests
+              .getRestaurantsByOwner()
+              .then((res) => {
+                console.log(res.data);
+                dispatch(actions.UPDATE_RESTAURANTS, res.data.restaurants);
+              })
+              .catch((err) => {
+                console.log(err);
+                setError(err);
+              });
+          }
         }
       }
     }
