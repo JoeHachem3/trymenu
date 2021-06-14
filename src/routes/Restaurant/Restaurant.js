@@ -238,11 +238,11 @@ const Restaurant = (props) => {
               <div className={classes.spinnerontainer1}>
                 <span>SOMETHING WENT WRONG</span>
               </div>
-            ) : output === 501 ? (
+            ) : output === 502 ? (
               <div className={classes.spinnerontainer}>
                 <Spinner />
               </div>
-            ) : output === 502 ? (
+            ) : output === 501 ? (
               <div className={classes.spinnerontainer1}>
                 <span>NO MENU FOUND</span>
               </div>

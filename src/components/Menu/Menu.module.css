@@ -1,10 +1,14 @@
 .Menu {
   display: flex;
+  flex-direction: row;
   flex-wrap: wrap;
+  margin: 0 -10px;
+  margin-top: 10px;
 }
 
 .doneBtn {
   width: 100%;
   position: sticky;
   bottom: 0;
+  padding: 15px 0px;
 }
