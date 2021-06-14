@@ -41,10 +41,18 @@ const RestaurantsContainer = (props) => {
   }
   return (
     <Container>
-      <h3 className={classes.h3}>Recommended by cuisine</h3>
-      <div className={classes.Restaurants}>{byCuisine}</div>
-      <h3 className={classes.h3}>To spice things up</h3>
-      <div className={classes.Restaurants}>{restaus}</div>
+      {byCuisine?.length > 0 ? (
+        <>
+          <h3 className={classes.h3}>Recommended by cuisine</h3>
+          <div className={classes.Restaurants}>{byCuisine}</div>
+        </>
+      ) : null}
+      {restaus?.length > 0 ? (
+        <>
+          <h3 className={classes.h3}>To spice things up</h3>
+          <div className={classes.Restaurants}>{restaus}</div>
+        </>
+      ) : null}
       {/* <ItemRecommender /> */}
     </Container>
   );
