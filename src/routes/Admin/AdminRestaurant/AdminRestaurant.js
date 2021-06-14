@@ -210,6 +210,7 @@ const AdminRestaurant = (props) => {
           onset={setSelectedTable}
           tables={tables}
           logout={logout}
+          goBack={() => props.history.replace('/admin')}
         />
         <div className={classes.content}>
           <Header2>

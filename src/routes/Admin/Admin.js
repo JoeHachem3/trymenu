@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as requests from '../../utils/requests';
 import Header2 from '../../components/navigation/Header2/Header2';
 import SideBar from './SideBar';
@@ -12,7 +12,17 @@ const Admin = (props) => {
   const [{ user, restaurants, cuisines }, dispatch] = useStore();
   const [selectedTable, setSelectedTable] = useState('restaurants');
   const tables = ['restaurants', 'account'];
-  console.log(restaurants);
+
+  useEffect(() => {
+    if (!restaurants) {
+      requests.getRestaurantsByOwner().then((res) => {
+        if (res.data.success) {
+          dispatch(actions.UPDATE_RESTAURANTS, res.data.restaurants);
+        }
+      });
+    }
+  }, [restaurants, dispatch]);
+
   const logout = () => {
     localStorage.removeItem('expiresIn');
     localStorage.removeItem('tokenId');
@@ -186,6 +196,7 @@ const Admin = (props) => {
           onset={setSelectedTable}
           tables={tables}
           logout={logout}
+          goBack={() => props.history.replace('/admin')}
         />
         <div className={classes.content}>
           <Header2>
