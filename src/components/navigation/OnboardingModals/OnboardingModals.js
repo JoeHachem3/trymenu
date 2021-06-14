@@ -54,16 +54,6 @@ const FavCuisinesScene = (props) => {
   const [{ user, cuisines }, dispatch] = useStore();
   const [selectedCuisine, setSelectedCuisine] = useState(user?.cuisines || []);
 
-  useEffect(() => {
-    return () => {
-      console.log('CUISINE');
-      requests
-        .updateUser(user._id, { cuisines: selectedCuisine })
-        .then((res) => console.log(res))
-        .catch((error) => console.log(error));
-    };
-  });
-
   return (
     <div className={classes.onboardingContainer}>
       <span className={classes.onboardingContainerTitle}>
@@ -89,6 +79,7 @@ const FavCuisinesScene = (props) => {
                       } else {
                         old.push(cuisine);
                       }
+                      requests.updateUser(user._id, { cuisines: old });
 
                       return old;
                     });

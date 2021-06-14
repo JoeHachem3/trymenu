@@ -25,6 +25,7 @@ const SideBar = (props) => {
 
       {props.tables?.map((x, index) => (
         <MenuItem
+          key={index}
           active={props.selected === x}
           label={x}
           onpress={() => props.onset(x)}
