@@ -118,13 +118,13 @@ const OnboardingModals = (props) => {
 
   const renderOnboard = () => {
     switch (onBoard) {
+      // case 0:
+      //   return <FavCuisinesScene />;
       case 0:
-        return <FavCuisinesScene />;
-      case 1:
         return <div className={classes.onboardingImageContainer1} />;
-      case 2:
+      case 1:
         return <div className={classes.onboardingImageContainer2} />;
-      case 3:
+      case 2:
         return <div className={classes.onboardingImageContainer3} />;
       default:
         setShowModal(false);
