@@ -189,6 +189,7 @@ const Restaurant = (props) => {
                 prevRating={item.prevRating}
                 recommended={recommended}
                 isDeleted={item.item.deletedAt}
+                price={item.item.price}
                 editable
                 setEdited={setEdited}
                 toggleUsual={toggleUsual}
@@ -207,6 +208,7 @@ const Restaurant = (props) => {
                 rating={item.rating}
                 prevRating={item.prevRating}
                 isDeleted={item.item.deletedAt}
+                price={item.item.price}
                 setEdited={setEdited}
                 editable
                 toggleUsual={toggleUsual}

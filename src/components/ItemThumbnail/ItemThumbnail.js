@@ -148,7 +148,7 @@ const ItemThumbnail = (props) => {
 
         <div className={classes.ItemBar}>
           <h3>{props.name}</h3>
-          <h4>23000 LBP</h4>
+          {props.price ? <h4>{props.price} LBP</h4> : null}
           <div className={classes.UIRating}>{UIRating}</div>
         </div>
 
