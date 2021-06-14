@@ -34,7 +34,14 @@ const Header = (props) => {
                   onClick={props.onAccountClick}
                 >
                   <div className={classes.profileLabel}>{user?.username}</div>
-                  <div className={classes.profilePic}></div>
+                  {/* <div className={classes.profilePic}></div> */}
+                  <div className={classes.profilePic}>
+                    <img
+                      className={classes.pic}
+                      src='https://i1.wp.com/researchictafrica.net/wp/wp-content/uploads/2016/10/default-profile-pic.jpg?fit=300%2C300&ssl=1'
+                      alt='profile pic'
+                    />
+                  </div>
                 </div>
               </div>
             </div>

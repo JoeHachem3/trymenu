@@ -65,7 +65,7 @@ const App = () => {
             requests
               .getRecommendedItems()
               .then((res) => {
-                // console.log(res);
+                // alert(JSON.stringify(res));
                 dispatch(
                   actions.SET_RECOMMENDED_ITEMS,
                   res.data.recommendedItems[0],
