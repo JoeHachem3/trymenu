@@ -13,7 +13,7 @@ const ItemThumbnail = (props) => {
     setPrevRating(props.prevRating);
   }, [props]);
 
-  const classNames = [classes.ItemThumbnail];
+  const classNames = [classes.grid];
   let tmpRating = rating;
 
   // console.log(props.recommended);
@@ -82,7 +82,7 @@ const ItemThumbnail = (props) => {
         <div
           key={i}
           className={classes.star}
-          style={{ background: 'gold' }}
+          style={{ background: '#ffc11f' }}
           onClick={() =>
             updateRating(
               {
@@ -100,7 +100,7 @@ const ItemThumbnail = (props) => {
         <div
           key={i}
           className={classes.star}
-          style={{ background: 'linear-gradient(90deg, gold 50%, gray 50%)' }}
+          style={{ background: 'linear-gradient(90deg, #ffc11f 50%, gray 50%)' }}
           onClick={() =>
             updateRating(
               {
@@ -135,19 +135,25 @@ const ItemThumbnail = (props) => {
   }
 
   return (
-    <div className={classes.grid}>
-      <div className={classNames.join(' ')}>
+    <div className={classNames.join(' ')}>
+
+      <div className={classes.ItemThumbnail}>
         <div className={classes.imagediv}>
           <img src={`${apiEndPoint}/${props.img}`} alt='' />
         </div>
+
         <div className={classes.ItemState}>
           <h4>{itemState}</h4>
         </div>
+
         <div className={classes.ItemBar}>
           <h3>{props.name}</h3>
+          {props.price ? <h4>{props.price} LBP</h4> : null}
           <div className={classes.UIRating}>{UIRating}</div>
         </div>
+
       </div>
+
       <div className={classes.btndiv}>
         {props.toggleUsual ? (
           <Button
