@@ -6,6 +6,7 @@ import { useStore } from '../../../store/store';
 import { StickyTable, Row, Cell } from 'react-sticky-table';
 import * as requests from '../../../utils/requests';
 import classes from './AdminRestaurant.module.css';
+import { apiEndPoint } from '../../../utils/common';
 
 const MoreBtn = (props) => {
   return (
@@ -40,156 +41,41 @@ const MoreBtn = (props) => {
 
 const AdminRestaurant = (props) => {
   const [{ user, restaurants }, dispatch] = useStore();
-  const [selectedTable, setSelectedTable] = useState('');
-  const tables = ['restaurant', 'menu'];
+  const [selectedTable, setSelectedTable] = useState('menu');
+  const tables = ['menu'];
 
   let restaurant = restaurants?.find(
     (r) => r._id.toString() === props.match.params.restaurantId,
   );
-  console.log('RESTAURANTS');
-  console.log(restaurants);
 
-  const [data, setData] = useState([
-    {
-      id: '001',
-      name: 'McDouble',
-      price: '$13.45',
-      image_link:
-        'https://www.mcdonalds.com/content/dam/usa/nfl/nutrition/items/regular/desktop/t-mcdonalds-McDouble.jpg',
-    },
-    {
-      id: '001',
-      name: 'McDouble',
-      price: '$13.45',
-      image_link:
-        'https://www.mcdonalds.com/content/dam/usa/nfl/nutrition/items/regular/desktop/t-mcdonalds-McDouble.jpg',
-    },
-    {
-      id: '001',
-      name: 'McDouble',
-      price: '$13.45',
-      image_link:
-        'https://www.mcdonalds.com/content/dam/usa/nfl/nutrition/items/regular/desktop/t-mcdonalds-McDouble.jpg',
-    },
-    {
-      id: '001',
-      name: 'McDouble',
-      price: '$13.45',
-      image_link:
-        'https://www.mcdonalds.com/content/dam/usa/nfl/nutrition/items/regular/desktop/t-mcdonalds-McDouble.jpg',
-    },
-    {
-      id: '001',
-      name: 'McDouble',
-      price: '$13.45',
-      image_link:
-        'https://www.mcdonalds.com/content/dam/usa/nfl/nutrition/items/regular/desktop/t-mcdonalds-McDouble.jpg',
-    },
-    {
-      id: '001',
-      name: 'McDouble',
-      price: '$13.45',
-      image_link:
-        'https://www.mcdonalds.com/content/dam/usa/nfl/nutrition/items/regular/desktop/t-mcdonalds-McDouble.jpg',
-    },
-    {
-      id: '001',
-      name: 'McDouble',
-      price: '$13.45',
-      image_link:
-        'https://www.mcdonalds.com/content/dam/usa/nfl/nutrition/items/regular/desktop/t-mcdonalds-McDouble.jpg',
-    },
-    {
-      id: '001',
-      name: 'McDouble',
-      price: '$13.45',
-      image_link:
-        'https://www.mcdonalds.com/content/dam/usa/nfl/nutrition/items/regular/desktop/t-mcdonalds-McDouble.jpg',
-    },
-    {
-      id: '001',
-      name: 'McDouble',
-      price: '$13.45',
-      image_link:
-        'https://www.mcdonalds.com/content/dam/usa/nfl/nutrition/items/regular/desktop/t-mcdonalds-McDouble.jpg',
-    },
-    {
-      id: '001',
-      name: 'McDouble',
-      price: '$13.45',
-      image_link:
-        'https://www.mcdonalds.com/content/dam/usa/nfl/nutrition/items/regular/desktop/t-mcdonalds-McDouble.jpg',
-    },
-    {
-      id: '001',
-      name: 'McDouble',
-      price: '$13.45',
-      image_link:
-        'https://www.mcdonalds.com/content/dam/usa/nfl/nutrition/items/regular/desktop/t-mcdonalds-McDouble.jpg',
-    },
-    {
-      id: '001',
-      name: 'McDouble',
-      price: '$13.45',
-      image_link:
-        'https://www.mcdonalds.com/content/dam/usa/nfl/nutrition/items/regular/desktop/t-mcdonalds-McDouble.jpg',
-    },
-    {
-      id: '001',
-      name: 'McDouble',
-      price: '$13.45',
-      image_link:
-        'https://www.mcdonalds.com/content/dam/usa/nfl/nutrition/items/regular/desktop/t-mcdonalds-McDouble.jpg',
-    },
-    {
-      id: '001',
-      name: 'McDouble',
-      price: '$13.45',
-      image_link:
-        'https://www.mcdonalds.com/content/dam/usa/nfl/nutrition/items/regular/desktop/t-mcdonalds-McDouble.jpg',
-    },
-    {
-      id: '001',
-      name: 'McDouble',
-      price: '$13.45',
-      image_link:
-        'https://www.mcdonalds.com/content/dam/usa/nfl/nutrition/items/regular/desktop/t-mcdonalds-McDouble.jpg',
-    },
-    {
-      id: '001',
-      name: 'McDouble',
-      price: '$13.45',
-      image_link:
-        'https://www.mcdonalds.com/content/dam/usa/nfl/nutrition/items/regular/desktop/t-mcdonalds-McDouble.jpg',
-    },
-    {
-      id: '001',
-      name: 'McDouble',
-      price: '$13.45',
-      image_link:
-        'https://www.mcdonalds.com/content/dam/usa/nfl/nutrition/items/regular/desktop/t-mcdonalds-McDouble.jpg',
-    },
-    {
-      id: '001',
-      name: 'McDouble',
-      price: '$13.45',
-      image_link:
-        'https://www.mcdonalds.com/content/dam/usa/nfl/nutrition/items/regular/desktop/t-mcdonalds-McDouble.jpg',
-    },
-  ]);
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     requests
       .getRestaurantItems(props.match.params.restaurantId)
       .then((res) => {
-        console.log(res.data.items);
+        setData(res.data.items);
       })
       .catch((err) => console.log(err));
-  });
+  }, [props]);
 
   const getColumnsFromTable = (table, data) => {
-    return data[0] ? Object.keys(data[0]) : [];
+    return ['name', 'price'];
   };
+
+  const handleDelete = (itemId) => {
+    requests
+      .deleteItem(itemId)
+      .then((res) => {
+        const tmp = data.filter(
+          (item) => item.item._id.toString() !== itemId.toString(),
+        );
+        setData(tmp);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const handleUpdate = (itemId) => {};
 
   const switchContent = () => {
     switch (selectedTable) {
@@ -220,12 +106,21 @@ const AdminRestaurant = (props) => {
                     <StickyTable>
                       <Row>
                         <Cell></Cell>
+                        <Cell></Cell>
+                        <Cell>
+                          <div style={{ padding: '10px 0px' }}>
+                            <b>STATUS</b>
+                          </div>
+                        </Cell>
                         {data[0]
                           ? getColumnsFromTable(selectedTable, data)?.map(
                               (x) => (
-                                <Cell>
+                                <Cell key={x}>
                                   <div style={{ padding: '10px 0px' }}>
-                                    <b>{x.toUpperCase()}</b>
+                                    <b>
+                                      {x.toUpperCase()}
+                                      {x === 'price' ? ' (lbp)' : null}
+                                    </b>
                                   </div>
                                 </Cell>
                               ),
@@ -233,21 +128,43 @@ const AdminRestaurant = (props) => {
                           : null}
                       </Row>
                       {data
-                        ? data?.map((row) => (
-                            <Row>
-                              <Cell>
-                                <MoreBtn
-                                  handleDelete={() => alert(row)}
-                                  handleUpdate={() => alert(row)}
-                                  showDelete={true}
-                                  showUpdate={true}
-                                />
-                              </Cell>
-                              {Object.keys(row)?.map((key) => (
-                                <Cell>{row[key]}</Cell>
-                              ))}
-                            </Row>
-                          ))
+                        ? data?.map((row) => {
+                            row = row.item;
+                            console.log(row);
+                            return (
+                              <Row key={row._id}>
+                                <Cell>
+                                  <MoreBtn
+                                    handleDelete={() => handleDelete(row._id)}
+                                    handleUpdate={() => handleUpdate(row._id)}
+                                    showDelete={true}
+                                    showUpdate={true}
+                                  />
+                                </Cell>
+                                <Cell>
+                                  <div className={classes.logoContainer}>
+                                    <img
+                                      src={`${apiEndPoint}/${row.image}`}
+                                      alt=''
+                                    />
+                                  </div>
+                                </Cell>
+                                <Cell>
+                                  {row.deletedAt ? 'deleted' : 'active'}
+                                </Cell>
+                                {getColumnsFromTable(selectedTable, data)?.map(
+                                  (key) => {
+                                    // console.log(row[key]);
+                                    return (
+                                      <Cell key={row._id + '' + key}>
+                                        {row[key]}
+                                      </Cell>
+                                    );
+                                  },
+                                )}
+                              </Row>
+                            );
+                          })
                         : null}
                     </StickyTable>
                   </div>

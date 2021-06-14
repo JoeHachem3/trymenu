@@ -51,4 +51,7 @@ export const updateRatings = (restaurantId, ratedItems) =>
 export const getRestaurantsByOwner = () =>
   axios.get(`${apiEndPoint}/restaurants/owner`, authorization);
 
+export const deleteItem = (itemId) =>
+  axios.delete(`${apiEndPoint}/items/${itemId}`, authorization);
+
 export const getCuisines = () => axios.get(`${apiEndPoint}/cuisines`);

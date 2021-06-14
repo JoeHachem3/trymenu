@@ -6,7 +6,6 @@ import { StickyTable, Row, Cell } from 'react-sticky-table';
 import { useStore } from '../../store/store';
 import { actions } from '../../store/configureStore';
 import { apiEndPoint } from '../../utils/common';
-import { Cuisine } from '../../components/navigation/OnboardingModals/OnboardingModals';
 import classes from './Admin.module.css';
 
 const Admin = (props) => {
