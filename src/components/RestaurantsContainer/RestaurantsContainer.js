@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import RestaurantThumbnail from './RestaurantThumbnail/RestaurantThumbnail';
-// import ItemRecommender from '../ItemRecommender/ItemRecommender';
+import ItemRecommender from '../ItemRecommender/ItemRecommender';
 import { useStore } from '../../store/store';
 import Container from '../../hoc/Container/Container';
 import classes from './RestaurantsContainer.module.css';
@@ -21,8 +21,8 @@ const RestaurantsContainer = (props) => {
             name={restaurant.name}
             cuisines={restaurant.cuisines}
             byCuisine={true}
-            onClick={() =>{
-              props.onThumbnailClick('/restaurants/' + restaurant._id)
+            onClick={() => {
+              props.onThumbnailClick('/restaurants/' + restaurant._id);
             }}
           />,
         );
@@ -33,7 +33,7 @@ const RestaurantsContainer = (props) => {
             img={restaurant.logo}
             name={restaurant.name}
             cuisines={restaurant.cuisines}
-            cusine={restaurant.cusines?.join(", ")}
+            cusine={restaurant.cusines?.join(', ')}
             onClick={() =>
               props.onThumbnailClick('/restaurants/' + restaurant._id)
             }
@@ -56,7 +56,7 @@ const RestaurantsContainer = (props) => {
           <div className={classes.Restaurants2}>{restaus}</div>
         </>
       ) : null}
-      {/* <ItemRecommender /> */}
+      <ItemRecommender />
     </Container>
   );
 };
