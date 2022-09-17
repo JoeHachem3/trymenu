@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import * as requests from '../../utils/requests';
-import { apiEndPoint } from '../../utils/common';
 import { checkInputValidity } from '../../utils/common';
 import Input from '../UI/Input/Input';
 import Button from '../UI/Buttons/Button/Button';
@@ -151,7 +150,7 @@ const RestaurantForm = React.memo((props) => {
 
     updatedFormElement.valid = checkInputValidity(
       updatedFormElement.value,
-      updatedFormElement.validation,
+      updatedFormElement.validation
     );
 
     updatedFormElement.touched = true;

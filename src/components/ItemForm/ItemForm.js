@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import * as requests from '../../utils/requests';
-import { apiEndPoint } from '../../utils/common';
 import { checkInputValidity } from '../../utils/common';
 import Input from '../UI/Input/Input';
 import Button from '../UI/Buttons/Button/Button';
@@ -76,7 +75,7 @@ const ItemForm = (props) => {
 
     updatedFormElement.valid = checkInputValidity(
       updatedFormElement.value,
-      updatedFormElement.validation,
+      updatedFormElement.validation
     );
 
     updatedFormElement.touched = true;
@@ -103,7 +102,7 @@ const ItemForm = (props) => {
       .addItem(form)
       .then((res) => {
         const restaurant = restaurants.find(
-          (resto) => resto._id === props.restaurantId,
+          (resto) => resto._id === props.restaurantId
         );
         if (restaurant && restaurant.menu) {
           restaurant.menu.push(res.data.item);

@@ -13,6 +13,7 @@ import AdminRestaurant from './routes/Admin/AdminRestaurant/AdminRestaurant';
 const App = () => {
   const [{ token, user, cuisines }, dispatch] = useStore();
 
+  // eslint-disable-next-line no-unused-vars
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -68,7 +69,7 @@ const App = () => {
                 // alert(JSON.stringify(res));
                 dispatch(
                   actions.SET_RECOMMENDED_ITEMS,
-                  res.data.recommendedItems[0],
+                  res.data.recommendedItems[0]
                 );
               })
               .catch((err) => {
@@ -109,7 +110,7 @@ const App = () => {
       routes.push(<Route key={'main'} path='/main' exact component={Main} />);
     } else {
       routes.push(
-        <Route key={'admin'} path='/admin' exact component={Admin} />,
+        <Route key={'admin'} path='/admin' exact component={Admin} />
       );
       routes.push(
         <Route
@@ -117,7 +118,7 @@ const App = () => {
           path='/admin/:restaurantId'
           exact
           component={AdminRestaurant}
-        />,
+        />
       );
     }
   }

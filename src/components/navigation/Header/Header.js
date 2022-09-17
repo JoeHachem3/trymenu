@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import classes from './Header.module.css';
 import Container from '../../../hoc/Container/Container';
@@ -31,8 +32,7 @@ const Header = (props) => {
                 </Button>
                 <div
                   className={classes.profileContainer}
-                  onClick={props.onAccountClick}
-                >
+                  onClick={props.onAccountClick}>
                   <div className={classes.profileLabel}>{user?.username}</div>
                   {/* <div className={classes.profilePic}></div> */}
                   <div className={classes.profilePic}>

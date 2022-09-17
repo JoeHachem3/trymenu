@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import * as requests from '../../utils/requests';
-import { apiEndPoint } from '../../utils/common';
 import ItemThumbnail from '../ItemThumbnail/ItemThumbnail';
 
 const ItemRecommender = () => {
@@ -10,7 +9,6 @@ const ItemRecommender = () => {
     requests
       .getRecommendedItems()
       .then((res) => {
-        // console.log(res);
         setRecommendedItems(res.data.recommendedItems[1]);
       })
       .catch((err) => console.log(err));

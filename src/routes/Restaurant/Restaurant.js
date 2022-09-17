@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import { actions } from '../../store/configureStore';
 import { useStore } from '../../store/store';
 import * as requests from '../../utils/requests';
-import { apiEndPoint } from '../../utils/common';
 import ItemForm from '../../components/ItemForm/ItemForm';
 import Menu from '../../components/Menu/Menu';
 import ItemThumbnail from '../../components/ItemThumbnail/ItemThumbnail';
@@ -15,7 +14,7 @@ import ErrorHandler from '../../hoc/ErrorHandler/ErrorHandler';
 import classes from './Restaurant.module.css';
 
 const Restaurant = (props) => {
-  const [{ restaurants, token, user, recommendedItems }, dispatch] = useStore();
+  const [{ restaurants, token, recommendedItems }, dispatch] = useStore();
 
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -26,7 +25,7 @@ const Restaurant = (props) => {
     setIsLoading(true);
     if (restaurants) {
       restaurant.current = restaurants.find(
-        (resto) => resto._id === props.match.params.restaurantId,
+        (resto) => resto._id === props.match.params.restaurantId
       );
       if (restaurant.current && !restaurant.current.menu) {
         requests
@@ -73,7 +72,7 @@ const Restaurant = (props) => {
     } else {
       if (item.prevRating === 0) {
         ratedItems.current = ratedItems.current.filter(
-          (i) => i._id !== item._id,
+          (i) => i._id !== item._id
         );
         return;
       }
@@ -99,7 +98,7 @@ const Restaurant = (props) => {
   const updateRating = (item, rating) => {
     if (item.prevRating === null && rating === 0) {
       ratedItems.current = ratedItems.current.filter(
-        (i) => i._id.toString() !== item._id.toString(),
+        (i) => i._id.toString() !== item._id.toString()
       );
       return;
     }
@@ -160,7 +159,7 @@ const Restaurant = (props) => {
         let tmpRec;
         if (recommendedItems) {
           tmpRec = recommendedItems.find(
-            (resto) => resto._id.toString() === restaurant.current._id,
+            (resto) => resto._id.toString() === restaurant.current._id
           );
         }
         if (tmpRec) {

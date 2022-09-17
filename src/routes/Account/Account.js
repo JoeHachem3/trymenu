@@ -5,13 +5,12 @@ import Header from '../../components/navigation/Header/Header';
 import Container from '../../hoc/Container/Container';
 import SectionTitle from '../../components/UI/SectionTitle/SectionTitle';
 import Button from '../../components/UI/Buttons/Button/Button';
-import Input from '../../components/UI/Input/Input';
 import { Cuisine } from '../../components/navigation/OnboardingModals/OnboardingModals';
 import * as requests from '../../utils/requests';
 import classes from './Account.module.css';
 
 const Account = (props) => {
-  const [{ user, cuisines }, dispatch] = useStore();
+  const [{ user, cuisines }] = useStore();
 
   const [selectedCuisine, setSelectedCuisine] = useState([]);
   const [username, setUsername] = useState('');

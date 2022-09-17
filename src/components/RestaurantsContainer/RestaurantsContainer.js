@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import RestaurantThumbnail from './RestaurantThumbnail/RestaurantThumbnail';
-import ItemRecommender from '../ItemRecommender/ItemRecommender';
+// import ItemRecommender from '../ItemRecommender/ItemRecommender';
 import { useStore } from '../../store/store';
 import Container from '../../hoc/Container/Container';
 import classes from './RestaurantsContainer.module.css';
@@ -24,7 +24,7 @@ const RestaurantsContainer = (props) => {
             onClick={() => {
               props.onThumbnailClick('/restaurants/' + restaurant._id);
             }}
-          />,
+          />
         );
       } else {
         restaus.push(
@@ -37,7 +37,7 @@ const RestaurantsContainer = (props) => {
             onClick={() =>
               props.onThumbnailClick('/restaurants/' + restaurant._id)
             }
-          />,
+          />
         );
       }
     });
@@ -56,7 +56,7 @@ const RestaurantsContainer = (props) => {
           <div className={classes.Restaurants2}>{restaus}</div>
         </>
       ) : null}
-      <ItemRecommender />
+      {/* <ItemRecommender /> */}
     </Container>
   );
 };

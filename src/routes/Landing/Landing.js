@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { useStore } from '../../store/store';
 import * as requests from '../../utils/requests';
 import classes from './Landing.module.css';
@@ -8,12 +8,12 @@ import Input from '../../components/UI/Input/Input';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import Button from '../../components/UI/Buttons/Button/Button';
 import ErrorHandler from '../../hoc/ErrorHandler/ErrorHandler';
-import { apiEndPoint, checkInputValidity } from '../../utils/common';
+import { checkInputValidity } from '../../utils/common';
 import { Redirect } from 'react-router';
 import { actions } from '../../store/configureStore';
 
 const Landing = () => {
-  const [{ token, user }, dispatch] = useStore();
+  const [{ token }, dispatch] = useStore();
 
   const [state, setState] = useState({
     login: {
@@ -146,7 +146,7 @@ const Landing = () => {
     updatedFormElement.value = event.target.value;
     updatedFormElement.valid = checkInputValidity(
       updatedFormElement.value,
-      updatedFormElement.validation,
+      updatedFormElement.validation
     );
 
     updatedFormElement.touched = true;

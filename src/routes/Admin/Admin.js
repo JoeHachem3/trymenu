@@ -9,7 +9,7 @@ import { apiEndPoint } from '../../utils/common';
 import classes from './Admin.module.css';
 
 const Admin = (props) => {
-  const [{ user, restaurants, cuisines }, dispatch] = useStore();
+  const [{ user, restaurants }, dispatch] = useStore();
   const [selectedTable, setSelectedTable] = useState('restaurants');
   const tables = ['restaurants', 'account'];
 
@@ -99,7 +99,7 @@ const Admin = (props) => {
                         {restaurants[0]
                           ? getColumnsFromTable(
                               selectedTable,
-                              restaurants,
+                              restaurants
                             )?.map((x) => (
                               <Cell>
                                 <div style={{ padding: '10px 0px' }}>
@@ -119,8 +119,7 @@ const Admin = (props) => {
                             <Row
                               onClick={() =>
                                 props.history.push('admin/' + row._id)
-                              }
-                            >
+                              }>
                               {/* <Cell>
                                 <MoreBtn
                                   handleDelete={() => alert(row)}
@@ -139,7 +138,7 @@ const Admin = (props) => {
                               </Cell>
                               {getColumnsFromTable(
                                 selectedTable,
-                                restaurants,
+                                restaurants
                               )?.map((key) => (
                                 <Cell>{row[key]}</Cell>
                               ))}
@@ -150,8 +149,7 @@ const Admin = (props) => {
                                     flexWrap: 'wrap',
                                     gap: '2px',
                                     maxWidth: '300px',
-                                  }}
-                                >
+                                  }}>
                                   {row.cuisines?.map((cuisine) => (
                                     <span>cuisine</span>
                                   ))}

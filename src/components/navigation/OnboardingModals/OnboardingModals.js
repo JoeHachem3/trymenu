@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import React, { useState } from 'react';
 import { useStore } from '../../../store/store';
 import Modal from '../../UI/Modal/Modal';
 import Button from '../../UI/Buttons/Button/Button';
@@ -42,8 +43,7 @@ export const Cuisine = (props) => {
             : props.dark
             ? classes.cuisineContainerDark
             : classes.cuisineContainer
-        }
-      >
+        }>
         <span className={classes.cuisineLabel}>{props.label}</span>
       </div>
     </a>
@@ -51,7 +51,7 @@ export const Cuisine = (props) => {
 };
 
 const FavCuisinesScene = (props) => {
-  const [{ user, cuisines }, dispatch] = useStore();
+  const [{ user, cuisines }] = useStore();
   const [selectedCuisine, setSelectedCuisine] = useState(user?.cuisines || []);
 
   return (
@@ -101,8 +101,7 @@ export const FavCuisines = () => {
         <Modal
           closeModal={() => {
             setShowModal(false);
-          }}
-        >
+          }}>
           <Container onClose={() => setShowModal(false)}>
             <FavCuisinesScene />
           </Container>
@@ -138,12 +137,10 @@ const OnboardingModals = (props) => {
         <Modal
           closeModal={() => {
             setShowModal(false);
-          }}
-        >
+          }}>
           <Container
             onClose={() => setShowModal(false)}
-            onNext={() => setOnboard((x) => x + 1)}
-          >
+            onNext={() => setOnboard((x) => x + 1)}>
             {renderOnboard()}
           </Container>
         </Modal>

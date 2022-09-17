@@ -66,5 +66,5 @@ export const capitalizeFirstLetter = (str) => {
 
 export const apiEndPoint =
   process.env.NODE_ENV !== 'production'
-    ? 'http://localhost:5000'
+    ? 'http://localhost:4000'
     : 'https://try-menu.herokuapp.com';
